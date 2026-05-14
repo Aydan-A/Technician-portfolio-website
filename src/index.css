@@ -578,6 +578,229 @@ a {
   box-shadow: 0 12px 32px rgb(0 0 0 / 0.25);
 }
 
+/* ---------- Case study cards ---------- */
+
+.case-card {
+  position: relative;
+  display: grid;
+  gap: 2rem;
+  padding: 1.75rem;
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 1.75rem;
+  background:
+    linear-gradient(160deg, rgb(var(--color-paper) / 0.04), rgb(var(--color-paper) / 0.01)),
+    rgb(var(--color-stone-soft));
+  box-shadow:
+    0 26px 60px rgb(0 0 0 / 0.32),
+    inset 0 1px 0 rgb(var(--color-paper) / 0.06);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+[data-theme='light'] .case-card {
+  box-shadow:
+    0 22px 50px rgb(0 0 0 / 0.10),
+    inset 0 1px 0 rgb(255 255 255 / 0.8);
+}
+
+.case-card::before {
+  content: '';
+  position: absolute;
+  inset: 0.65rem;
+  border: 1px dashed rgb(var(--color-paper) / 0.08);
+  border-radius: 1.35rem;
+  pointer-events: none;
+}
+
+.case-card:hover {
+  border-color: rgb(var(--color-copper) / 0.55);
+}
+
+@media (min-width: 900px) {
+  .case-card {
+    grid-template-columns: 0.95fr 1.05fr;
+    padding: 2.25rem;
+    gap: 2.5rem;
+  }
+
+  .case-card--right {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+
+  .case-card--right .case-card-media {
+    order: 2;
+  }
+}
+
+.case-card-media {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.case-card-image {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid rgb(var(--color-border));
+  background: rgb(var(--color-graphite));
+  margin: 0;
+}
+
+.case-card-image--filled {
+  box-shadow: 0 14px 36px rgb(0 0 0 / 0.35);
+}
+
+.case-card-image--empty {
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgb(var(--color-paper) / 0.025) 0 8px,
+      transparent 8px 16px
+    );
+}
+
+.case-card-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.case-card-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 0.85rem;
+  background: rgb(var(--color-paper) / 0.02);
+}
+
+.case-card-meta-label {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+}
+
+.case-card-meta-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: rgb(var(--color-paper));
+}
+
+.case-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.case-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.case-card-tags {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--color-copper));
+}
+
+.case-card-tag-divider {
+  width: 1.75rem;
+  height: 1px;
+  background: rgb(var(--color-border));
+}
+
+.case-card-title {
+  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
+  line-height: 1.15;
+  color: rgb(var(--color-paper));
+  margin: 0;
+}
+
+.case-card-summary {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgb(var(--color-ash));
+}
+
+.case-card-section {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgb(var(--color-border));
+}
+
+.case-card-section-label {
+  margin: 0;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--color-copper));
+  padding-top: 0.15rem;
+}
+
+.case-card-section-body {
+  color: rgb(var(--color-ash));
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.case-card-section-body p {
+  margin: 0;
+}
+
+.case-card-process {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.case-card-process li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  gap: 0.65rem;
+  align-items: baseline;
+}
+
+.case-card-step {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgb(var(--color-copper));
+}
+
+.case-card-result {
+  color: rgb(var(--color-paper));
+}
+
+@media (max-width: 640px) {
+  .case-card-section {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .case-card-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- Contact ---------- */
 
 .contact-row {

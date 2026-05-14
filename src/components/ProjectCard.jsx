@@ -21,7 +21,9 @@ export default function ProjectCard({ project }) {
         <span>{project.caseLabel}</span>
       </div>
       <h3 className="font-serif text-2xl text-paper">{project.title}</h3>
-      <p className="mt-4 text-sm leading-7 text-ash">{project.description}</p>
+      <p className="mt-4 text-sm leading-7 text-ash">
+        {project.summary ?? project.description}
+      </p>
       <a
         className="mt-6 inline-flex text-sm font-medium text-copper transition-colors group-hover:text-paper"
         href="#projects"
