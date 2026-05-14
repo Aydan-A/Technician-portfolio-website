@@ -32,22 +32,22 @@ function ChannelRow({ channel }) {
         rel={isExternal ? "noopener noreferrer" : undefined}
         target={isExternal ? "_blank" : undefined}
       >
-        <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-copper">
+        <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-bronze">
           {channel.label}
         </span>
 
         <div className="flex flex-col gap-2">
-          <span className="font-display text-3xl uppercase leading-[0.95] tracking-[0.01em] text-paper transition-colors sm:text-4xl group-hover:text-copper">
+          <span className="font-display text-3xl uppercase leading-[0.95] tracking-[0.01em] text-ink transition-colors sm:text-4xl group-hover:text-bronze">
             {channel.handle}
           </span>
-          <span className="max-w-xl text-sm leading-6 text-ash">
+          <span className="max-w-xl text-sm leading-6 text-graphite">
             {channel.note}
           </span>
         </div>
 
         <span
           aria-hidden="true"
-          className="contact-arrow font-display text-3xl leading-none text-paper transition-transform sm:text-4xl group-hover:translate-x-1"
+          className="contact-arrow font-display text-3xl leading-none text-ink transition-transform sm:text-4xl group-hover:translate-x-1"
         >
           →
         </span>
@@ -144,18 +144,18 @@ function ContactForm() {
 
 export default function ContactPage() {
   return (
-    <main className="bg-stone text-paper">
+    <main className="bg-page text-ink">
       <section className="mx-auto max-w-7xl px-5 pb-12 pt-16 sm:px-6 lg:px-8 lg:pt-24">
         <SectionLabel>05 — Contact</SectionLabel>
 
         <div className="mt-6 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
-          <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-[0.01em] text-paper sm:text-6xl lg:text-7xl">
+          <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-[0.01em] text-ink sm:text-6xl lg:text-7xl">
             A machine talking back?
             <br />
             Let&rsquo;s listen.
           </h1>
 
-          <p className="max-w-xl font-sans text-[15px] leading-7 text-ash lg:text-right">
+          <p className="max-w-xl font-sans text-[15px] leading-7 text-graphite lg:text-right">
             Diagnostics, repair, calibration, or a second opinion on an espresso
             machine or grinder. Send a note and Vagif will get back to you.
           </p>
@@ -163,7 +163,7 @@ export default function ContactPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 lg:px-8">
-        <ul className="contact-list border-t border-border">
+        <ul className="contact-list border-t border-line">
           {channels.map((channel) => (
             <ChannelRow channel={channel} key={channel.key} />
           ))}
@@ -171,15 +171,15 @@ export default function ContactPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-6 lg:px-8">
-        <div className="grid gap-10 border-t border-border pt-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="grid gap-10 border-t border-line pt-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-copper">
+            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-bronze">
               Or send a message
             </p>
-            <h2 className="mt-4 font-display text-3xl uppercase leading-[0.95] tracking-[0.01em] text-paper sm:text-4xl">
+            <h2 className="mt-4 font-display text-3xl uppercase leading-[0.95] tracking-[0.01em] text-ink sm:text-4xl">
               Tell me what the machine is doing.
             </h2>
-            <p className="mt-5 max-w-md text-sm leading-6 text-ash sm:text-[15px] sm:leading-7">
+            <p className="mt-5 max-w-md text-sm leading-6 text-graphite sm:text-[15px] sm:leading-7">
               The more detail — model, age, symptoms, when it started — the
               faster the reply.
             </p>
@@ -190,11 +190,11 @@ export default function ContactPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-6 lg:px-8">
-        <div className="contact-note flex flex-col gap-2 border-t border-border pt-8 sm:flex-row sm:items-baseline sm:justify-between">
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-copper">
+        <div className="contact-note flex flex-col gap-2 border-t border-line pt-8 sm:flex-row sm:items-baseline sm:justify-between">
+          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-bronze">
             Response time
           </p>
-          <p className="max-w-md font-sans text-sm leading-6 text-ash sm:text-right">
+          <p className="max-w-md font-sans text-sm leading-6 text-graphite sm:text-right">
             Usually replies within 48 hours. For urgent on-site issues, mention
             it in the subject line.
           </p>

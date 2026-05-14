@@ -40,10 +40,10 @@ function TimelineNode({ milestone, index, isVisible }) {
 
       <div className="timeline-node-content flex flex-col gap-5">
         <header>
-          <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-copper">
+          <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-bronze">
             {milestone.year}
           </span>
-          <h3 className="mt-2 font-display text-3xl uppercase leading-[0.95] tracking-[0.02em] text-paper sm:text-4xl">
+          <h3 className="mt-2 font-display text-3xl uppercase leading-[0.95] tracking-[0.02em] text-ink sm:text-4xl">
             {milestone.title}
           </h3>
           <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
@@ -51,7 +51,7 @@ function TimelineNode({ milestone, index, isVisible }) {
           </p>
         </header>
 
-        <p className="max-w-2xl text-sm leading-6 text-ash sm:text-[15px] sm:leading-7">
+        <p className="max-w-2xl text-sm leading-6 text-graphite sm:text-[15px] sm:leading-7">
           {milestone.caption}
         </p>
 
@@ -102,28 +102,28 @@ export default function AboutPage() {
   );
 
   return (
-    <main className="bg-stone text-paper">
+    <main className="bg-page text-ink">
       <section className="mx-auto max-w-7xl px-5 pt-16 sm:px-6 lg:px-8 lg:pt-24">
         <SectionLabel>04 — About</SectionLabel>
 
         <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-[0.01em] text-paper sm:text-6xl lg:text-7xl">
+            <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-[0.01em] text-ink sm:text-6xl lg:text-7xl">
               A path through
               <br />
               rigs and benches.
             </h1>
-            <p className="mt-6 max-w-xl font-sans text-[15px] leading-7 text-ash">
+            <p className="mt-6 max-w-xl font-sans text-[15px] leading-7 text-graphite">
               From offshore drilling to the coffee bench. Newest first; scroll
               down to walk back through the work.
             </p>
           </div>
 
-          <div className="about-stat flex shrink-0 items-baseline gap-3 self-start rounded-2xl border border-border bg-stone-soft px-6 py-5 lg:self-end">
-            <span className="font-display text-5xl leading-none text-paper">
+          <div className="about-stat flex shrink-0 items-baseline gap-3 self-start rounded-2xl border border-line bg-surface px-6 py-5 lg:self-end">
+            <span className="font-display text-5xl leading-none text-ink">
               {aboutHeadline.stat}
             </span>
-            <span className="max-w-[9rem] font-mono text-[11px] uppercase leading-tight tracking-[0.18em] text-copper">
+            <span className="max-w-[9rem] font-mono text-[11px] uppercase leading-tight tracking-[0.18em] text-bronze">
               {aboutHeadline.label}
             </span>
           </div>
@@ -133,7 +133,7 @@ export default function AboutPage() {
       <section className="mx-auto mt-16 max-w-7xl px-5 pb-24 sm:mt-20 sm:px-6 lg:mt-24 lg:px-8">
         <div className="mb-8 flex items-center justify-between">
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-            Newest <span className="text-copper">↓</span> oldest
+            Newest <span className="text-bronze">↓</span> oldest
           </p>
           <span className="hidden font-mono text-[11px] uppercase tracking-[0.22em] text-muted sm:inline">
             {visibleIds.size} / {timeline.length} seen

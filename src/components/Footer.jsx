@@ -15,12 +15,16 @@ const contactLinks = [
 function NavColumn({ heading, links }) {
   return (
     <div>
-      <h2 className="font-mono text-[11px] uppercase tracking-[0.18em] text-copper">
+      <h2 className="font-mono text-[12px] uppercase tracking-[0.2em] text-bronze">
         {heading}
       </h2>
-      <div className="mt-4 grid gap-3 text-sm text-ash">
+      <div className="mt-5 grid gap-3.5 text-[15px] text-ink/85">
         {links.map((link) => (
-          <Link key={link.label} to={link.to}>
+          <Link
+            className="transition-colors hover:text-bronze"
+            key={link.label}
+            to={link.to}
+          >
             {link.label}
           </Link>
         ))}
@@ -32,12 +36,16 @@ function NavColumn({ heading, links }) {
 function ExternalColumn({ heading, links }) {
   return (
     <div>
-      <h2 className="font-mono text-[11px] uppercase tracking-[0.18em] text-copper">
+      <h2 className="font-mono text-[12px] uppercase tracking-[0.2em] text-bronze">
         {heading}
       </h2>
-      <div className="mt-4 grid gap-3 text-sm text-ash">
+      <div className="mt-5 grid gap-3.5 text-[15px] text-ink/85">
         {links.map((link) => (
-          <a href={link.href} key={link.label}>
+          <a
+            className="transition-colors hover:text-bronze"
+            href={link.href}
+            key={link.label}
+          >
             {link.label}
           </a>
         ))}
@@ -50,18 +58,18 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-black">
+    <footer className="border-t border-line bg-page">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
         <div>
           <div className="mb-5 flex items-center gap-4">
-            <span className="flex h-11 w-16 items-center justify-center rounded-full border border-border bg-stone-soft font-display text-lg uppercase tracking-[0.06em] text-copper">
+            <span className="flex h-12 w-[4.25rem] items-center justify-center rounded-full border border-line bg-surface font-display text-xl uppercase tracking-[0.06em] text-bronze">
               VA
             </span>
             <span>
-              <span className="block font-display text-xl uppercase tracking-[0.06em] text-paper">
+              <span className="block font-display text-2xl uppercase tracking-[0.06em] text-ink">
                 VAGIF TECH
               </span>
-              <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+              <span className="block font-mono text-[12px] uppercase tracking-[0.2em] text-graphite">
                 Coffee Machine Diagnostics
               </span>
             </span>
@@ -70,7 +78,7 @@ export default function Footer() {
         <NavColumn heading="Site" links={navLinks} />
         <ExternalColumn heading="Contact" links={contactLinks} />
       </div>
-      <div className="border-t border-border px-5 py-5 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+      <div className="border-t border-line px-5 py-6 text-center font-mono text-[12px] uppercase tracking-[0.16em] text-graphite">
         © {year} Vagif Tech. All rights reserved.
       </div>
     </footer>

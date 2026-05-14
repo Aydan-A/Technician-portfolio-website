@@ -5,17 +5,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        stone: 'rgb(var(--color-stone) / <alpha-value>)',
-        'stone-soft': 'rgb(var(--color-stone-soft) / <alpha-value>)',
+        page: 'rgb(var(--color-page) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        shell: 'rgb(var(--color-shell) / <alpha-value>)',
+        panel: 'rgb(var(--color-panel) / <alpha-value>)',
+        ink: 'rgb(var(--color-ink) / <alpha-value>)',
         graphite: 'rgb(var(--color-graphite) / <alpha-value>)',
-        ash: 'rgb(var(--color-ash) / <alpha-value>)',
-        paper: 'rgb(var(--color-paper) / <alpha-value>)',
         muted: 'rgb(var(--color-muted) / <alpha-value>)',
-        border: 'rgb(var(--color-border) / <alpha-value>)',
-        copper: 'rgb(var(--color-copper) / <alpha-value>)',
-        coffee: 'rgb(var(--color-coffee) / <alpha-value>)',
-        steel: 'rgb(var(--color-steel) / <alpha-value>)',
-        black: 'rgb(var(--color-black) / <alpha-value>)',
+        line: 'rgb(var(--color-line) / <alpha-value>)',
+        rule: 'rgb(var(--color-rule) / <alpha-value>)',
+        bronze: 'rgb(var(--color-bronze) / <alpha-value>)',
       },
       fontFamily: {
         display: ['Bebas Neue', 'sans-serif'],
@@ -24,7 +23,8 @@ export default {
         mono: ['DM Mono', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        soft: '0 24px 70px rgba(0, 0, 0, 0.32)',
+        soft: '0 18px 44px rgba(0, 0, 0, 0.18)',
+        plate: '0 24px 60px rgba(0, 0, 0, 0.32)',
       },
     },
   },
