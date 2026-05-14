@@ -1,63 +1,82 @@
+import { useMemo, useState } from "react";
 import CaseStudyCard from "../components/CaseStudyCard.jsx";
 import SectionLabel from "../components/SectionLabel.jsx";
 import { projects } from "../data/projects.js";
 
-const DISCIPLINES = [
-  "Machine Diagnostics",
-  "Repair Stories",
-  "Grinder Calibration",
-  "Technical Modifications",
-  "Workflow Improvements",
-  "Product Teardowns",
-];
+const ALL = "All";
 
 export default function ProjectsPage() {
+  const filters = useMemo(
+    () => [ALL, ...Array.from(new Set(projects.map((p) => p.category)))],
+    [],
+  );
+
+  const [active, setActive] = useState(ALL);
+
+  const visible =
+    active === ALL ? projects : projects.filter((p) => p.category === active);
+
   return (
     <main className="bg-stone text-paper">
-      <section className="mx-auto max-w-7xl px-5 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+      <section className="w-full px-5 pt-14 sm:px-6 lg:px-10 lg:pt-20 2xl:px-16">
         <SectionLabel>02 — Projects</SectionLabel>
 
-        <div className="mt-6 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+        <div className="mt-5 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-16">
           <div>
-            <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-[0.01em] text-paper sm:text-6xl lg:text-7xl">
-              A technical portfolio,
+            <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-paper sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem]">
+              Case files from
               <br />
-              not a gallery.
+              the workshop.
             </h1>
-            <p className="mt-6 max-w-xl font-sans text-[15px] leading-7 text-ash">
+            <p className="mt-6 max-w-2xl font-sans text-base leading-7 text-ash sm:text-lg sm:leading-8">
               I help people understand coffee equipment from the inside out.
-              Each case file walks through the machine that came in, the
-              thinking that isolated the cause, the fix, and how it held up.
+              Each case walks through the machine that came in, the thinking
+              that isolated the cause, the fix, and how it held up.
             </p>
           </div>
 
-          <ul className="grid grid-cols-2 gap-3 self-end font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-            {DISCIPLINES.map((label) => (
-              <li
-                className="rounded-full border border-border bg-stone-soft px-4 py-2 text-center text-ash"
-                key={label}
-              >
-                {label}
-              </li>
-            ))}
-          </ul>
+          <div className="lg:pb-2">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-copper">
+              Filter by discipline
+            </p>
+            <div
+              aria-label="Filter case studies by discipline"
+              className="mt-3 flex flex-wrap gap-2"
+              role="tablist"
+            >
+              {filters.map((label) => {
+                const isActive = label === active;
+                return (
+                  <button
+                    aria-selected={isActive}
+                    className={`project-filter ${isActive ? "is-active" : ""}`}
+                    key={label}
+                    onClick={() => setActive(label)}
+                    role="tab"
+                    type="button"
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        <div className="mt-12 flex items-center gap-4 border-t border-border pt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-          <span>{String(projects.length).padStart(2, "0")} Case Files</span>
+        <div className="mt-10 flex items-center gap-4 border-t border-border pt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+          <span>
+            {String(visible.length).padStart(2, "0")} of{" "}
+            {String(projects.length).padStart(2, "0")} Case Files
+          </span>
           <span className="h-px flex-1 bg-border" />
           <span>Newest first</span>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 pb-24 pt-12 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-12 sm:gap-16">
-          {projects.map((project, index) => (
-            <CaseStudyCard
-              index={index}
-              key={project.id}
-              project={project}
-            />
+      <section className="w-full px-5 pb-24 pt-10 sm:px-6 lg:px-10 2xl:px-16">
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+          {visible.map((project) => (
+            <CaseStudyCard key={project.id} project={project} />
           ))}
         </div>
       </section>
