@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import SectionLabel from "../components/SectionLabel.jsx";
-import { aboutHeadline, timeline } from "../data/timeline.js";
+import { aboutHeadline, aboutStats, timeline } from "../data/timeline.js";
 
 function ImageSlot({ image }) {
   if (image.src) {
     return (
-      <figure className="image-slot image-slot--filled aspect-[4/3] overflow-hidden rounded-xl">
+      <figure className="image-slot image-slot--filled aspect-[16/10] overflow-hidden rounded-lg">
         <img
           alt={image.alt}
           className="h-full w-full object-cover"
@@ -19,9 +19,9 @@ function ImageSlot({ image }) {
   return (
     <div
       aria-hidden="true"
-      className="image-slot image-slot--empty flex aspect-[4/3] items-center justify-center rounded-xl"
+      className="image-slot image-slot--empty flex aspect-[16/10] items-center justify-center rounded-lg"
     >
-      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+      <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-graphite">
         Image · to come
       </span>
     </div>
@@ -30,6 +30,8 @@ function ImageSlot({ image }) {
 
 function TimelineNode({ milestone, index, isVisible }) {
   const side = index % 2 === 0 ? "right" : "left";
+  const singleImage = index === 0;
+  const images = singleImage ? milestone.images.slice(0, 1) : milestone.images;
 
   return (
     <article
@@ -37,26 +39,37 @@ function TimelineNode({ milestone, index, isVisible }) {
       style={{ transitionDelay: `${index * 60}ms` }}
     >
       <span className="timeline-node-dot" aria-hidden="true" />
+      <span className="timeline-node-connector" aria-hidden="true" />
 
-      <div className="timeline-node-content flex flex-col gap-5">
+      <div className="timeline-node-content flex flex-col gap-4">
         <header>
-          <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-bronze">
+          <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-bronze">
             {milestone.year}
           </span>
-          <h3 className="mt-2 font-display text-3xl uppercase leading-[0.95] tracking-[0.02em] text-ink sm:text-4xl">
+          <h3 className="mt-2 font-display text-3xl uppercase leading-[0.95] tracking-[0.02em] text-ink sm:text-4xl lg:text-[2.4rem]">
             {milestone.title}
           </h3>
-          <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+          <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.2em] text-graphite">
             {milestone.org}
           </p>
         </header>
 
-        <p className="max-w-2xl text-sm leading-6 text-graphite sm:text-[15px] sm:leading-7">
+        <p className="max-w-2xl font-sans text-base leading-7 text-ink/85 sm:text-[17px] sm:leading-8">
           {milestone.caption}
         </p>
 
-        <div className="grid grid-cols-2 gap-3">
-          {milestone.images.map((image, slot) => (
+        {milestone.tags?.length ? (
+          <ul className="timeline-node-tags">
+            {milestone.tags.map((tag) => (
+              <li key={tag}>{tag}</li>
+            ))}
+          </ul>
+        ) : null}
+
+        <div
+          className={`grid gap-2.5 ${singleImage ? "grid-cols-1" : "grid-cols-2"}`}
+        >
+          {images.map((image, slot) => (
             <ImageSlot image={image} key={slot} />
           ))}
         </div>
@@ -68,12 +81,13 @@ function TimelineNode({ milestone, index, isVisible }) {
 export default function AboutPage() {
   const trackRef = useRef(null);
   const [visibleIds, setVisibleIds] = useState(() => new Set());
+  const [activeId, setActiveId] = useState(timeline[0]?.id ?? null);
 
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    const observer = new IntersectionObserver(
+    const visibilityObserver = new IntersectionObserver(
       (entries) => {
         setVisibleIds((prev) => {
           const next = new Set(prev);
@@ -91,9 +105,28 @@ export default function AboutPage() {
       { threshold: 0.2 },
     );
 
+    const activeObserver = new IntersectionObserver(
+      (entries) => {
+        const onScreen = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (onScreen.length > 0) {
+          setActiveId(onScreen[0].target.dataset.nodeId);
+        }
+      },
+      { rootMargin: "-30% 0px -55% 0px", threshold: 0 },
+    );
+
     const nodes = track.querySelectorAll("[data-node-id]");
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
+    nodes.forEach((node) => {
+      visibilityObserver.observe(node);
+      activeObserver.observe(node);
+    });
+
+    return () => {
+      visibilityObserver.disconnect();
+      activeObserver.disconnect();
+    };
   }, []);
 
   const fillPercent = Math.min(
@@ -101,64 +134,119 @@ export default function AboutPage() {
     (visibleIds.size / timeline.length) * 100,
   );
 
+  const handleRailClick = (id) => {
+    const node = document.querySelector(`[data-node-id="${id}"]`);
+    if (node) node.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   return (
     <main className="bg-page text-ink">
-      <section className="mx-auto max-w-7xl px-5 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+      <section className="about-inner px-5 pt-14 sm:px-6 lg:pt-20">
         <SectionLabel>04 — About</SectionLabel>
 
-        <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-[0.01em] text-ink sm:text-6xl lg:text-7xl">
-              A path through
+        <div className="mt-5 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-end lg:gap-12">
+          <div>
+            <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5rem] xl:text-[5.75rem]">
+              Work
               <br />
-              rigs and benches.
+              experiences.
             </h1>
-            <p className="mt-6 max-w-xl font-sans text-[15px] leading-7 text-graphite">
-              From offshore drilling to the coffee bench. Newest first; scroll
-              down to walk back through the work.
+            <p className="mt-6 max-w-xl font-sans text-base leading-7 text-ink/80 sm:text-lg sm:leading-8">
+              From offshore drilling to the coffee bench. The discipline
+              travelled with me — the same instinct for reading a system,
+              isolating the cause, and writing down what changed.
             </p>
           </div>
 
-          <div className="about-stat flex shrink-0 items-baseline gap-3 self-start rounded-2xl border border-line bg-surface px-6 py-5 lg:self-end">
-            <span className="font-display text-5xl leading-none text-ink">
-              {aboutHeadline.stat}
-            </span>
-            <span className="max-w-[9rem] font-mono text-[11px] uppercase leading-tight tracking-[0.18em] text-bronze">
-              {aboutHeadline.label}
-            </span>
+          <div className="lg:pb-2">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+              At a glance
+            </p>
+            <ul className="about-stats mt-3">
+              {aboutStats.map((stat) => (
+                <li className="about-stats-cell" key={stat.label}>
+                  <span className="about-stats-value">{stat.value}</span>
+                  <span className="about-stats-label">{stat.label}</span>
+                </li>
+              ))}
+            </ul>
           </div>
+        </div>
+
+        <div className="mt-10 flex items-center gap-4 border-t border-line pt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-graphite">
+          <span>
+            {String(timeline.length).padStart(2, "0")} Stops · Newest first
+          </span>
+          <span className="h-px flex-1 bg-line" />
+          <span className="hidden sm:inline">
+            {String(visibleIds.size).padStart(2, "0")} of{" "}
+            {String(timeline.length).padStart(2, "0")} seen
+          </span>
         </div>
       </section>
 
-      <section className="mx-auto mt-16 max-w-7xl px-5 pb-24 sm:mt-20 sm:px-6 lg:mt-24 lg:px-8">
-        <div className="mb-8 flex items-center justify-between">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-            Newest <span className="text-bronze">↓</span> oldest
-          </p>
-          <span className="hidden font-mono text-[11px] uppercase tracking-[0.22em] text-muted sm:inline">
-            {visibleIds.size} / {timeline.length} seen
-          </span>
+      <section className="about-archive about-inner px-5 pb-24 pt-12 sm:px-6 lg:pt-16">
+        <div className="about-archive-bg" aria-hidden="true">
+          <span className="about-archive-arc about-archive-arc--1" />
+          <span className="about-archive-arc about-archive-arc--2" />
+          <span className="about-archive-grid" />
         </div>
 
-        <div className="timeline-track" ref={trackRef}>
-          <div className="timeline-spine" aria-hidden="true">
-            <div
-              className="timeline-spine-fill"
-              style={{ height: `${fillPercent}%` }}
-            />
-          </div>
+        <div className="about-archive-grid-layout">
+          <aside className="about-rail">
+            <div className="about-rail-inner">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+                Career path
+              </p>
+              <ol className="about-rail-list mt-4">
+                {timeline.map((milestone) => {
+                  const isActive = milestone.id === activeId;
+                  return (
+                    <li key={milestone.id}>
+                      <button
+                        className={`about-rail-item ${isActive ? "is-active" : ""}`}
+                        onClick={() => handleRailClick(milestone.id)}
+                        type="button"
+                      >
+                        <span className="about-rail-year">{milestone.year}</span>
+                        <span className="about-rail-title">
+                          {milestone.title}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
 
-          <ol className="relative flex flex-col gap-16 sm:gap-20 md:gap-24">
-            {timeline.map((milestone, index) => (
-              <li data-node-id={milestone.id} key={milestone.id}>
-                <TimelineNode
-                  index={index}
-                  isVisible={visibleIds.has(milestone.id)}
-                  milestone={milestone}
-                />
-              </li>
-            ))}
-          </ol>
+              <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+                {aboutHeadline.stat}
+              </p>
+              <p className="mt-1 font-sans text-sm leading-6 text-ink/75">
+                {aboutHeadline.label}
+              </p>
+            </div>
+          </aside>
+
+          <div className="timeline-track" ref={trackRef}>
+            <div className="timeline-spine" aria-hidden="true">
+              <div
+                className="timeline-spine-fill"
+                style={{ height: `${fillPercent}%` }}
+              />
+            </div>
+
+            <ol className="relative flex flex-col gap-10 sm:gap-12 md:gap-16">
+              {timeline.map((milestone, index) => (
+                <li data-node-id={milestone.id} key={milestone.id}>
+                  <TimelineNode
+                    index={index}
+                    isVisible={visibleIds.has(milestone.id)}
+                    milestone={milestone}
+                  />
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
     </main>
