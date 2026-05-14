@@ -19,7 +19,7 @@ export default {
       },
       fontFamily: {
         display: ['Bebas Neue', 'sans-serif'],
-        serif: ['Bebas Neue', 'sans-serif'],
+        serif: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
         sans: ['DM Sans', 'sans-serif'],
         mono: ['DM Mono', 'ui-monospace', 'monospace'],
       },

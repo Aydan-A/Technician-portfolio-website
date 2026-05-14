@@ -29,7 +29,6 @@
   --button-fg: 0 0 0;
 
   --hero-muted-opacity: 0.72;
-  --hero-subtle-opacity: 0.55;
   --glass-bg-opacity: 0.045;
   --glass-bg-hover-opacity: 0.08;
   --glass-border-opacity: 0.1;
@@ -64,7 +63,6 @@
   --button-fg: 255 255 255;
 
   --hero-muted-opacity: 0.88;
-  --hero-subtle-opacity: 0.7;
   --glass-bg-opacity: 0.62;
   --glass-bg-hover-opacity: 0.78;
   --glass-border-opacity: 0.22;
@@ -163,10 +161,6 @@ a {
   color: rgb(var(--on-hero-muted) / var(--hero-muted-opacity));
 }
 
-.hero-subtle {
-  color: rgb(var(--on-hero-muted) / var(--hero-subtle-opacity));
-}
-
 .hero-inverse {
   background: rgb(var(--button-bg));
   color: rgb(var(--button-fg));
@@ -177,7 +171,7 @@ a {
 .glass-nav {
   position: relative;
   color: rgb(var(--color-paper));
-  border: 1px solid rgb(var(--color-paper) / 0.22);
+  border: 0;
   background:
     linear-gradient(
       135deg,
@@ -194,7 +188,6 @@ a {
 }
 
 [data-theme='light'] .glass-nav {
-  border-color: rgb(255 255 255 / 0.85);
   background:
     linear-gradient(
       135deg,
@@ -208,6 +201,68 @@ a {
     0 2px 6px rgb(0 0 0 / 0.08),
     inset 0 1px 0 rgb(255 255 255 / 0.95),
     inset 0 -1px 0 rgb(0 0 0 / 0.06);
+}
+
+/* Animated colorful rim around the navbar pill */
+@property --glass-nav-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.glass-nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--glass-nav-angle),
+    #b8754d 0deg,
+    #e5837a 60deg,
+    #d96fa5 120deg,
+    #8b6dd6 180deg,
+    #4f9fd9 240deg,
+    #54c9b5 300deg,
+    #b8754d 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: glass-nav-spin 4s linear infinite;
+  pointer-events: none;
+  opacity: 1;
+}
+
+[data-theme='light'] .glass-nav::before {
+  opacity: 0.8;
+}
+
+@keyframes glass-nav-spin {
+  to { --glass-nav-angle: 360deg; }
+}
+
+@supports not (background: conic-gradient(from var(--glass-nav-angle), red, blue)) {
+  .glass-nav::before {
+    animation: none;
+    background: linear-gradient(135deg,
+      #b8754d 0%,
+      #d96fa5 33%,
+      #8b6dd6 66%,
+      #4f9fd9 100%
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-nav::before {
+    animation: none;
+  }
 }
 
 .hero-glass {
@@ -361,4 +416,234 @@ a {
   box-shadow:
     inset 0 0 0 1px rgba(0, 0, 0, 0.4),
     0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ---------- About / timeline (vertical zig-zag) ---------- */
+
+.about-stat {
+  background:
+    linear-gradient(160deg, rgb(var(--color-paper) / 0.06), rgb(var(--color-paper) / 0.02)),
+    rgb(var(--color-stone-soft));
+  box-shadow: inset 0 1px 0 rgb(var(--color-paper) / 0.08);
+}
+
+.timeline-track {
+  position: relative;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
+
+/* Spine: left on mobile, centered on md+ */
+.timeline-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0.875rem;
+  width: 2px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgb(var(--color-paper) / 0.18) 0 6px,
+      transparent 6px 14px
+    );
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .timeline-spine {
+    left: 1.375rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .timeline-spine {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.timeline-spine-fill {
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--color-copper)) 0%,
+    rgb(var(--color-copper) / 0.5) 100%
+  );
+  border-radius: 2px;
+  transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 14px rgb(var(--color-copper) / 0.45);
+}
+
+.timeline-node {
+  position: relative;
+  opacity: 0;
+  transform: translateX(-12px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.timeline-node.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Mobile: every node is right-aligned past the left spine */
+.timeline-node-content {
+  padding-left: 3rem;
+}
+
+@media (min-width: 640px) {
+  .timeline-node-content {
+    padding-left: 4rem;
+  }
+}
+
+/* Desktop: zig-zag — odd nodes on the right of the centered spine, even on the left */
+@media (min-width: 768px) {
+  .timeline-node-content {
+    padding-left: 0;
+    width: calc(50% - 3rem);
+  }
+
+  .timeline-node--right .timeline-node-content {
+    margin-left: auto;
+  }
+
+  .timeline-node--left .timeline-node-content {
+    margin-right: auto;
+    text-align: right;
+  }
+
+  /* Right-align inner grids/text blocks on the left side */
+  .timeline-node--left .timeline-node-content .grid {
+    margin-left: auto;
+  }
+
+  /* Enter from the appropriate side */
+  .timeline-node--right {
+    transform: translateX(12px);
+  }
+  .timeline-node--left {
+    transform: translateX(-12px);
+  }
+  .timeline-node.is-visible {
+    transform: translateX(0);
+  }
+}
+
+.timeline-node-dot {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.875rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgb(var(--color-copper));
+  transform: translate(-50%, 0);
+  box-shadow: 0 0 0 4px rgb(var(--color-stone));
+}
+
+@media (min-width: 640px) {
+  .timeline-node-dot {
+    left: 1.375rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .timeline-node-dot {
+    left: 50%;
+  }
+}
+
+.image-slot {
+  border: 1px solid rgb(var(--color-border));
+  background:
+    linear-gradient(140deg, rgb(var(--color-paper) / 0.03), rgb(var(--color-paper) / 0.01)),
+    rgb(var(--color-stone-soft));
+}
+
+.image-slot--empty {
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgb(var(--color-paper) / 0.025) 0 8px,
+      transparent 8px 16px
+    );
+}
+
+.image-slot--filled {
+  border-color: rgb(var(--color-border));
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.25);
+}
+
+/* ---------- Contact ---------- */
+
+.contact-row {
+  border-bottom: 1px solid rgb(var(--color-border));
+  transition: background-color 0.25s ease;
+}
+
+.contact-row:hover {
+  background-color: rgb(var(--color-paper) / 0.02);
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-field-label {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--color-copper));
+}
+
+.contact-input {
+  width: 100%;
+  appearance: none;
+  background: rgb(var(--color-stone-soft));
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 0.75rem;
+  padding: 0.875rem 1rem;
+  color: rgb(var(--color-paper));
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-input::placeholder {
+  color: rgb(var(--color-muted));
+}
+
+.contact-input:hover {
+  border-color: rgb(var(--color-paper) / 0.35);
+}
+
+.contact-input:focus {
+  outline: none;
+  border-color: rgb(var(--color-copper));
+  background: rgb(var(--color-stone-soft));
+  box-shadow: 0 0 0 4px rgb(var(--color-copper) / 0.15);
+}
+
+.contact-textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-node {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .timeline-spine-fill {
+    transition: none;
+  }
 }

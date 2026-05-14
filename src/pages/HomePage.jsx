@@ -76,7 +76,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="mt-4 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.22em] text-[#555555]">
-                    <span>Est. 2024</span>
+                    <span>Est. 2025</span>
                     <span>Stamped</span>
                   </div>
                 </div>
@@ -84,7 +84,7 @@ export default function HomePage() {
             </aside>
 
             <div className="relative flex flex-col justify-center lg:pl-8">
-              <div className="hero-glass hero-muted mb-7 inline-flex items-center gap-3 self-start rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.28em] backdrop-blur-sm">
+              <div className="hero-glass hero-text mb-7 inline-flex items-center gap-3 self-start rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.28em] backdrop-blur-sm">
                 <span className="h-1.5 w-1.5 rounded-full bg-copper" />
                 01 — Technician Portfolio
               </div>
@@ -93,12 +93,12 @@ export default function HomePage() {
                 I&rsquo;m Vagif.
               </h1>
 
-              <p className="hero-text mt-6 max-w-xl font-serif text-lg leading-snug sm:text-xl">
+              <p className="hero-text mt-6 max-w-xl font-sans text-lg font-medium leading-snug tracking-[-0.005em] sm:text-xl">
                 Coffee technician, repair specialist, and espresso systems
                 troubleshooter.
               </p>
 
-              <p className="hero-muted mt-6 max-w-xl font-sans text-[15px] leading-7">
+              <p className="hero-text mt-6 max-w-xl font-sans text-[15px] leading-7 opacity-90">
                 I repair, rebuild, and fine-tune espresso machines and grinders
                 for cafés, roasters, and home coffee lovers. My work focuses on
                 smooth equipment performance, consistent coffee quality, and
@@ -106,12 +106,12 @@ export default function HomePage() {
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Button className="min-h-12 px-7" href="#projects">
+                <Button className="min-h-12 px-7" to="/projects">
                   View Case Studies
                 </Button>
                 <Button
                   className="min-h-12 px-7"
-                  href="#contact"
+                  to="/contact"
                   variant="secondary"
                 >
                   Book a Diagnostic
@@ -125,13 +125,13 @@ export default function HomePage() {
                   { label: "Avg. Turnaround", value: "48h" },
                 ].map((stat) => (
                   <div
-                    className="hero-glass flex h-24 w-24 flex-col items-center justify-center rounded-full border text-center backdrop-blur-sm"
+                    className="hero-glass flex h-28 w-28 flex-col items-center justify-center rounded-full border text-center backdrop-blur-sm"
                     key={stat.label}
                   >
-                    <dd className="hero-text font-display text-lg leading-none tracking-normal">
+                    <dd className="hero-text font-display text-2xl leading-none tracking-normal">
                       {stat.value}
                     </dd>
-                    <dt className="hero-muted mt-1 px-2 font-mono text-[8px] uppercase leading-tight tracking-[0.2em] text-copper">
+                    <dt className="hero-text mt-1.5 max-w-[5.5rem] px-1 font-mono text-[9.5px] font-medium uppercase leading-[1.15] tracking-[0.16em] opacity-80">
                       {stat.label}
                     </dt>
                   </div>
@@ -185,7 +185,7 @@ export default function HomePage() {
               ))}
             </div>
             <div className="border-t border-border pt-7">
-              <Button href="#journal">Visit Journal</Button>
+              <Button to="/journal">Visit Journal</Button>
             </div>
           </div>
         </section>
@@ -214,7 +214,7 @@ export default function HomePage() {
               <Button href="mailto:vaqif.aliyev.96@gmail.com">
                 Contact Me
               </Button>
-              <Button href="#journal" variant="secondary">
+              <Button to="/journal" variant="secondary">
                 Read the Journal
               </Button>
             </div>

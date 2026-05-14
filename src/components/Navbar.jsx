@@ -13,7 +13,7 @@ const themeOptions = ["dark", "light"];
 export default function Navbar({ theme, onThemeChange }) {
   return (
     <header className="sticky top-4 z-50 px-4 sm:px-6 lg:px-8">
-      <div className="glass-nav mx-auto max-w-7xl rounded-full border px-4 py-3 backdrop-blur-2xl sm:px-5">
+      <div className="glass-nav mx-auto max-w-7xl rounded-full px-4 py-3 backdrop-blur-2xl sm:px-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <Link className="flex items-center gap-3" to="/">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-paper font-mono text-[12px] font-bold text-stone shadow-sm">
@@ -27,12 +27,14 @@ export default function Navbar({ theme, onThemeChange }) {
           </Link>
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:gap-7">
-            <nav className="flex flex-wrap gap-x-5 gap-y-3 text-[13px] font-semibold uppercase tracking-[0.16em] text-paper">
+            <nav className="flex flex-wrap gap-x-5 gap-y-3 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-paper">
               {navItems.map((item) => (
                 <NavLink
                   className={({ isActive }) =>
-                    `transition-opacity ${
-                      isActive ? "opacity-100" : "opacity-60 hover:opacity-100"
+                    `relative text-paper transition-colors hover:text-copper ${
+                      isActive
+                        ? "after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-[2px] after:rounded-full after:bg-copper"
+                        : ""
                     }`
                   }
                   end={item.to === "/"}
@@ -69,8 +71,8 @@ export default function Navbar({ theme, onThemeChange }) {
                 })}
               </div>
               <Button
-                className="w-full font-semibold sm:w-auto"
-                href="/contact"
+                className="w-full font-mono text-[11px] uppercase tracking-[0.22em] sm:w-auto"
+                to="/contact"
                 variant="secondary"
               >
                 Book Diagnostic
