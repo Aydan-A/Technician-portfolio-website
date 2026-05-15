@@ -62,7 +62,8 @@ function ContactForm() {
   const [fields, setFields] = useState(initialFields);
 
   function update(key) {
-    return (event) => setFields((prev) => ({ ...prev, [key]: event.target.value }));
+    return (event) =>
+      setFields((prev) => ({ ...prev, [key]: event.target.value }));
   }
 
   function handleSubmit(event) {
@@ -74,7 +75,11 @@ function ContactForm() {
   }
 
   return (
-    <form className="contact-form grid gap-5" noValidate onSubmit={handleSubmit}>
+    <form
+      className="contact-form grid gap-5"
+      noValidate
+      onSubmit={handleSubmit}
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="contact-field">
           <span className="contact-field-label">Name</span>
@@ -130,12 +135,12 @@ function ContactForm() {
         />
       </label>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
-          Submits via your mail client — no data leaves your device until you send.
-        </p>
-        <Button className="min-h-12 px-7 sm:w-auto" type="submit">
-          Send message
+      <div className="flex flex-col gap-4 sm:flex-row-reverse sm:items-center sm:justify-between">
+        <Button
+          className="h-12 min-h-12 min-w-[200px] px-8 font-mono text-[12px] uppercase tracking-[0.18em]"
+          type="submit"
+        >
+          Send message →
         </Button>
       </div>
     </form>
@@ -154,11 +159,6 @@ export default function ContactPage() {
             <br />
             Let&rsquo;s listen.
           </h1>
-
-          <p className="max-w-xl font-sans text-[15px] leading-7 text-graphite lg:text-right">
-            Diagnostics, repair, calibration, or a second opinion on an espresso
-            machine or grinder. Send a note and Vagif will get back to you.
-          </p>
         </div>
       </section>
 
@@ -171,7 +171,7 @@ export default function ContactPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-6 lg:px-8">
-        <div className="grid gap-10 border-t border-line pt-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="grid gap-10 border-t border-line pt-12 xl:grid-cols-[0.85fr_1.15fr] xl:gap-16">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-bronze">
               Or send a message
@@ -180,8 +180,9 @@ export default function ContactPage() {
               Tell me what the machine is doing.
             </h2>
             <p className="mt-5 max-w-md text-sm leading-6 text-graphite sm:text-[15px] sm:leading-7">
-              The more detail — model, age, symptoms, when it started — the
-              faster the reply.
+              Diagnostics, repair, calibration, or a second opinion on an
+              espresso machine or grinder. Send a note and I will get back to
+              you.
             </p>
           </div>
 
