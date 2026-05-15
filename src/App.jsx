@@ -4,6 +4,7 @@ import Layout from "./Layout.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import JournalArticlePage from "./pages/JournalArticlePage.jsx";
 import JournalPage from "./pages/JournalPage.jsx";
 import ProjectsPage from "./pages/ProjectsPage.jsx";
 
@@ -39,6 +40,7 @@ export default function App() {
           <Route element={<AboutPage />} path="about" />
           <Route element={<ProjectsPage />} path="projects" />
           <Route element={<JournalPage />} path="journal" />
+          <Route element={<JournalArticlePage />} path="journal/:slug" />
           <Route element={<ContactPage />} path="contact" />
         </Route>
       </Routes>
