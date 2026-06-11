@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import CaseStudyCard from "../components/CaseStudyCard.jsx";
 import SectionLabel from "../components/SectionLabel.jsx";
 import { projects } from "../data/projects.js";
+// import EspressoDiagram from "../components/EspressoDiagram.jsx";
 
 const ALL = "All";
 
@@ -34,7 +35,7 @@ export default function ProjectsPage() {
               that isolated the cause, the fix, and how it held up.
             </p>
           </div>
-
+          {/* <EspressoDiagram /> */}
           <div className="lg:pb-2">
             <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
               Filter by discipline

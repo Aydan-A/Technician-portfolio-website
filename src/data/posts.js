@@ -1,3 +1,8 @@
+import solenoidBlogMd from '../content/Blogs/solenoid-blog.md?raw';
+import solenoidTwoWayVsThreeWayImg from '../assets/images/Blogs/EMP/Solenoid/2way_vs_3_way.png';
+import solenoidCoverImg from '../assets/images/Blogs/EMP/Solenoid/Cover_picture.png';
+import solenoidEnergizedImg from '../assets/images/Blogs/EMP/Solenoid/Energized_Deenergized.png';
+
 /**
  * The Workshop Dispatch — Vagif's review journal.
  *
@@ -22,7 +27,101 @@ export const TYPES = {
   TEARDOWN: 'Teardown',
 };
 
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderInlineMarkdown(value) {
+  return escapeHtml(value)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>');
+}
+
+const solenoidBlogImages = {
+  '2way_vs_3_way.png': solenoidTwoWayVsThreeWayImg,
+  'Cover_picture.png': solenoidCoverImg,
+  'Energized_Deenergized.png': solenoidEnergizedImg,
+};
+
+function markdownToHtml(markdown, images = {}) {
+  const blocks = markdown.trim().split(/\n{2,}/);
+  let imageIndex = 0;
+
+  return blocks
+    .map((block) => {
+      const lines = block.split('\n');
+      const imageMatch = block.match(/^!\[(.+?)\]\((.+?)\)$/);
+
+      if (imageMatch) {
+        const [, alt, filename] = imageMatch;
+        const src = images[filename];
+
+        if (!src) {
+          return '';
+        }
+
+        const side = imageIndex % 2 === 0 ? 'right' : 'left';
+        imageIndex += 1;
+
+        return `
+          <figure class="dispatch-article-image dispatch-article-image--${side}">
+            <img src="${src}" alt="${escapeHtml(alt)}" loading="lazy" />
+          </figure>
+        `;
+      }
+
+      if (lines.every((line) => line.startsWith('- '))) {
+        const items = lines
+          .map((line) => `<li>${renderInlineMarkdown(line.slice(2))}</li>`)
+          .join('');
+        return `<ul>${items}</ul>`;
+      }
+
+      const text = lines.join(' ');
+
+      if (text.startsWith('# ')) {
+        return `<h3>${renderInlineMarkdown(text.slice(2))}</h3>`;
+      }
+
+      if (text.startsWith('## ')) {
+        return `<h4>${renderInlineMarkdown(text.slice(3))}</h4>`;
+      }
+
+      return `<p>${renderInlineMarkdown(text)}</p>`;
+    })
+    .join('\n');
+}
+
 export const posts = [
+  {
+    id: 'dispatch-005',
+    slug: 'solenoid-valves-decoded',
+    number: 5,
+    date: '2026-05-27',
+    subject: 'Espresso machine solenoid valves',
+    title: 'The Gatekeeper of Pressure: Understanding Solenoid Valves',
+    hook: 'A practical guide to the small electromagnetic valve controlling pressure, flow, and clean shot shutdowns.',
+    verdict: 'WORTH_IT',
+    type: 'DEEP_DIVE',
+    category: 'Engineering',
+    readMinutes: 9,
+    claim:
+      'A solenoid valve is the electrically controlled gatekeeper that routes water, releases pressure, and keeps espresso machine hydraulics predictable.',
+    receipt: [
+      'The valve works through a coil, spring-loaded plunger, and valve body.',
+      'Normally Closed valves are the espresso machine standard because water only moves when commanded.',
+      '3-way valves vent puck pressure through the exhaust path to prevent portafilter sneeze.',
+      'Most failures trace back to coil faults, scale, debris, or coffee oils in the exhaust path.',
+    ],
+    bottomLine:
+      'Treat solenoids as serviceable precision parts: test the coil, descale the valve body, feed the machine good water, and backflush 3-way valves regularly.',
+    body: markdownToHtml(solenoidBlogMd, solenoidBlogImages),
+    featured: true,
+  },
   {
     id: 'dispatch-004',
     slug: 'self-calibrating-grinders',
@@ -47,6 +146,17 @@ export const posts = [
       'A good barista, a scale, and a stopwatch beats this firmware every time. Save the money for better burrs.',
     body: `
       <p>The pitch is hard to argue with. A grinder that watches itself. No more chasing grind size every morning, no more re-zeroing after a humid weekend, no more wondering whether the burrs are tired. The machine handles it. You pull shots.</p>
+
+      <figure class="my-10 mx-auto max-w-[800px] panel">
+        <img 
+       
+          alt="Close-up of a high-end coffee grinder burr set being inspected with a loupe, showing signs of wear." 
+          class="w-full h-auto block"
+        />
+        <figcaption class="px-6 py-4 border-t border-rule bg-page/50 font-mono text-[11px] uppercase tracking-wider text-muted">
+          Fig 1.1 — Wear patterns after three months of "self-calibration." The asymmetric burr wear is a direct result of the firmware's feedback loop.
+        </figcaption>
+      </figure>
 
       <p>I wanted to believe it. I service grinders for a living, and the number one cause of a bad shot in the wild is not a bad bean or a bad barista — it is a grind setting that drifted while nobody was looking. If a manufacturer could actually solve that, it would be the most important thing to happen to espresso in a decade.</p>
 
@@ -78,7 +188,7 @@ export const posts = [
 
       <p>Maybe a future generation will measure the actual grounds — particle size distribution, fines ratio, something with a real signal. Until then, the word &ldquo;self-calibrating&rdquo; on a grinder is marketing, not engineering. Save the money. Spend it on better burrs and a louder timer.</p>
     `,
-    featured: true,
+    featured: false,
   },
   {
     id: 'dispatch-003',

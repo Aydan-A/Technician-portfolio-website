@@ -67,12 +67,8 @@ export default function JournalArticlePage() {
           <div className="dispatch-masthead-rule" />
         </header>
 
-        {/* Stamp + title block */}
+        {/* Title block */}
         <section className="dispatch-article-head">
-          <div className="dispatch-article-stamp">
-            <VerdictStamp verdict={post.verdict} size="xl" />
-          </div>
-
           <p className="dispatch-article-tags">
             <span className="dispatch-article-tag dispatch-article-tag--category">
               {post.category}
@@ -85,28 +81,70 @@ export default function JournalArticlePage() {
 
           <h1 className="dispatch-article-title">{post.title}</h1>
           <p className="dispatch-article-hook">{post.hook}</p>
+        </section>
 
-          <p className="dispatch-article-byline">
-            By Vagif Aliyev · Subject: <em>{post.subject}</em>
+        <section className="dispatch-article-meta-strip" aria-label="Dispatch details">
+          <p>
+            <span>Subject</span>
+            {post.subject}
+          </p>
+          <p>
+            <span>Filed by</span>
+            Vagif Aliyev
+          </p>
+          <p>
+            <span>Format</span>
+            {TYPES[post.type]}
+          </p>
+          <p>
+            <span>Read</span>
+            {post.readMinutes} minutes
           </p>
         </section>
 
-        {/* Article body — flowing prose, Medium-style */}
-        {post.body ? (
-          <div
-            className="dispatch-article-body"
-            dangerouslySetInnerHTML={{ __html: post.body }}
-          />
-        ) : (
-          <p className="dispatch-article-body-empty">
-            Article in draft. The bottom line below is the short version.
-          </p>
-        )}
+        <section className="dispatch-article-layout">
+          <div className="dispatch-article-main">
+            <aside className="dispatch-article-callout">
+              <p className="dispatch-article-callout-quote">&ldquo;{post.claim}&rdquo;</p>
+              <p className="dispatch-article-callout-byline">- Bench note</p>
+            </aside>
 
-        {/* Bottom line */}
-        <section className="dispatch-article-bottomline">
-          <p className="dispatch-article-bottomline-label">Bottom line</p>
-          <p className="dispatch-article-bottomline-body">{post.bottomLine}</p>
+            {post.body ? (
+              <div
+                className="dispatch-article-body"
+                dangerouslySetInnerHTML={{ __html: post.body }}
+              />
+            ) : (
+              <p className="dispatch-article-body-empty">
+                Article in draft. The bottom line below is the short version.
+              </p>
+            )}
+          </div>
+
+          <aside className="dispatch-article-sidebar" aria-label="Dispatch notes">
+            <div className="dispatch-article-stamp">
+              <VerdictStamp verdict={post.verdict} size="xl" />
+            </div>
+
+            <section className="dispatch-article-side-section">
+              <p className="dispatch-article-side-label">Supporting headline</p>
+              <h2 className="dispatch-article-side-title">{post.hook}</h2>
+            </section>
+
+            <section className="dispatch-article-side-section">
+              <p className="dispatch-article-side-label">Receipts</p>
+              <ul className="dispatch-article-receipts">
+                {post.receipt.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="dispatch-article-bottomline">
+              <p className="dispatch-article-bottomline-label">Bottom line</p>
+              <p className="dispatch-article-bottomline-body">{post.bottomLine}</p>
+            </section>
+          </aside>
         </section>
 
         {/* Nav */}
