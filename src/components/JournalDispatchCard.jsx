@@ -19,6 +19,27 @@ export default function JournalDispatchCard({ post, variant = "grid" }) {
       className={`dispatch-card dispatch-card--${variant}`}
       id={post.id}
     >
+      <Link
+        className="dispatch-card-cover"
+        to={`/journal/${post.slug}`}
+        aria-hidden="true"
+        tabIndex={-1}
+      >
+        {post.cover ? (
+          <img src={post.cover} alt="" loading="lazy" />
+        ) : (
+          <span className="dispatch-card-cover-placeholder">
+            <span className="dispatch-card-cover-placeholder-num">
+              № {String(post.number).padStart(3, "0")}
+            </span>
+            <span className="dispatch-card-cover-placeholder-label">
+              {post.category}
+            </span>
+          </span>
+        )}
+      </Link>
+
+      <div className="dispatch-card-body">
       <header className="dispatch-card-header">
         <span className="dispatch-card-number">
           № {String(post.number).padStart(3, "0")}
@@ -60,6 +81,7 @@ export default function JournalDispatchCard({ post, variant = "grid" }) {
           <span aria-hidden="true" className="dispatch-card-read-arrow">→</span>
         </Link>
       </footer>
+      </div>
     </article>
   );
 }

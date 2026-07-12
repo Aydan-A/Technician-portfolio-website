@@ -79,8 +79,10 @@ export default function JournalArticlePage() {
             <span className="dispatch-article-tag">{TYPES[post.type]}</span>
           </p>
 
-          <h1 className="dispatch-article-title">{post.title}</h1>
-          <p className="dispatch-article-hook">{post.hook}</p>
+          <h1 className="dispatch-article-title">{post.displayTitle ?? post.title}</h1>
+          <blockquote className="dispatch-article-subhead">
+            {post.claim}
+          </blockquote>
         </section>
 
         <section className="dispatch-article-meta-strip" aria-label="Dispatch details">
@@ -104,11 +106,6 @@ export default function JournalArticlePage() {
 
         <section className="dispatch-article-layout">
           <div className="dispatch-article-main">
-            <aside className="dispatch-article-callout">
-              <p className="dispatch-article-callout-quote">&ldquo;{post.claim}&rdquo;</p>
-              <p className="dispatch-article-callout-byline">- Bench note</p>
-            </aside>
-
             {post.body ? (
               <div
                 className="dispatch-article-body"

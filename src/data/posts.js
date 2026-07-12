@@ -1,4 +1,14 @@
+import reliableMd from '../content/Blogs/which-machine-is-reliable.md?raw';
+import reliableCoverImg from '../assets/images/Blogs/Reliability/Cover.png';
+import reliableBathtubImg from '../assets/images/Blogs/Reliability/Bathtube.png';
+import merakiMd from '../content/Blogs/meraki-espresso-machine.md?raw';
+import merakiCoverImg from '../assets/images/Blogs/OEM/Meraki/Cover.png';
+import rotaryVsVibratoryMd from '../content/Blogs/rotary-vs-vibratory.md?raw';
 import solenoidBlogMd from '../content/Blogs/solenoid-blog.md?raw';
+import pumpCoverImg from '../assets/images/Blogs/EMP/Pump/Cover.png';
+import pumpPressureConsistencyImg from '../assets/images/Blogs/EMP/Pump/Pressure_consistency_misconception.jpg';
+import pumpRotaryImg from '../assets/images/Blogs/EMP/Pump/Rotary.png';
+import pumpVibratoryImg from '../assets/images/Blogs/EMP/Pump/Vibratory.png';
 import solenoidTwoWayVsThreeWayImg from '../assets/images/Blogs/EMP/Solenoid/2way_vs_3_way.png';
 import solenoidCoverImg from '../assets/images/Blogs/EMP/Solenoid/Cover_picture.png';
 import solenoidEnergizedImg from '../assets/images/Blogs/EMP/Solenoid/Energized_Deenergized.png';
@@ -47,6 +57,22 @@ const solenoidBlogImages = {
   'Energized_Deenergized.png': solenoidEnergizedImg,
 };
 
+const pumpBlogImages = {
+  'Cover.png': pumpCoverImg,
+  'Pressure_consistency_misconception.jpg': pumpPressureConsistencyImg,
+  'Rotary.png': pumpRotaryImg,
+  'Vibratory.png': pumpVibratoryImg,
+};
+
+const merakiImages = {
+  'Cover.png': merakiCoverImg,
+};
+
+const reliableImages = {
+  'Cover.png': reliableCoverImg,
+  'Bathtube.png': reliableBathtubImg,
+};
+
 function markdownToHtml(markdown, images = {}) {
   const blocks = markdown.trim().split(/\n{2,}/);
   let imageIndex = 0;
@@ -83,12 +109,18 @@ function markdownToHtml(markdown, images = {}) {
 
       const text = lines.join(' ');
 
-      if (text.startsWith('# ')) {
-        return `<h3>${renderInlineMarkdown(text.slice(2))}</h3>`;
+      // Minor heading (###) → h4; subsection (##) → h3; numbered section (#) → h2.
+      // Longest marker first so the shorter prefixes don't match early.
+      if (text.startsWith('### ')) {
+        return `<h4>${renderInlineMarkdown(text.slice(4))}</h4>`;
       }
 
       if (text.startsWith('## ')) {
-        return `<h4>${renderInlineMarkdown(text.slice(3))}</h4>`;
+        return `<h3>${renderInlineMarkdown(text.slice(3))}</h3>`;
+      }
+
+      if (text.startsWith('# ')) {
+        return `<h2>${renderInlineMarkdown(text.slice(2))}</h2>`;
       }
 
       return `<p>${renderInlineMarkdown(text)}</p>`;
@@ -97,6 +129,84 @@ function markdownToHtml(markdown, images = {}) {
 }
 
 export const posts = [
+  {
+    id: 'dispatch-008',
+    slug: 'which-machine-is-reliable',
+    number: 8,
+    date: '2026-07-11',
+    subject: 'Espresso machine reliability',
+    title: 'Which Espresso Machine Is Reliable? None of Them.',
+    hook: 'Reliability is not a spec you buy — it is the bathtub curve plus how well you understand the machine you already own.',
+    verdict: 'DEPENDS',
+    type: 'HOT_TAKE',
+    category: 'Reliability',
+    readMinutes: 4,
+    claim:
+      'Every espresso machine has 700–1000 parts and hundreds of ways to fail, so the honest answer to "which one is reliable?" is none of them — reliability comes down to the owner, not the brand.',
+    receipt: [
+      'An espresso machine is built from 700–1000 parts, each carrying its own defect rate.',
+      'Failures cluster in two windows — early manufacturing defects, then late-life wear — the classic bathtub curve.',
+      'The calm middle years are why a two-year-old machine that runs fine usually keeps running fine.',
+      'A machine you understand warns you before a failure; one you ignore just breaks.',
+    ],
+    bottomLine:
+      'No machine is "reliable" in the abstract. Learn your machine, read the manual, and catch problems early — or treat it like a toaster and budget to replace it forever.',
+    cover: reliableCoverImg,
+    body: markdownToHtml(reliableMd, reliableImages),
+    featured: false,
+  },
+  {
+    id: 'dispatch-007',
+    slug: 'meraki-espresso-machine',
+    number: 7,
+    date: '2026-07-05',
+    subject: 'Meraki all-in-one espresso machine',
+    title: 'Meraki Espresso Machine: An Automatic Appliance Wearing a Semi-Automatic Suit',
+    hook: 'It looks like a semi-automatic revolution, but from the bench it is a consumer appliance with commercial pretensions.',
+    verdict: 'OVERRATED',
+    type: 'TEARDOWN',
+    category: 'Espresso',
+    readMinutes: 4,
+    claim:
+      'The Meraki markets itself on a rotary pump and "smart" gravimetric dosing, but its consumer-grade sensors, Teflon plumbing, and software-driven workflow do not hold up to real semi-automatic engineering.',
+    receipt: [
+      'Real-world dosing drifts 3–7 grams off target — enough to ruin a shot.',
+      'The all-in-one costs roughly half of a single commercial grind-by-weight grinder.',
+      'PTFE (Teflon) boiler lines derate under heat and fatigue at push-connect fittings over time.',
+      'A rotary pump alone does not make a machine great if the surrounding architecture is compromised.',
+    ],
+    bottomLine:
+      'An automatic appliance wearing a semi-automatic suit: fine as a handsome countertop machine, wrong if you want a precision tool you can learn on and still repair a decade from now.',
+    cover: merakiCoverImg,
+    body: markdownToHtml(merakiMd, merakiImages),
+    featured: false,
+  },
+  {
+    id: 'dispatch-006',
+    slug: 'rotary-vs-vibratory-pumps',
+    number: 6,
+    date: '2026-06-11',
+    subject: 'Rotary and vibratory espresso pumps',
+    title: 'Rotary vs. Vibratory Pumps',
+    hook: 'Two pump designs can both hit 9 bars, but they do it with very different mechanics, sound, and service life.',
+    verdict: 'DEPENDS',
+    type: 'DEEP_DIVE',
+    category: 'Engineering',
+    readMinutes: 6,
+    claim:
+      'Rotary and vibratory pumps can both produce espresso pressure, but the real tradeoff is pressure delivery, noise behavior, and long-term serviceability.',
+    receipt: [
+      'Vibratory pumps use an electromagnetic piston pulse and usually rely on an OPV for pressure control.',
+      'Rotary vane pumps use a motor-driven pump head with a built-in bypass valve for adjustment.',
+      'Both pump types can maintain 9 bars, but rotary overlap creates a smoother pressure profile.',
+      'Vibratory pumps are usually replaced as assemblies, while rotary pump heads are serviceable separately from the motor.',
+    ],
+    bottomLine:
+      'Choose vibratory for compact, cost-effective home machines; choose rotary when quiet operation, smoother delivery, and long service life matter more.',
+    cover: pumpCoverImg,
+    body: markdownToHtml(rotaryVsVibratoryMd, pumpBlogImages),
+    featured: true,
+  },
   {
     id: 'dispatch-005',
     slug: 'solenoid-valves-decoded',
@@ -119,8 +229,9 @@ export const posts = [
     ],
     bottomLine:
       'Treat solenoids as serviceable precision parts: test the coil, descale the valve body, feed the machine good water, and backflush 3-way valves regularly.',
+    cover: solenoidCoverImg,
     body: markdownToHtml(solenoidBlogMd, solenoidBlogImages),
-    featured: true,
+    featured: false,
   },
   {
     id: 'dispatch-004',

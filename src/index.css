@@ -1228,6 +1228,102 @@ body::before {
   .dispatch-card--featured { padding: 2.75rem; }
 }
 
+/* Body wrapper — holds everything beside/under the cover */
+.dispatch-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.dispatch-card--featured .dispatch-card-body { gap: 1.25rem; }
+
+/* Cover image / placeholder — hairline-framed, gently desaturated so photos
+   read as part of the paper/ink system rather than stock imagery */
+.dispatch-card-cover {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 0.5rem;
+  background: rgb(var(--color-panel));
+}
+
+.dispatch-card-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.42) contrast(1.03) sepia(0.06);
+  transition: filter 0.35s ease, transform 0.45s ease;
+}
+
+/* Warm bronze duotone wash ties covers to the accent palette */
+.dispatch-card-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(var(--color-bronze) / 0.1);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.dispatch-card:hover .dispatch-card-cover img {
+  filter: grayscale(0.15) contrast(1.02) sepia(0.03);
+  transform: scale(1.02);
+}
+
+/* Placeholder for posts without a cover: textured paper hatch + index label */
+.dispatch-card-cover-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background-color: rgb(var(--color-panel));
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgb(var(--color-ink) / 0.045) 0,
+    rgb(var(--color-ink) / 0.045) 1px,
+    transparent 1px,
+    transparent 11px
+  );
+}
+
+.dispatch-card-cover-placeholder-num {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-ink) / 0.22);
+}
+
+.dispatch-card-cover-placeholder-label {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--color-bronze));
+}
+
+/* Featured hero: cover beside the text so it never crowds the stamp/headline */
+.dispatch-card--featured .dispatch-card-cover {
+  aspect-ratio: 3 / 2;
+}
+
+@media (min-width: 1024px) {
+  .dispatch-card--featured {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: 2.25rem;
+    align-items: start;
+  }
+}
+
 /* Header row: number · date */
 .dispatch-card-header {
   display: flex;
@@ -1449,27 +1545,27 @@ body::before {
 
 .dispatch-article {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 6rem;
+  padding: 2rem 1rem 5rem;
 }
 
 @media (min-width: 640px) {
   .dispatch-article {
-    padding: 3rem 1.5rem 6rem;
+    padding: 2.5rem 1.25rem 5.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .dispatch-article {
-    padding: 3.5rem 2.5rem 7rem;
+    padding: 3rem 1.5rem 6.5rem;
   }
 }
 
 @media (min-width: 1536px) {
   .dispatch-article {
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
@@ -1503,26 +1599,32 @@ body::before {
 .dispatch-article-tag-divider { opacity: 0.5; }
 
 .dispatch-article-title {
-  font-family: 'DM Sans', 'Arial Black', system-ui, sans-serif;
-  font-size: clamp(3.1rem, 1.5rem + 6.8vw, 7.8rem);
-  font-weight: 900;
-  line-height: 0.88;
-  letter-spacing: 0;
+  font-family: system-ui, 'DM Sans', sans-serif;
+  font-size: clamp(3rem, 1.85rem + 4.2vw, 5.8rem);
+  font-weight: 850;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
   color: rgb(var(--color-ink));
-  max-width: 11ch;
-  margin: 0 0 1.5rem;
+  max-width: 14ch;
+  margin: 0 0 1.15rem;
   text-transform: none;
   overflow-wrap: break-word;
 }
 
+.dispatch-article-subhead {
+  max-width: 860px;
+  margin: 0;
+  padding-left: 1.1rem;
+  border-left: 3px solid rgb(var(--color-bronze));
+  font-family: system-ui, 'DM Sans', sans-serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 1rem + 0.45vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: rgb(var(--color-ink) / 0.82);
+}
+
 .dispatch-article-hook {
-  max-width: 780px;
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-style: normal;
-  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem);
-  font-weight: 750;
-  line-height: 1.25;
-  color: rgb(var(--color-ink));
   margin: 0;
 }
 
@@ -1535,14 +1637,14 @@ body::before {
 }
 
 .dispatch-article-meta-strip p {
-  min-height: 5rem;
+  min-height: 6.25rem;
   margin: 0;
-  padding: 1rem 1.1rem 1.05rem 0;
+  padding: 1.35rem 1.5rem 1.4rem 0;
   border-right: 1px solid rgb(var(--color-line));
   font-family: 'DM Mono', ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgb(var(--color-ink));
 }
@@ -1553,20 +1655,22 @@ body::before {
 
 .dispatch-article-meta-strip span {
   display: block;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.55rem;
+  font-size: 12px;
+  letter-spacing: 0.14em;
   color: rgb(var(--color-bronze));
 }
 
 .dispatch-article-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.78fr);
-  gap: 2.6rem;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.34fr);
+  gap: 2rem;
   align-items: start;
 }
 
 .dispatch-article-main {
   min-width: 0;
-  padding-right: 2.25rem;
+  padding-right: 1.5rem;
   border-right: 2px solid rgb(var(--color-ink));
 }
 
@@ -1659,15 +1763,26 @@ body::before {
 }
 
 .dispatch-article-body {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 16.5px;
-  font-weight: 520;
-  line-height: 1.58;
+  font-family: system-ui, 'DM Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 430;
+  line-height: 1.7;
   color: rgb(var(--color-ink) / 0.92);
+  counter-reset: dispatch-section;
 }
 
 .dispatch-article-body > :first-child {
   margin-top: 0;
+}
+
+/* Cap the reading measure on text blocks; figures stay full column width. */
+.dispatch-article-body > p,
+.dispatch-article-body > ul,
+.dispatch-article-body > ol,
+.dispatch-article-body > blockquote,
+.dispatch-article-body > h3,
+.dispatch-article-body > h4 {
+  max-width: 68ch;
 }
 
 .dispatch-article-body p {
@@ -1677,57 +1792,84 @@ body::before {
 .dispatch-article-body p:last-child { margin-bottom: 0; }
 
 .dispatch-article-body > p:first-of-type {
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.45;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.65;
   color: rgb(var(--color-ink));
 }
 
-.dispatch-article-body h3 {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: clamp(1.65rem, 1.2rem + 1.4vw, 2.55rem);
-  font-weight: 900;
-  line-height: 1.02;
-  letter-spacing: 0;
+/* Numbered top-level section — big heading with a full-width rule above it.
+   The number is generated by a CSS counter, so it stays correct if sections
+   are reordered or inserted. */
+.dispatch-article-body h2 {
+  font-family: system-ui, 'DM Sans', sans-serif;
+  font-size: clamp(1.8rem, 1.3rem + 1.4vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
   color: rgb(var(--color-ink));
-  margin: 2.25rem 0 1rem;
-  padding-top: 1rem;
+  margin: 2.75rem 0 1rem;
+  padding-top: 1.4rem;
   border-top: 2px solid rgb(var(--color-ink));
   clear: both;
+  counter-increment: dispatch-section;
 }
 
-.dispatch-article-body h4 {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 1.12rem;
-  font-weight: 900;
+.dispatch-article-body > h2:first-child {
+  margin-top: 0;
+}
+
+.dispatch-article-body h2::before {
+  content: counter(dispatch-section) ". ";
+  color: rgb(var(--color-bronze));
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subsection — medium heading, no rule, no number */
+.dispatch-article-body h3 {
+  font-family: system-ui, 'DM Sans', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
   line-height: 1.15;
-  letter-spacing: 0;
+  letter-spacing: -0.025em;
   color: rgb(var(--color-ink));
-  margin: 1.7rem 0 0.75rem;
+  margin: 2rem 0 0.85rem;
+}
+
+/* Minor heading */
+.dispatch-article-body h4 {
+  font-family: system-ui, 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-ink));
+  margin: 1.6rem 0 0.55rem;
 }
 
 .dispatch-article-image {
-  width: min(400px, 45%);
-  max-width: 400px;
-  margin: 0.15rem 0 1.2rem;
+  width: 100%;
+  max-width: none;
+  margin: 2rem 0 2.25rem;
 }
 
 .dispatch-article-image--right {
-  float: right;
-  margin-left: 1.75rem;
+  float: none;
+  margin-left: 0;
 }
 
 .dispatch-article-image--left {
-  float: left;
-  margin-right: 1.75rem;
+  float: none;
+  margin-right: 0;
 }
 
 .dispatch-article-image img {
   display: block;
   width: 100%;
   height: auto;
+  object-fit: contain;
   border: 2px solid rgb(var(--color-ink));
-  border-radius: 0;
+  border-radius: 0.75rem;
   background: rgb(var(--color-panel));
 }
 
@@ -1907,7 +2049,7 @@ body::before {
     max-width: 100%;
   }
 
-  .dispatch-article-hook {
+  .dispatch-article-subhead {
     font-size: 1rem;
   }
 
@@ -1944,7 +2086,7 @@ body::before {
   .dispatch-article-image--left,
   .dispatch-article-image--right {
     float: none;
-    width: min(100%, 400px);
+    width: 100%;
     margin: 0.25rem auto 1.5rem;
   }
 
