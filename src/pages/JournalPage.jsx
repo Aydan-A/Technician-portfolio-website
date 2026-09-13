@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import JournalDispatchCard from "../components/JournalDispatchCard.jsx";
-import SectionLabel from "../components/SectionLabel.jsx";
 import { posts, VERDICTS } from "../data/posts.js";
 
 const ALL = "All";
@@ -62,9 +61,7 @@ export default function JournalPage() {
 
       {/* Headline */}
       <section className="w-full px-5 pt-10 sm:px-6 lg:px-10 2xl:px-16">
-        <SectionLabel>04 — Journal</SectionLabel>
-
-        <div className="mt-5 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-16">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-16">
           <div>
             <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem]">
               Verdicts from

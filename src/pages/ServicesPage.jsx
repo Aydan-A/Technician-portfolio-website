@@ -5,7 +5,6 @@ import residentialIcon from "../assets/images/icons/residential.png";
 import BrandMarquee from "../components/BrandMarquee.jsx";
 import ContactForm from "../components/ContactForm.jsx";
 import Button from "../components/Button.jsx";
-import SectionLabel from "../components/SectionLabel.jsx";
 import { commercialBrands, residentialBrands } from "../data/brands.js";
 import { normalizePlan } from "../data/servicePlans.js";
 
@@ -501,9 +500,7 @@ export default function ServicesPage() {
         </div>
 
         <div className="pt-10 text-center lg:pt-14">
-          <SectionLabel>05 — Services</SectionLabel>
-
-          <h1 className="mt-5 font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem]">
+          <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem]">
             Equipment service &amp; diagnostics.
           </h1>
         </div>

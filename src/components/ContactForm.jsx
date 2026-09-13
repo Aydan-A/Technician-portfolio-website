@@ -25,13 +25,33 @@ const initialFields = {
   message: "",
 };
 
+/**
+ * One grouped block of the form. The numbered header breaks the form into four
+ * short tasks instead of one long scroll of inputs.
+ */
+function FormSection({ children, hint, index, title }) {
+  return (
+    <section className="form-section">
+      <header className="form-section-head">
+        <span aria-hidden="true" className="form-section-index">
+          {index}
+        </span>
+        <h3 className="form-section-title">{title}</h3>
+        {hint ? <p className="form-section-hint">{hint}</p> : null}
+      </header>
+
+      <div className="form-section-body">{children}</div>
+    </section>
+  );
+}
+
 // Radio pills — native inputs so arrow-key navigation and screen-reader
 // grouping come for free; the visual state is driven by `is-active`.
 function ChoiceGroup({ label, name, onChange, options, value }) {
   return (
     <fieldset className="contact-field">
       <legend className="contact-field-label">{label}</legend>
-      <div className="mt-2 flex flex-wrap gap-2">
+      <div className="plan-options">
         {options.map((option) => {
           const isActive = option.id === value;
           return (
@@ -47,6 +67,7 @@ function ChoiceGroup({ label, name, onChange, options, value }) {
                 type="radio"
                 value={option.id}
               />
+              <span aria-hidden="true" className="plan-option-dot" />
               {option.label}
             </label>
           );
@@ -111,115 +132,114 @@ export default function ContactForm({ onPlanChange, plan }) {
   }
 
   return (
-    <form
-      className="contact-form grid gap-5"
-      noValidate
-      onSubmit={handleSubmit}
-    >
-      {/* Row 1 — who is writing */}
-      <div className="grid gap-5 sm:grid-cols-2">
-        <label className="contact-field">
-          <span className="contact-field-label">Name</span>
-          <input
-            autoComplete="name"
-            className="contact-input"
-            name="name"
-            onChange={update("name")}
-            placeholder="Your name"
-            required
-            type="text"
-            value={fields.name}
-          />
-        </label>
+    <form className="contact-form" noValidate onSubmit={handleSubmit}>
+      <FormSection hint="So I know who I am replying to" index="01" title="Your details">
+        <div className="field-row field-row-even">
+          <label className="contact-field">
+            <span className="contact-field-label">Name</span>
+            <input
+              autoComplete="name"
+              className="contact-input"
+              name="name"
+              onChange={update("name")}
+              placeholder="Your name"
+              required
+              type="text"
+              value={fields.name}
+            />
+          </label>
 
-        <label className="contact-field">
-          <span className="contact-field-label">Email</span>
-          <input
-            autoComplete="email"
-            className="contact-input"
-            name="email"
-            onChange={update("email")}
-            placeholder="you@domain.com"
-            required
-            type="email"
-            value={fields.email}
-          />
-        </label>
-      </div>
+          <label className="contact-field">
+            <span className="contact-field-label">Email</span>
+            <input
+              autoComplete="email"
+              className="contact-input"
+              name="email"
+              onChange={update("email")}
+              placeholder="you@domain.com"
+              required
+              type="email"
+              value={fields.email}
+            />
+          </label>
+        </div>
+      </FormSection>
 
-      {/* Row 2 — where the machine lives */}
-      <ChoiceGroup
-        label="Machine location"
-        name="plan-location"
-        onChange={(location) => updatePlan({ location })}
-        options={PLAN_LOCATIONS}
-        value={activePlan.location}
-      />
-
-      {/* Row 3 — services offered for that location; remounting on a location
-          change replays the enter animation. */}
-      <div className="plan-choice-swap" key={activePlan.location}>
+      <FormSection hint="What you need and where" index="02" title="The job">
         <ChoiceGroup
-          label="Service type"
-          name="plan-service"
-          onChange={(service) => updatePlan({ service })}
-          options={serviceOptions}
-          value={activePlan.service}
+          label="Machine location"
+          name="plan-location"
+          onChange={(location) => updatePlan({ location })}
+          options={PLAN_LOCATIONS}
+          value={activePlan.location}
         />
-      </div>
 
-      {/* Row 4 — where the visit happens. Remote DIY consultations do not
-          need one, so it relaxes to optional rather than disappearing. */}
-      <label className="contact-field">
-        <span className="contact-field-label">
-          {isRemote ? "Address (optional)" : "Service address"}
-        </span>
-        <input
-          autoComplete="street-address"
-          className="contact-input"
-          name="address"
-          onChange={update("address")}
-          placeholder="Street, city, postal code"
-          required={!isRemote}
-          type="text"
-          value={fields.address}
-        />
-        <span className="contact-field-hint">
-          {isRemote
-            ? "Not needed for a remote consultation — useful if you may book an on-site visit later."
-            : "Used to confirm you are inside the travel radius and to plan the visit."}
-        </span>
-      </label>
-
-      {/* Row 5 — the machine itself */}
-      <div className="grid gap-5 sm:grid-cols-[1.6fr_1fr]">
-        <label className="contact-field">
-          <span className="contact-field-label">Machine name &amp; model</span>
-          <input
-            className="contact-input"
-            name="machine"
-            onChange={update("machine")}
-            placeholder="e.g. La Marzocco Linea Mini"
-            type="text"
-            value={fields.machine}
+        {/* Full width rather than paired: the service labels are long enough
+            that a half column would stack them. Remounting on a location
+            change replays the enter animation. */}
+        <div className="plan-choice-swap" key={activePlan.location}>
+          <ChoiceGroup
+            label="Service type"
+            name="plan-service"
+            onChange={(service) => updatePlan({ service })}
+            options={serviceOptions}
+            value={activePlan.service}
           />
-        </label>
+        </div>
 
+        {/* Remote DIY consultations do not need an address, so it relaxes to
+            optional rather than disappearing. */}
         <label className="contact-field">
-          <span className="contact-field-label">Age</span>
+          <span className="contact-field-label">
+            {isRemote ? "Address (optional)" : "Service address"}
+          </span>
           <input
+            autoComplete="street-address"
             className="contact-input"
-            name="machineAge"
-            onChange={update("machineAge")}
-            placeholder="e.g. 4 years"
+            name="address"
+            onChange={update("address")}
+            placeholder="Street, city, postal code"
+            required={!isRemote}
             type="text"
-            value={fields.machineAge}
+            value={fields.address}
           />
+          <span className="contact-field-hint">
+            {isRemote
+              ? "Not needed for a remote consultation — useful if you may book an on-site visit later."
+              : "Used to confirm you are inside the travel radius and to plan the visit."}
+          </span>
         </label>
-      </div>
+      </FormSection>
 
-      {/* Row 6 — water, the usual culprit */}
-      <div className="grid gap-5 sm:grid-cols-2">
+      <FormSection hint="Optional, but it speeds things up" index="03" title="The machine">
+        <div className="field-row field-row-wide">
+          <label className="contact-field">
+            <span className="contact-field-label">Machine name &amp; model</span>
+            <input
+              className="contact-input"
+              name="machine"
+              onChange={update("machine")}
+              placeholder="e.g. La Marzocco Linea Mini"
+              type="text"
+              value={fields.machine}
+            />
+          </label>
+
+          <label className="contact-field">
+            <span className="contact-field-label">Age</span>
+            <input
+              className="contact-input"
+              name="machineAge"
+              onChange={update("machineAge")}
+              placeholder="e.g. 4 years"
+              type="text"
+              value={fields.machineAge}
+            />
+          </label>
+        </div>
+
+        {/* Water is the usual culprit — pills get their own row so they never
+            wrap against a neighbouring input. */}
         <ChoiceGroup
           label="Water source"
           name="water-source"
@@ -236,51 +256,55 @@ export default function ContactForm({ onPlanChange, plan }) {
             className="contact-input"
             name="waterFilter"
             onChange={update("waterFilter")}
-            placeholder="e.g., BWT Bestmax, Softener pouch, Reverse Osmosis, Tap water…"
+            placeholder="e.g. BWT Bestmax, softener pouch, reverse osmosis, tap water…"
             type="text"
             value={fields.waterFilter}
           />
         </label>
-      </div>
+      </FormSection>
 
-      {/* Row 7 — prefilled from the selection above, editable */}
-      <label className="contact-field">
-        <span className="contact-field-label">Subject</span>
-        <input
-          className="contact-input"
-          name="subject"
-          onChange={handleSubjectChange}
-          placeholder="Repair, diagnostics, a question…"
-          type="text"
-          value={subjectValue}
+      <FormSection hint="The part I actually diagnose from" index="04" title="The symptom">
+        {/* Prefilled from the selection above, editable. */}
+        <label className="contact-field">
+          <span className="contact-field-label">Subject</span>
+          <input
+            className="contact-input"
+            name="subject"
+            onChange={handleSubjectChange}
+            placeholder="Repair, diagnostics, a question…"
+            type="text"
+            value={subjectValue}
+          />
+        </label>
+
+        <label className="contact-field">
+          <span className="contact-field-label">Message</span>
+          <textarea
+            className="contact-input contact-textarea"
+            name="message"
+            onChange={update("message")}
+            placeholder="What's the machine doing — or not doing?"
+            required
+            rows={6}
+            value={fields.message}
+          />
+        </label>
+
+        <MediaUpload
+          items={media}
+          onItemsChange={setMedia}
+          onVideoLinkChange={setVideoLink}
+          videoLink={videoLink}
         />
-      </label>
+      </FormSection>
 
-      {/* Row 8 — evidence */}
-      <MediaUpload
-        items={media}
-        onItemsChange={setMedia}
-        onVideoLinkChange={setVideoLink}
-        videoLink={videoLink}
-      />
-
-      {/* Row 9 — the symptom */}
-      <label className="contact-field">
-        <span className="contact-field-label">Message</span>
-        <textarea
-          className="contact-input contact-textarea"
-          name="message"
-          onChange={update("message")}
-          placeholder="What's the machine doing — or not doing?"
-          required
-          rows={6}
-          value={fields.message}
-        />
-      </label>
-
-      <div className="flex flex-col gap-4 sm:flex-row-reverse sm:items-center sm:justify-between">
+      <div className="form-submit">
+        <p className="form-submit-note">
+          This opens your email client with everything filled in — nothing is
+          sent until you press send there.
+        </p>
         <Button
-          className="h-12 min-h-12 min-w-[200px] px-8 font-mono text-[12px] uppercase tracking-[0.18em]"
+          className="h-12 min-h-12 w-full px-8 font-mono text-[12px] uppercase tracking-[0.18em] sm:w-auto sm:min-w-[200px]"
           type="submit"
         >
           Send message →

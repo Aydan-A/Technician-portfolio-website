@@ -17,6 +17,7 @@ import heatExchangerImg from "../content/Skeleton/Subsections/heat_exchanger.png
 import dualBoilerImg from "../content/Skeleton/Subsections/dual_boiler.png";
 import pressurestatImg from "../content/Skeleton/Subsections/pressurestat.png";
 import pidImg from "../content/Skeleton/Subsections/PID.png";
+import microcontrollerImg from "../content/Skeleton/Subsections/micro_controller.jpeg";
 import e61Img from "../content/Skeleton/Subsections/E61.png";
 import saturatedImg from "../content/Skeleton/Subsections/saturated.png";
 
@@ -56,7 +57,11 @@ const COLUMNS = [
     header: "Temperature Control",
     iconSrc: temperatureIcon,
     iconFile: "temperature_icon.jpg",
-    options: ["Pressurestat", "PID"],
+    options: [
+      "Pressurestat",
+      "PID",
+      "Microcontroller-Based Temperature Controller",
+    ],
   },
   {
     key: "dispensing",
@@ -80,6 +85,7 @@ const OPTION_IMAGES = {
   "Dual-boiler": dualBoilerImg,
   Pressurestat: pressurestatImg,
   PID: pidImg,
+  "Microcontroller-Based Temperature Controller": microcontrollerImg,
   "E61 grouphead": e61Img,
   "Saturated Grouphead": saturatedImg,
 };
@@ -146,6 +152,12 @@ const OPTION_CONTENT = {
       "A PID (Proportional-Integral-Derivative) is a digital controller that constantly adjusts heating power to hold the boiler at a precise, user-set temperature, usually shown on a display. It reacts faster and holds temperature far more tightly than a thermostat, and typically allows you to make fine 1 degree increments or decrements to dial in your exact target temperature.",
     whenToChoose:
       "Choose a PID-controlled machine if you want to dial in and adjust exact brew temperatures for different roasts, care about shot-to-shot consistency, and don't mind paying a bit more for the added control.",
+  },
+  "Microcontroller-Based Temperature Controller": {
+    description:
+      "A microcontroller-based temperature controller uses a dedicated electronic sensor (such as an NTC thermistor or RTD) placed directly in the boiler or group head to monitor water temperature in real time. The internal circuit board (PCB) processes this data to control the heating element via a solid-state relay. Unlike a traditional pressurestat that infers temperature indirectly through boiler pressure, this system measures water temperature directly, offering tighter thermal stability and multi-position preset options (such as Low, Medium, or High switches) without requiring a full numerical display.",
+    whenToChoose:
+      "Choose a microcontroller-controlled machine if you want the precision and direct feedback of electronic temperature sensing, prefer simplified preset options over managing exact degree-by-degree settings, and desire modern temperature stability without the visual clutter of a full LED PID screen on your machine's front panel.",
   },
   "E61 grouphead": {
     description:

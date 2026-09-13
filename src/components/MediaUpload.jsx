@@ -197,7 +197,20 @@ export default function MediaUpload({
         tabIndex={0}
       >
         <span aria-hidden="true" className="media-drop-mark">
-          +
+          <svg
+            fill="none"
+            height="22"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.6"
+            viewBox="0 0 24 24"
+            width="22"
+          >
+            <path d="M12 16V4" />
+            <path d="M7.5 8.5 12 4l4.5 4.5" />
+            <path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15" />
+          </svg>
         </span>
         <span className="media-drop-title">
           Drop photos or a video clip here

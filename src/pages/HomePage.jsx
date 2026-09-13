@@ -103,10 +103,6 @@ export default function HomePage() {
           <div className="flex flex-[70] flex-col justify-center rounded-none bg-[#20242B] px-5 pb-14 pt-14 sm:px-6 sm:pt-16 lg:px-10 lg:pt-20">
             <div className="mx-auto grid w-full max-w-[88rem] gap-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-14">
               <div className="relative flex flex-col justify-center">
-                <p className="mb-7 font-mono text-[11px] font-bold uppercase tracking-[0.32em] text-[#E09B2D]">
-                  No. 01 — Technician Portfolio
-                </p>
-
                 <h1 className="font-display text-[3.4rem] uppercase leading-[0.92] tracking-tight text-slate-100 sm:text-[4.4rem] md:text-[5rem] lg:text-[4.6rem] xl:text-[5.4rem]">
                   Coffee Machine
                   <br />

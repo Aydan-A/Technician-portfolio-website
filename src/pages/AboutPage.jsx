@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import SectionLabel from "../components/SectionLabel.jsx";
 import {
   aboutBackground,
   aboutHeadline,
   aboutStats,
   timeline,
 } from "../data/timeline.js";
+
+// Temporarily hides the career archive (timeline rail + nodes) and its
+// "Stops · Newest first" counter strip. Flip back to true to re-enable —
+// the data in ../data/timeline.js and the CSS are intentionally untouched.
+const SHOW_CAREER_ARCHIVE = false;
 
 function ImageSlot({ image }) {
   if (image.src) {
@@ -89,6 +93,8 @@ export default function AboutPage() {
   const [activeId, setActiveId] = useState(timeline[0]?.id ?? null);
 
   useEffect(() => {
+    if (!SHOW_CAREER_ARCHIVE) return;
+
     const track = trackRef.current;
     if (!track) return;
 
@@ -146,10 +152,8 @@ export default function AboutPage() {
 
   return (
     <main className="bg-page text-ink">
-      <section className="about-inner px-5 pt-14 sm:px-6 lg:pt-20">
-        <SectionLabel>04 — About</SectionLabel>
-
-        <h1 className="mt-5 font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5rem] xl:text-[5.75rem]">
+      <section className="about-inner px-5 pb-24 pt-14 sm:px-6 lg:pt-20">
+        <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5rem] xl:text-[5.75rem]">
           Work
           <br />
           experiences.
@@ -178,82 +182,88 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="mt-10 flex items-center gap-4 border-t border-line pt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-graphite">
-          <span>
-            {String(timeline.length).padStart(2, "0")} Stops · Newest first
-          </span>
-          <span className="h-px flex-1 bg-line" />
-          <span className="hidden sm:inline">
-            {String(visibleIds.size).padStart(2, "0")} of{" "}
-            {String(timeline.length).padStart(2, "0")} seen
-          </span>
-        </div>
-      </section>
-
-      <section className="about-archive about-inner px-5 pb-24 pt-12 sm:px-6 lg:pt-16">
-        <div className="about-archive-bg" aria-hidden="true">
-          <span className="about-archive-arc about-archive-arc--1" />
-          <span className="about-archive-arc about-archive-arc--2" />
-          <span className="about-archive-grid" />
-        </div>
-
-        <div className="about-archive-grid-layout">
-          <aside className="about-rail">
-            <div className="about-rail-inner">
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
-                Career path
-              </p>
-              <ol className="about-rail-list mt-4">
-                {timeline.map((milestone) => {
-                  const isActive = milestone.id === activeId;
-                  return (
-                    <li key={milestone.id}>
-                      <button
-                        className={`about-rail-item ${isActive ? "is-active" : ""}`}
-                        onClick={() => handleRailClick(milestone.id)}
-                        type="button"
-                      >
-                        <span className="about-rail-year">{milestone.year}</span>
-                        <span className="about-rail-title">
-                          {milestone.title}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ol>
-
-              <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
-                {aboutHeadline.stat}
-              </p>
-              <p className="mt-1 font-sans text-sm leading-6 text-ink/75">
-                {aboutHeadline.label}
-              </p>
-            </div>
-          </aside>
-
-          <div className="timeline-track" ref={trackRef}>
-            <div className="timeline-spine" aria-hidden="true">
-              <div
-                className="timeline-spine-fill"
-                style={{ height: `${fillPercent}%` }}
-              />
-            </div>
-
-            <ol className="relative flex flex-col gap-10 sm:gap-12 md:gap-16">
-              {timeline.map((milestone, index) => (
-                <li data-node-id={milestone.id} key={milestone.id}>
-                  <TimelineNode
-                    index={index}
-                    isVisible={visibleIds.has(milestone.id)}
-                    milestone={milestone}
-                  />
-                </li>
-              ))}
-            </ol>
+        {SHOW_CAREER_ARCHIVE ? (
+          <div className="mt-10 flex items-center gap-4 border-t border-line pt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-graphite">
+            <span>
+              {String(timeline.length).padStart(2, "0")} Stops · Newest first
+            </span>
+            <span className="h-px flex-1 bg-line" />
+            <span className="hidden sm:inline">
+              {String(visibleIds.size).padStart(2, "0")} of{" "}
+              {String(timeline.length).padStart(2, "0")} seen
+            </span>
           </div>
-        </div>
+        ) : null}
       </section>
+
+      {SHOW_CAREER_ARCHIVE ? (
+        <section className="about-archive about-inner px-5 pb-24 pt-12 sm:px-6 lg:pt-16">
+          <div className="about-archive-bg" aria-hidden="true">
+            <span className="about-archive-arc about-archive-arc--1" />
+            <span className="about-archive-arc about-archive-arc--2" />
+            <span className="about-archive-grid" />
+          </div>
+
+          <div className="about-archive-grid-layout">
+            <aside className="about-rail">
+              <div className="about-rail-inner">
+                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+                  Career path
+                </p>
+                <ol className="about-rail-list mt-4">
+                  {timeline.map((milestone) => {
+                    const isActive = milestone.id === activeId;
+                    return (
+                      <li key={milestone.id}>
+                        <button
+                          className={`about-rail-item ${isActive ? "is-active" : ""}`}
+                          onClick={() => handleRailClick(milestone.id)}
+                          type="button"
+                        >
+                          <span className="about-rail-year">
+                            {milestone.year}
+                          </span>
+                          <span className="about-rail-title">
+                            {milestone.title}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+
+                <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+                  {aboutHeadline.stat}
+                </p>
+                <p className="mt-1 font-sans text-sm leading-6 text-ink/75">
+                  {aboutHeadline.label}
+                </p>
+              </div>
+            </aside>
+
+            <div className="timeline-track" ref={trackRef}>
+              <div className="timeline-spine" aria-hidden="true">
+                <div
+                  className="timeline-spine-fill"
+                  style={{ height: `${fillPercent}%` }}
+                />
+              </div>
+
+              <ol className="relative flex flex-col gap-10 sm:gap-12 md:gap-16">
+                {timeline.map((milestone, index) => (
+                  <li data-node-id={milestone.id} key={milestone.id}>
+                    <TimelineNode
+                      index={index}
+                      isVisible={visibleIds.has(milestone.id)}
+                      milestone={milestone}
+                    />
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
