@@ -11,7 +11,6 @@ const focusTopics = ["Diagnostics", "Calibration", "Repairs", "Bench Notes"];
 
 const contactLinks = [
   { href: "mailto:vaqif.aliyev.96@gmail.com", label: "Email" },
-  { href: "https://www.linkedin.com/in/vaqif-aliyev/", label: "LinkedIn" },
 ];
 
 function ColumnHeading({ children }) {

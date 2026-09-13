@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import SectionLabel from "../components/SectionLabel.jsx";
-import { aboutHeadline, aboutStats, timeline } from "../data/timeline.js";
+import {
+  aboutBackground,
+  aboutHeadline,
+  aboutStats,
+  timeline,
+} from "../data/timeline.js";
 
 function ImageSlot({ image }) {
   if (image.src) {
@@ -144,33 +149,33 @@ export default function AboutPage() {
       <section className="about-inner px-5 pt-14 sm:px-6 lg:pt-20">
         <SectionLabel>04 — About</SectionLabel>
 
-        <div className="mt-5 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-end lg:gap-12">
-          <div>
-            <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5rem] xl:text-[5.75rem]">
-              Work
-              <br />
-              experiences.
-            </h1>
-            <p className="mt-6 max-w-xl font-sans text-base leading-7 text-ink/80 sm:text-lg sm:leading-8">
-              From offshore drilling to the coffee bench. The discipline
-              travelled with me — the same instinct for reading a system,
-              isolating the cause, and writing down what changed.
-            </p>
-          </div>
+        <h1 className="mt-5 font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5rem] xl:text-[5.75rem]">
+          Work
+          <br />
+          experiences.
+        </h1>
 
-          <div className="lg:pb-2">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
-              At a glance
-            </p>
-            <ul className="about-stats mt-3">
-              {aboutStats.map((stat) => (
-                <li className="about-stats-cell" key={stat.label}>
-                  <span className="about-stats-value">{stat.value}</span>
-                  <span className="about-stats-label">{stat.label}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="mt-9">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+            At a glance
+          </p>
+          <ul className="about-stats about-stats--kpi mt-3">
+            {aboutStats.map((stat) => (
+              <li className="about-stats-cell" key={stat.label}>
+                <span className="about-stats-value">{stat.value}</span>
+                <span className="about-stats-label">{stat.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-10">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+            Background
+          </p>
+          <p className="about-bio mt-3 font-sans text-base leading-7 text-ink/80 sm:text-[17px] sm:leading-8">
+            {aboutBackground}
+          </p>
         </div>
 
         <div className="mt-10 flex items-center gap-4 border-t border-line pt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-graphite">

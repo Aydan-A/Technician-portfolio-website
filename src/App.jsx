@@ -7,6 +7,8 @@ import HomePage from "./pages/HomePage.jsx";
 import JournalArticlePage from "./pages/JournalArticlePage.jsx";
 import JournalPage from "./pages/JournalPage.jsx";
 import ProjectsPage from "./pages/ProjectsPage.jsx";
+import ServicesPage from "./pages/ServicesPage.jsx";
+import SkeletonPage from "./pages/SkeletonPage.jsx";
 
 const themes = ["dark", "light"];
 
@@ -39,9 +41,11 @@ export default function App() {
           <Route element={<HomePage />} index />
           <Route element={<AboutPage />} path="about" />
           <Route element={<ProjectsPage />} path="projects" />
+          <Route element={<ServicesPage />} path="services" />
           <Route element={<JournalPage />} path="journal" />
           <Route element={<JournalArticlePage />} path="journal/:slug" />
           <Route element={<ContactPage />} path="contact" />
+          <Route element={<SkeletonPage />} path="skeleton" />
         </Route>
       </Routes>
     </BrowserRouter>

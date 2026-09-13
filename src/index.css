@@ -159,6 +159,16 @@ body::before {
   mix-blend-mode: screen;
 }
 
+/* The hero field is now a fixed dark colour block in BOTH themes, so the
+ * schematic must stay inverted even when the site is in light mode —
+ * otherwise the black ink lines vanish against #20242B.
+ */
+.hero-machine-img--on-dark,
+[data-theme='light'] .hero-machine-img--on-dark {
+  filter: invert(1) brightness(0.95) contrast(1.05);
+  mix-blend-mode: screen;
+}
+
 /* Soft radial halo behind the schematic — gives the illustration weight
  * without becoming a visible card or border.
  */
@@ -238,6 +248,27 @@ body::before {
   width: 1px;
   height: 7px;
   transform: translateX(-50%);
+}
+
+/* The drafting arcs only ever sit inside the hero's dark #20242B field, so
+ * they must stroke light in both themes. Without this, light mode inherits
+ * near-black ink at 0.07–0.16 alpha and the arcs disappear entirely.
+ */
+[data-theme='light'] .hero-machine-arc {
+  border-color: rgb(243 239 232 / 0.16);
+}
+
+[data-theme='light'] .hero-machine-arc--2 {
+  border-color: rgb(243 239 232 / 0.12);
+}
+
+[data-theme='light'] .hero-machine-arc--3 {
+  border-color: rgb(243 239 232 / 0.09);
+}
+
+[data-theme='light'] .hero-machine-arc--1::before,
+[data-theme='light'] .hero-machine-arc--1::after {
+  background: rgb(243 239 232 / 0.35);
 }
 
 .noise-layer {
@@ -458,7 +489,7 @@ body::before {
   margin-right: auto;
 }
 
-/* At-a-glance stats grid (header right column) */
+/* At-a-glance stats grid */
 .about-stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -466,6 +497,17 @@ body::before {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+/* Full-width KPI row across the top of the About header */
+.about-stats--kpi {
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .about-stats--kpi {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .about-stats-cell {
@@ -494,10 +536,11 @@ body::before {
 
 .about-stats-value {
   font-family: 'Fraunces', 'Cormorant Garamond', serif;
-  font-size: clamp(1.65rem, 1.3rem + 0.6vw, 2rem);
-  line-height: 1;
+  font-size: clamp(1.35rem, 1.05rem + 0.5vw, 1.75rem);
+  line-height: 1.05;
   color: rgb(var(--color-ink));
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .about-stats-label {
@@ -509,6 +552,12 @@ body::before {
   color: rgb(var(--color-bronze));
   word-break: break-word;
   hyphens: auto;
+}
+
+/* Single narrative paragraph under the KPI row */
+.about-bio {
+  max-width: 68ch;
+  text-wrap: pretty;
 }
 
 /* Archive section: sticky rail + center timeline + faint background */
@@ -1639,14 +1688,19 @@ body::before {
 .dispatch-article-meta-strip p {
   min-height: 6.25rem;
   margin: 0;
-  padding: 1.35rem 1.5rem 1.4rem 0;
+  padding: 1.35rem 1.5rem 1.4rem 1.5rem;
   border-right: 1px solid rgb(var(--color-line));
   font-family: 'DM Mono', ui-monospace, monospace;
   font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
+  word-spacing: 0.25em;
   text-transform: uppercase;
   color: rgb(var(--color-ink));
+}
+
+.dispatch-article-meta-strip p:first-child {
+  padding-left: 0;
 }
 
 .dispatch-article-meta-strip p:last-child {
@@ -1655,9 +1709,10 @@ body::before {
 
 .dispatch-article-meta-strip span {
   display: block;
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.9rem;
   font-size: 12px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
+  word-spacing: 0.25em;
   color: rgb(var(--color-bronze));
 }
 
@@ -2010,6 +2065,10 @@ body::before {
     border-right: 0;
   }
 
+  .dispatch-article-meta-strip p:nth-child(2n + 1) {
+    padding-left: 0;
+  }
+
   .dispatch-article-meta-strip p:nth-child(n + 3) {
     border-top: 1px solid rgb(var(--color-line));
   }
@@ -2175,6 +2234,365 @@ body::before {
   resize: vertical;
 }
 
+/* Small helper line under an input. */
+.contact-field-hint {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgb(var(--color-graphite));
+}
+
+/* ---------- Contact — plan selector pills ---------- */
+
+.plan-option {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 999px;
+  background: rgb(var(--color-shell));
+  padding: 0.6rem 1.1rem;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--color-graphite));
+  transition: color 0.2s ease, background-color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.plan-option:hover {
+  border-color: rgb(var(--color-ink) / 0.4);
+  color: rgb(var(--color-ink));
+}
+
+.plan-option:focus-within {
+  border-color: rgb(var(--color-ink));
+  box-shadow: 0 0 0 3px rgb(var(--color-ink) / 0.12);
+}
+
+.plan-option.is-active {
+  border-color: rgb(var(--button-bg));
+  background: rgb(var(--button-bg));
+  color: rgb(var(--button-fg));
+}
+
+/* Conditional service pills replay this when the location toggles. */
+.plan-choice-swap {
+  animation: plan-choice-enter 0.28s ease-out both;
+}
+
+@keyframes plan-choice-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-choice-swap {
+    animation: none;
+  }
+}
+
+/* ---------- Contact — media upload ---------- */
+
+.media-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 2rem 1.25rem;
+  text-align: center;
+  cursor: pointer;
+  border: 1px dashed rgb(var(--color-rule));
+  border-radius: 0.5rem;
+  background: rgb(var(--color-shell));
+  transition: border-color 0.2s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.media-drop:hover {
+  border-color: rgb(var(--color-ink) / 0.4);
+}
+
+.media-drop:focus-visible {
+  outline: none;
+  border-color: rgb(var(--color-ink));
+  box-shadow: 0 0 0 3px rgb(var(--color-ink) / 0.12);
+}
+
+.media-drop.is-dragging {
+  border-style: solid;
+  border-color: rgb(var(--color-bronze));
+  background: rgb(var(--color-bronze) / 0.07);
+}
+
+.media-drop-mark {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: rgb(var(--color-bronze));
+}
+
+.media-drop-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: rgb(var(--color-ink));
+}
+
+.media-drop-action {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: rgb(var(--color-graphite));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.media-drop-rules {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+}
+
+.media-alert {
+  border: 1px solid rgb(var(--color-bronze) / 0.55);
+  border-left-width: 3px;
+  border-radius: 0.5rem;
+  background: rgb(var(--color-bronze) / 0.08);
+  padding: 0.875rem 1rem;
+}
+
+.media-alert-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: rgb(var(--color-ink));
+}
+
+.media-alert-list {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgb(var(--color-graphite));
+}
+
+.media-alert-name {
+  color: rgb(var(--color-ink));
+  overflow-wrap: anywhere;
+}
+
+.media-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+}
+
+.media-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 0.5rem;
+  background: rgb(var(--color-shell));
+}
+
+.media-thumb {
+  display: block;
+  width: 100%;
+  height: 6rem;
+  object-fit: cover;
+  background: rgb(var(--color-ink) / 0.06);
+}
+
+.media-remove {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--color-page) / 0.35);
+  background: rgb(0 0 0 / 0.62);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+
+.media-remove:hover {
+  background: rgb(0 0 0 / 0.85);
+}
+
+.media-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.5rem 0.6rem 0.6rem;
+}
+
+.media-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  line-height: 1.35;
+  color: rgb(var(--color-ink));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.media-size {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+}
+
+.media-link-toggle {
+  align-self: flex-start;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--color-bronze));
+  transition: opacity 0.2s ease;
+}
+
+.media-link-toggle:hover {
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-drop,
+  .media-remove,
+  .media-link-toggle {
+    transition: none;
+  }
+}
+
+/* ---------- Contact — diagnostic filming guide ---------- */
+
+.filming-card {
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 0.75rem;
+  background: rgb(var(--color-shell));
+  padding: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .filming-card { padding: 1.5rem; }
+}
+
+[data-theme='dark'] .filming-card {
+  background: rgb(var(--color-surface) / 0.6);
+}
+
+.filming-frame {
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 0.5rem;
+  background: rgb(var(--color-ink) / 0.04);
+  padding: 0.5rem;
+}
+
+.filming-title {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgb(var(--color-bronze));
+}
+
+.filming-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.filming-step {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.filming-step-index {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.6;
+  color: rgb(var(--color-bronze));
+  padding-top: 0.1rem;
+}
+
+.filming-step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-left: 1px solid rgb(var(--color-line));
+  padding-left: 0.9rem;
+}
+
+.filming-step-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgb(var(--color-ink));
+}
+
+.filming-step-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgb(var(--color-graphite));
+}
+
+.filming-tip {
+  display: block;
+  border-top: 1px solid rgb(var(--color-line));
+  padding-top: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgb(var(--color-graphite));
+}
+
+.filming-tip-label {
+  display: inline-flex;
+  margin-right: 0.5rem;
+  vertical-align: 1px;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--color-bronze));
+  border: 1px solid rgb(var(--color-bronze) / 0.45);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .timeline-node {
     opacity: 1;
@@ -2235,4 +2653,920 @@ body::before {
   width: 1.75rem;
   height: 1px;
   background: rgb(var(--color-bronze));
+}
+
+/* ---------- Floating "See the skeleton" badge ----------
+ * Homepage-only tool marker, bottom-right. Mono/label type, bronze accent,
+ * 1px hairline base ring + a slowly rotating dashed ring. No shadow/gradient.
+ * Reads as an interactive instrument rather than decoration.
+ */
+.skeleton-badge {
+  /* Fixed to the viewport so it sits on the machine's upper-right corner and
+   * does NOT scroll away with the page. clamp() keeps it clear of the nav on
+   * shorter/narrower viewports while tracking the hero art on desktop.
+   * Solid bronze coin so it reads instantly against the light hero. */
+  position: fixed;
+  top: clamp(6rem, 33vh, 20rem);
+  right: clamp(1rem, 12vw, 15rem);
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(248 244 237 / 0.35);
+  background: rgb(var(--color-bronze));
+  color: rgb(248 244 237);
+  text-align: center;
+  isolation: isolate;
+  box-shadow: 0 6px 22px rgb(var(--color-bronze) / 0.45);
+  /* pop-in on load (opacity only, so it never fights the hover transform) */
+  animation: skeleton-badge-appear 0.5s ease 0.2s both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+/* Attention "ping" — an expanding bronze ring that repeats on load */
+.skeleton-badge::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid rgb(var(--color-bronze));
+  animation: skeleton-badge-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+.skeleton-badge:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgb(var(--color-bronze) / 0.6);
+  filter: brightness(1.06);
+}
+
+.skeleton-badge:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(var(--color-bronze) / 0.55);
+}
+
+/* Rotating dashed ring — the idle animation (light on the bronze fill) */
+.skeleton-badge-ring {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1.5px dashed rgb(248 244 237 / 0.75);
+  animation: skeleton-badge-spin 16s linear infinite;
+  pointer-events: none;
+}
+
+.skeleton-badge:hover .skeleton-badge-ring {
+  border-color: rgb(248 244 237 / 0.95);
+}
+
+.skeleton-badge-label {
+  position: relative;
+  z-index: 1;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 12.5px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  /* compensate for trailing letter-spacing so text reads optically centered */
+  text-indent: 0.16em;
+}
+
+@keyframes skeleton-badge-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes skeleton-badge-ping {
+  0% { transform: scale(1); opacity: 0.65; }
+  75%, 100% { transform: scale(1.55); opacity: 0; }
+}
+
+@keyframes skeleton-badge-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-badge-ring,
+  .skeleton-badge::after,
+  .skeleton-badge { animation: none; }
+}
+
+/* ---------- Skeleton page headline entrance ----------
+ * Plays once when the /skeleton route mounts: a gentle float-up + zoom-in so
+ * the section feels alive on arrival. Everything else stays static. */
+.skeleton-headline {
+  animation: skeleton-headline-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes skeleton-headline-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-headline {
+    animation: none;
+  }
+}
+
+/* ---------- Skeleton intro typewriter ----------
+ * The visible typed text is overlaid on a hidden full-length copy that holds
+ * the final layout, so the paragraph reserves its space and never reflows as
+ * characters appear. */
+.typewriter {
+  position: relative;
+}
+
+.typewriter-sizer {
+  visibility: hidden;
+}
+
+.typewriter-typed {
+  position: absolute;
+  inset: 0;
+}
+
+/* Blinking caret trailing the last typed character */
+.typewriter-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: rgb(var(--color-bronze));
+  animation: typewriter-blink 0.9s steps(1) infinite;
+}
+
+@keyframes typewriter-blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret {
+    display: none;
+  }
+}
+
+/* ---------- Skeleton diagram table ----------
+ * 5-column, 3-row diagram of a semi-automatic machine.
+ * Row 1: column headers · Row 2: icon drop-in slots · Row 3: options.
+ * All colors/type reuse existing tokens so it tracks light + dark.
+ */
+.skeleton-diagram {
+  width: 100%;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Keeps the 5 columns intact on narrow screens via horizontal scroll
+ * rather than crushing them. */
+.skeleton-diagram-scroll {
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(168px, 1fr));
+  min-width: 840px;
+  border-top: 1px solid rgb(var(--color-line));
+  border-left: 1px solid rgb(var(--color-line));
+  border-radius: 0.85rem;
+  overflow: hidden;
+  background: rgb(var(--color-shell));
+}
+
+.skeleton-cell {
+  border-right: 1px solid rgb(var(--color-line));
+  border-bottom: 1px solid rgb(var(--color-line));
+  padding: 1rem 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Column highlight driven by the shared active-section state (banner hotspot
+ * or a click in the column). Active column gets the accent; others dim. */
+.skeleton-cell.is-col-dim {
+  opacity: 0.4;
+}
+
+.skeleton-cell.is-col-active {
+  background: rgb(var(--color-bronze) / 0.06);
+}
+
+.skeleton-col-header.is-col-active {
+  color: rgb(var(--color-bronze));
+  background: rgb(var(--color-bronze) / 0.14);
+}
+
+/* Row 1 — headers: site label typography (mono, tracked, uppercase) */
+.skeleton-col-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--color-ink));
+  background: rgb(var(--color-surface));
+}
+
+.skeleton-col-num {
+  margin-right: 0.35em;
+  color: rgb(var(--color-graphite));
+}
+
+.skeleton-col-header.is-col-active .skeleton-col-num {
+  color: inherit;
+}
+
+/* Row 2 — icon drop-in slots */
+.skeleton-icon-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Filled light chip — icons are ink-on-paper sketches whose background is
+ * ~var(--color-panel); keeping the chip that same constant light tone in both
+ * themes blends the icon's baked background and any contain-letterbox margins,
+ * and keeps the black linework legible on the dark page (same treatment the
+ * hero machine illustration and image panels use). */
+.skeleton-icon-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  padding: 4px;
+  border: 1px solid rgb(var(--color-rule));
+  border-radius: 0.45rem;
+  background: rgb(var(--color-panel));
+  overflow: hidden;
+}
+
+.skeleton-icon-slot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Row 3 — options + eye buttons */
+.skeleton-options-cell {
+  vertical-align: top;
+}
+
+.skeleton-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.skeleton-option-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+
+.skeleton-option {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 0.5rem;
+  background: rgb(var(--color-page));
+  color: rgb(var(--color-ink));
+  padding: 0.5rem 0.65rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.skeleton-option:hover {
+  border-color: rgb(var(--color-ink) / 0.45);
+}
+
+.skeleton-option:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(var(--color-bronze) / 0.5);
+}
+
+.skeleton-option.is-selected {
+  border-color: rgb(var(--color-bronze));
+  background: rgb(var(--color-bronze) / 0.1);
+  color: rgb(var(--color-ink));
+  font-weight: 600;
+}
+
+.skeleton-option.is-incompatible {
+  opacity: 0.35;
+  text-decoration: line-through;
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+.skeleton-option.is-incompatible:hover {
+  border-color: rgb(var(--color-line));
+}
+
+.skeleton-eye {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 0.5rem;
+  background: rgb(var(--color-shell));
+  color: rgb(var(--color-graphite));
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.skeleton-eye:hover {
+  color: rgb(var(--color-bronze));
+  border-color: rgb(var(--color-bronze) / 0.6);
+}
+
+.skeleton-eye:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(var(--color-bronze) / 0.5);
+}
+
+/* ---------- Skeleton option modal ---------- */
+.skeleton-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgb(0 0 0 / 0.6);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: skeleton-modal-fade 0.18s ease;
+}
+
+.skeleton-modal {
+  position: relative;
+  width: 100%;
+  max-width: 56rem;
+  border: 1px solid rgb(var(--color-rule));
+  border-radius: 1rem;
+  background: rgb(var(--color-shell));
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+}
+
+/* Two columns: text on the left, picture placeholder on the right.
+ * The vertical rule between them is the grid gap painted by the figure's
+ * left border; the left column's two blocks are split by a horizontal rule. */
+.skeleton-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+.skeleton-modal-text {
+  display: flex;
+  flex-direction: column;
+  padding: 2.25rem 2rem 2rem;
+}
+
+.skeleton-modal-head {
+  margin-bottom: 1.25rem;
+}
+
+.skeleton-modal-eyebrow {
+  margin: 0 0 0.4rem;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--color-bronze));
+}
+
+.skeleton-modal-title {
+  margin: 0;
+  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: rgb(var(--color-ink));
+}
+
+.skeleton-modal-block {
+  padding: 1.1rem 0;
+}
+
+.skeleton-modal-block:last-child {
+  padding-bottom: 0;
+}
+
+.skeleton-modal-block--rule {
+  border-top: 1px solid rgb(var(--color-rule));
+}
+
+.skeleton-modal-subhead {
+  margin: 0 0 0.6rem;
+  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: rgb(var(--color-ink));
+}
+
+.skeleton-modal-num {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.8em;
+  font-weight: 700;
+  margin-right: 0.15rem;
+  color: rgb(var(--color-graphite));
+}
+
+.skeleton-modal-body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgb(var(--color-graphite));
+}
+
+/* Right column — placeholder swatch for the component photo (added later). */
+.skeleton-modal-figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22rem;
+  padding: 1.5rem;
+  border-left: 1px solid rgb(var(--color-rule));
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgb(var(--color-ink) / 0.03) 0,
+      rgb(var(--color-ink) / 0.03) 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    rgb(var(--color-ink) / 0.02);
+}
+
+/* When a real illustration is present, drop the placeholder hatch for a clean
+ * neutral backdrop the artwork sits on. */
+.skeleton-modal-figure:has(.skeleton-modal-figure-img) {
+  background: rgb(var(--color-ink) / 0.02);
+}
+
+.skeleton-modal-figure-img {
+  display: block;
+  max-width: 100%;
+  max-height: 22rem;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.skeleton-modal-figure-label {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgb(var(--color-graphite) / 0.7);
+}
+
+/* Stack the columns on narrow screens; rule moves to the top of the figure. */
+@media (max-width: 640px) {
+  .skeleton-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skeleton-modal-figure {
+    order: -1;
+    min-height: 12rem;
+    border-left: none;
+    border-bottom: 1px solid rgb(var(--color-rule));
+  }
+}
+
+.skeleton-modal-close {
+  position: absolute;
+  z-index: 1;
+  top: 0.85rem;
+  right: 0.85rem;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 999px;
+  background: rgb(var(--color-shell));
+  color: rgb(var(--color-graphite));
+  font-size: 18px;
+  line-height: 1;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.skeleton-modal-close:hover {
+  color: rgb(var(--color-ink));
+  border-color: rgb(var(--color-ink) / 0.4);
+}
+
+@keyframes skeleton-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-modal-overlay { animation: none; }
+}
+
+/* ---------- Skeleton banner illustration + hotspots ----------
+ * Full-width hand-drawn schematic above the diagram table. Numbered circles
+ * carry invisible hotspots wired to the same active-section state as the
+ * table; the active one gets a soft bronze glow.
+ */
+.skeleton-figure {
+  margin: 0 0 1.75rem;
+}
+
+.skeleton-figure-inner {
+  position: relative;
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  /* Query container so the hotspot rings can size/center themselves in cqw
+   * (% of the banner width) and scale with the responsive illustration. */
+  container-type: inline-size;
+  /* Both editions share this ratio; set it on the box so the two
+   * absolutely-stacked images don't collapse its height. */
+  aspect-ratio: 2816 / 1504;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 0.85rem;
+  /* Theme-adaptive backing so there's no cream flash behind the dark
+   * edition while it decodes. */
+  background: rgb(var(--color-surface));
+  overflow: hidden;
+}
+
+/* Light + dark editions are both mounted (so both preload); the theme
+ * state toggles which one paints. No network fetch on toggle → no flash. */
+.skeleton-figure-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.skeleton-figure-img.is-visible {
+  display: block;
+}
+
+.skeleton-figure-img.is-hidden {
+  display: none;
+}
+
+/* Invisible clickable hotspot. Centered ON the drawn number (click coordinate
+ * + the same --ring-dx/--ring-dy nudge the ring uses) and sized to the ring
+ * (plus a small margin) so the whole numbered circle is a reliable click/tap
+ * target. Sizes are in cqw so they scale with the responsive banner. */
+.skeleton-hotspot {
+  position: absolute;
+  width: calc(var(--ring-d, 6cqw) + 2cqw);
+  height: calc(var(--ring-d, 6cqw) + 2cqw);
+  margin: 0;
+  padding: 0;
+  transform: translate(
+    calc(-50% + var(--ring-dx, 0px)),
+    calc(-50% + var(--ring-dy, 0px))
+  );
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  z-index: 2;
+}
+
+.skeleton-hotspot:focus-visible {
+  outline: 2px solid rgb(var(--color-bronze));
+  outline-offset: 2px;
+}
+
+/* Stationary ring marking the active circle, centered within the hotspot
+ * (which is already positioned on the number). --ring-d sets the diameter.
+ * Vibrant red for contrast on both the paper (light) and black (dark)
+ * editions. No rotation — a spin animation would override the centering. */
+.skeleton-hotspot.is-active::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--ring-d, 78px);
+  height: var(--ring-d, 78px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 5px solid #ff2318;
+  pointer-events: none;
+}
+
+/* ---------- Segmented toggle (Services tracks) ---------- */
+
+.segmented {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--segment-count, 2), minmax(0, 1fr));
+  gap: 0;
+  width: 100%;
+  max-width: 32rem;
+  padding: 0.35rem;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 1.5rem;
+  background: rgb(var(--color-shell));
+}
+
+.segmented-thumb {
+  position: absolute;
+  top: 0.35rem;
+  bottom: 0.35rem;
+  left: 0.35rem;
+  width: calc((100% - 0.7rem) / var(--segment-count, 2));
+  border-radius: 1.25rem;
+  background: rgb(var(--color-ink));
+  transform: translateX(calc(var(--segment-index, 0) * 100%));
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.segmented-option {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.9rem;
+  appearance: none;
+  cursor: pointer;
+  border: 0;
+  border-radius: 1.25rem;
+  background: transparent;
+  padding: 1.35rem 1.25rem 1.5rem;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--color-graphite));
+  transition: color 0.2s ease;
+}
+
+.segmented-option:hover {
+  color: rgb(var(--color-ink));
+}
+
+.segmented-option:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(var(--color-bronze));
+}
+
+.segmented-option.is-active {
+  color: rgb(var(--color-page));
+}
+
+/* The icons are alpha masks, so painting the box with currentColor lets each
+ * one inherit its tab's colour — dark on the active pill, graphite when idle —
+ * instead of shipping a light and a dark copy of every image. */
+/* Fixed-height slot with the icons bottom-aligned, so the differently sized
+ * machines stand on one common baseline instead of floating at their own
+ * centres. */
+.segmented-icon-slot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 74px;
+}
+
+.segmented-icon {
+  display: block;
+  width: var(--icon-w);
+  height: var(--icon-h);
+  background-color: currentColor;
+  -webkit-mask-image: var(--icon);
+  mask-image: var(--icon);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segmented-thumb {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .segmented {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .segmented-thumb {
+    width: calc(100% - 0.7rem);
+    height: calc((100% - 0.7rem) / var(--segment-count, 2));
+    bottom: auto;
+    transform: translateY(calc(var(--segment-index, 0) * 100%));
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* ---------- Services: brand pills, cards, scope grid ---------- */
+
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 999px;
+  background: rgb(var(--color-shell));
+  color: rgb(var(--color-ink));
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 1.25rem;
+  background: rgb(var(--color-shell));
+  min-width: 0;
+}
+
+.service-card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgb(var(--color-ink));
+}
+
+.service-points {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.service-points li {
+  position: relative;
+  padding-left: 1.35rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgb(var(--color-ink) / 0.85);
+}
+
+.service-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(var(--color-bronze));
+}
+
+.scope-cell {
+  padding: 1.5rem;
+  background: rgb(var(--color-shell));
+}
+
+/* ---------- Brand logo marquee (Services) ---------- */
+
+.logo-marquee {
+  position: relative;
+  overflow: hidden;
+  /* Fade both edges so logos enter and leave instead of being clipped. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.logo-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: max-content;
+  animation: logo-marquee-scroll var(--marquee-duration, 40s) linear infinite;
+}
+
+@keyframes logo-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Half the track is one full copy of the list. */
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
+
+.logo-marquee:hover .logo-marquee-track,
+.logo-marquee:focus-within .logo-marquee-track {
+  animation-play-state: paused;
+}
+
+.logo-chip {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 168px;
+  height: 84px;
+  padding: 1rem 1.5rem;
+  border: 1px solid rgb(var(--color-line));
+  border-radius: 0.9rem;
+  /* White tile in both themes: the logos are a mix of transparent, white-
+   * backed and full-bleed colour art, so a consistent light chip is the only
+   * treatment that renders every one of them without artefacts. */
+  background: #fff;
+}
+
+/* Per-logo box, set from the data so every mark lands at the same optical
+ * weight regardless of whether it is a long wordmark or a square emblem. */
+.logo-chip-img {
+  width: var(--logo-w, auto);
+  height: var(--logo-h, auto);
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .logo-marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* The duplicated copy is decorative — hide it when the strip is static. */
+  .logo-marquee-track li[aria-hidden="true"] {
+    display: none;
+  }
 }

@@ -6,7 +6,7 @@ export default function Layout({ theme, onThemeChange }) {
   return (
     <div className="min-h-screen overflow-hidden bg-page text-ink">
       <Navbar onThemeChange={onThemeChange} theme={theme} />
-      <Outlet />
+      <Outlet context={{ theme }} />
       <Footer />
     </div>
   );

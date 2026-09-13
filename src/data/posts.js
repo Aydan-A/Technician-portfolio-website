@@ -1,3 +1,6 @@
+import pressurestatMd from '../content/Blogs/pressurestat.md?raw';
+import pressurestatCoverImg from '../assets/images/Blogs/EMP/Pressurestat/Cover.png';
+import pressurestatHighLowImg from '../assets/images/Blogs/EMP/Pressurestat/High_Low_pressure.png';
 import reliableMd from '../content/Blogs/which-machine-is-reliable.md?raw';
 import reliableCoverImg from '../assets/images/Blogs/Reliability/Cover.png';
 import reliableBathtubImg from '../assets/images/Blogs/Reliability/Bathtube.png';
@@ -73,6 +76,11 @@ const reliableImages = {
   'Bathtube.png': reliableBathtubImg,
 };
 
+const pressurestatImages = {
+  'Cover.png': pressurestatCoverImg,
+  'High_Low_pressure.png': pressurestatHighLowImg,
+};
+
 function markdownToHtml(markdown, images = {}) {
   const blocks = markdown.trim().split(/\n{2,}/);
   let imageIndex = 0;
@@ -129,6 +137,32 @@ function markdownToHtml(markdown, images = {}) {
 }
 
 export const posts = [
+  {
+    id: 'dispatch-009',
+    slug: 'pressurestat',
+    number: 9,
+    date: '2026-07-16',
+    subject: 'Espresso machine pressurestats',
+    title: 'The Pressurestat: The Switch That Holds Your Boiler Steady',
+    hook: 'The simple mechanical switch that keeps boiler pressure — and therefore brew temperature — inside a set range.',
+    verdict: 'WORTH_IT',
+    type: 'DEEP_DIVE',
+    category: 'Engineering',
+    readMinutes: 4,
+    claim:
+      'A pressurestat is the mechanical switch that holds boiler pressure, and therefore brew temperature, in a steady range by cycling the heating element on and off.',
+    receipt: [
+      'It cycles the heating element on and off to hold boiler pressure — and thus temperature — in a set range.',
+      'A metal bellows expands and contracts with boiler pressure, tripping an internal microswitch.',
+      'A calibration screw adjusts spring tension, changing the trip pressure and the operating temperature.',
+      'Most consumer and prosumer machines use the mechanical, single-pole, adjustable type.',
+    ],
+    bottomLine:
+      'One of the most reliable parts on the machine — no consumables, no water contact. When it does fail it is usually a stuck microswitch or pitted contacts; test continuity cold before replacing.',
+    cover: pressurestatCoverImg,
+    body: markdownToHtml(pressurestatMd, pressurestatImages),
+    featured: false,
+  },
   {
     id: 'dispatch-008',
     slug: 'which-machine-is-reliable',

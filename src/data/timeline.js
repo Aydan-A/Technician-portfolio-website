@@ -98,8 +98,11 @@ export const aboutHeadline = {
 };
 
 export const aboutStats = [
-  { value: "8+", label: "Yrs Ops" },
-  { value: "2+", label: "Yrs Coffee" },
-  { value: "BE", label: "Petroleum" },
-  { value: "TO", label: "Toronto" },
+  { value: "8+ YRS", label: "Systems & Ops" },
+  { value: "2+ YRS", label: "Coffee Equipment" },
+  { value: "B.Sc.", label: "Petroleum Eng." },
+  { value: "TORONTO", label: "Base Location" },
 ];
+
+export const aboutBackground =
+  "Moving from five years as an offshore drilling engineer to working on coffee equipment was completely intentional. The habits I built on rigs\u2014reading complex systems, isolating electrical and mechanical failures, and fixing root causes\u2014translate directly to the bench. Having a heavy engineering background means I see past surface-level symptoms on an espresso machine or grinder. I bring raw diagnostic accuracy, zero guesswork, and a deep respect for how these systems are built.";

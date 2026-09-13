@@ -3,7 +3,9 @@ import { Link, NavLink } from "react-router-dom";
 const navItems = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
-  { label: "Projects", to: "/projects" },
+  // Temporarily hidden — restore this entry to bring the Projects tab back.
+  // { label: "Projects", to: "/projects" },
+  { label: "Services", to: "/services" },
   { label: "Journal", to: "/journal" },
   { label: "Contact", to: "/contact" },
 ];

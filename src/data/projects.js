@@ -4,107 +4,107 @@ import p3Img from "../assets/images/ProjetcsImages/P3.jpg";
 
 export const projects = [
   {
-    id: "leak-diagnostics",
+    id: "grinder-motor-stall",
     category: "Machine Diagnostics",
     caseLabel: "Case File 014",
-    title: "Tracing a slow-developing espresso machine leak.",
+    title: "Resolving motor stalls in variable-RPM grinders.",
     summary:
-      "A structured inspection of seals, fittings, and water-path behavior to isolate the true source before any part was replaced.",
+      "Diagnosing instantaneous friction spikes and stalling behavior in the DF64V without replacing hardware.",
     image: p1Img,
-    imageAlt: "Espresso machine leak inspection under bench lighting",
+    imageAlt: "DF64V grinder burr chamber and declumper under bench inspection",
     challenge:
-      "A two-group machine arrived with intermittent puddling under the drip tray. Previous technicians had replaced two gaskets without success. The leak only appeared after roughly forty minutes of operation and never under cold pressure tests.",
+      "A customer reported their DF64V grinder was stalling and reversing direction during use, suspecting a faulty motor or defective burrs. The issue primarily occurred when grinding lighter roast profiles.",
     process: [
-      "Cold pressure hold for thirty minutes — no drop, ruling out the boiler shell.",
-      "Thermal-cycled the machine and tracked water path with dye traces.",
-      "Reviewed expansion behavior at the heat-exchanger inlet under load.",
+      "Analyzed user-provided video and identified that the motor was encountering sudden friction spikes caused by unevenly roasted, high-density beans (light or slightly green beans).",
+      "Assessed the internal chute and declumper assembly, identifying that partial blockages in this area compound friction between the burrs and lead to stalls.",
+      "Cross-referenced the behavior with known manufacturer diagnostics and community reports to confirm the motor behavior was a standard safety mechanism under heavy load, not a mechanical failure.",
     ],
     solution:
-      "Replaced the heat-exchanger union fitting whose taper had deformed slightly with thermal cycling. Verified torque against manufacturer spec and re-seated the OPV at the same time.",
+      "Instructed the user on a deep-cleaning protocol for the chute and declumper to remove compacted coffee. Implemented a \"hot start\" technique to maintain RPM momentum before introducing high-density, light-roast beans into the burr chamber.",
     result:
-      "Eight hours of continuous service test, zero leak. Machine has been back on the bar for four months with no follow-up call.",
+      "Restored consistent grinding performance. Successfully avoided an unnecessary international warranty return, saving the user from potential transit damage, round-trip shipping costs, and border customs delays.",
     meta: [
-      { label: "Discipline", value: "Diagnostics" },
-      { label: "Duration", value: "2 days" },
-      { label: "Outcome", value: "Resolved" },
-    ],
-  },
-  {
-    id: "burr-alignment",
-    category: "Grinder Calibration",
-    caseLabel: "Bench Note 022",
-    title: "Burr alignment review on a high-volume conical grinder.",
-    summary:
-      "A practical alignment and zero-point check focused on consistency, repeatable adjustment, and clearer espresso troubleshooting at the bar.",
-    image: p2Img,
-    imageAlt: "Grinder burrs and alignment shims on the bench",
-    challenge:
-      "A café reported that two baristas dialing the same grinder were arriving at noticeably different recipes day to day. Sweetness dropped after roughly an hour of service and the dose weight crept up.",
-    process: [
-      "Indicator-checked burr carrier runout against the shaft.",
-      "Marker test across the burr face to read contact distribution.",
-      "Logged motor draw and burr temperature across a service rush.",
-    ],
-    solution:
-      "Re-shimmed the lower carrier by 0.05 mm, replaced a worn thrust washer, and rebuilt the zero point with a documented marker trace as the new reference.",
-    result:
-      "Recipe drift across the day fell inside a 0.3 g band. Two baristas now dial within two clicks of each other on the same beans.",
-    meta: [
-      { label: "Discipline", value: "Calibration" },
-      { label: "Duration", value: "Half day" },
-      { label: "Outcome", value: "Stabilized" },
-    ],
-  },
-  {
-    id: "pressure-stability",
-    category: "Troubleshooting",
-    caseLabel: "System Check 031",
-    title: "Pressure instability across a rotary-pump espresso system.",
-    summary:
-      "A step-by-step pressure review across pump behavior, flow restriction, and grouphead response under normal operation.",
-    image: p3Img,
-    imageAlt: "Pressure gauge trace and grouphead under live diagnostics",
-    challenge:
-      "Brew pressure on the lead group oscillated between 8.4 and 9.6 bar during a single shot. The owner had already replaced the gicleur and the expansion valve.",
-    process: [
-      "Installed an inline pressure transducer and logged shots against time.",
-      "Isolated the rotary pump on a test rig — output was clean.",
-      "Mapped flow restriction from inlet through the grouphead.",
-    ],
-    solution:
-      "Found a partially blocked mesh screen at the brew solenoid inlet. Cleaned the screen, descaled the solenoid body, and replaced the OPV spring with a fresh part within spec.",
-    result:
-      "Pressure trace flattened to ±0.1 bar across the shot window. Café reported visibly more consistent extractions the next morning.",
-    meta: [
-      { label: "Discipline", value: "Troubleshooting" },
+      { label: "Unit", value: "DF64V" },
       { label: "Duration", value: "1 day" },
       { label: "Outcome", value: "Resolved" },
     ],
   },
   {
-    id: "preinfusion-mod",
-    category: "Technical Modification",
-    caseLabel: "Mod Log 008",
-    title: "Adding a mechanical pre-infusion line to a single-boiler machine.",
+    id: "gbw-load-cell",
+    category: "Grinder Calibration",
+    caseLabel: "Bench Note 022",
+    title: "Calibrating load cell accuracy on Mahlkönig GbW grinders.",
     summary:
-      "A reversible modification to introduce a soft, line-pressure pre-infusion phase without altering the boiler or original wiring.",
+      "Troubleshooting weight offsets and environmental interference on high-precision Grind-by-Weight espresso grinders.",
+    image: p2Img,
+    imageAlt: "Mahlkönig Grind-by-Weight grinder load cell and portafilter cradle",
+    challenge:
+      "A user reported an unexpected weight offset when grinding with a Mahlkönig E65W/E80W. The precision load cell was registering variations, prompting concerns about scale accuracy and calibration failure.",
+    process: [
+      "Evaluated the grinder's physical environment, noting that the highly sensitive load cell (which signals the control board 6,000 times per second) can be heavily affected by unstable counters or ambient HVAC airflow.",
+      "Verified that all portafilters in use had been correctly introduced and zeroed in the grinder's software recognition system.",
+      "Differentiated between actual scale inaccuracy and natural ground coffee weight loss that occurs during standard puck preparation.",
+    ],
+    solution:
+      "Established a controlled testing protocol involving multiple consecutive grinds to track weight consistency. Calculated the precise average offset value caused by the workflow rather than a hardware defect.",
+    result:
+      "Added the calculated average offset value into the grinder's software compensation settings. Re-established the manufacturer's expected +/- 0.1g accuracy without requiring a replacement load cell or onsite repair.",
+    meta: [
+      { label: "Unit", value: "Mahlkönig E65W/E80W" },
+      { label: "Duration", value: "1 day" },
+      { label: "Outcome", value: "Resolved" },
+    ],
+  },
+  {
+    id: "thermoblock-pid",
+    category: "Machine Diagnostics",
+    caseLabel: "System Check 031",
+    title: "Calibrating thermoblock offsets to prevent thermal over-extraction.",
+    summary:
+      "Diagnosing extreme PID offset settings and improving thermal stability in a thermoblock espresso machine.",
+    image: p3Img,
+    imageAlt: "Ascaso Steel thermoblock machine PID display and grouphead",
+    challenge:
+      "A user reported temperature inconsistencies and bitter, over-extracted coffee on their Ascaso Steel machine, utilizing a 20°C temperature offset on the PID controller.",
+    process: [
+      "Analyzed the PID offset settings, determining that a 20°C offset forced the internal thermoblock to reach an excessive 115°C, causing the initial water contact to scorch the coffee puck.",
+      "Evaluated the system's thermodynamics, noting that in thermoblock systems, water heats as it moves through the coil; if the coffee puck lacks proper density, the water flows too quickly to absorb the necessary heat.",
+      "Factored in the natural heat loss that occurs as water travels from the internal sensor through the shower screen, portafilter, and open air before reaching the cup.",
+    ],
+    solution:
+      "Reduced the PID offset to below 10°C to prevent scorching and protect the thermoblock from premature lifespan degradation. Instructed the user to refine their grind size and apply a consistent 15 kg tamp to create a natural flow restrictor, giving the water adequate time to absorb heat.",
+    result:
+      "Restored thermal stability and eliminated bitter extraction flavors. Educated the user on implementing a 10-minute idle warm-up with the portafilter locked in to prevent heat loss during the brewing cycle.",
+    meta: [
+      { label: "Unit", value: "Ascaso Steel Duo/Plus" },
+      { label: "Duration", value: "1 day" },
+      { label: "Outcome", value: "Resolved" },
+    ],
+  },
+  {
+    id: "opv-drainback",
+    category: "Machine Diagnostics",
+    caseLabel: "Case File 044",
+    title: "Resolving delayed dispensing and elevated tank temperatures.",
+    summary:
+      "Correcting hydraulic routing and boiler temperature recovery on a Quickmill Pop-up single-boiler machine.",
     image: null,
     imageAlt: "",
     challenge:
-      "A home owner wanted the pre-infusion feel of a lever machine on their existing single-boiler setup, but without voiding warranty on the boiler itself or running new electronics.",
+      "A customer reported that their machine was returning hot water to the reservoir, experiencing significant delays before dispensing water from the grouphead, and struggling to drop back to a 93°C brew temperature after steaming milk.",
     process: [
-      "Mapped the existing brew circuit and identified a tap point downstream of the inlet solenoid.",
-      "Designed a parallel line with a needle valve and check valve, sized against measured flow rates.",
-      "Documented a full reverse-out procedure so the original plumbing can be restored in under an hour.",
+      "Traced the hot water return issue to the OPV (Over Pressure Valve), diagnosing that it was left in a partially open position, allowing boiler water to constantly bleed back into the water tank.",
+      "Identified that the delayed water dispensing was a direct result of the open OPV; the pump had to spend time refilling the partially emptied boiler and hydraulic lines before pressure could reach the grouphead.",
+      "Reviewed the post-frothing cool-down routine, noting the boiler was holding excess steam and required a manual flush to draw in cold water.",
     ],
     solution:
-      "Installed a tunable bypass with a recessed needle valve under the drip tray. The valve gives a one-to-six-second soft phase at line pressure before the pump engages.",
+      "Instructed the user to fully close the OPV valve (counter-clockwise) when idle to prevent boiler drain-back and establish immediate water delivery. Advised pressing the pump button immediately after frothing to purge excess steam and quickly lower the boiler temperature back to 93°C.",
     result:
-      "Channeling on light roasts dropped noticeably. The owner can return the machine to factory plumbing for service without leaving traces of the modification.",
+      "Eliminated the dispensing lag and stabilized the reservoir temperature. Taught the user how to utilize the OPV correctly during extraction to lock in a consistent 9-bar pressure for back-to-back shots.",
     meta: [
-      { label: "Discipline", value: "Modification" },
+      { label: "Unit", value: "Quickmill Pop-up" },
       { label: "Duration", value: "1 day" },
-      { label: "Outcome", value: "Reversible build" },
+      { label: "Outcome", value: "Resolved" },
     ],
   },
   {
@@ -128,7 +128,6 @@ export const projects = [
     result:
       "Average ticket time at peak dropped from 4:10 to 3:05. Dose variance halved. Staff reported less fatigue at the end of long shifts.",
     meta: [
-      { label: "Discipline", value: "Workflow" },
       { label: "Duration", value: "1 week" },
       { label: "Outcome", value: "Throughput +28%" },
     ],
@@ -154,7 +153,6 @@ export const projects = [
     result:
       "A written guide owners and technicians can use to decide between service and replacement in under five minutes, with photographs of each failure mode.",
     meta: [
-      { label: "Discipline", value: "Teardown" },
       { label: "Duration", value: "2 weeks" },
       { label: "Outcome", value: "Reference guide" },
     ],
