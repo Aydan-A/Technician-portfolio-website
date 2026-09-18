@@ -283,5 +283,5 @@ location in that same request, and then follow §6.
 
 ### Step 5 — Show the rendered result before integrating
 Wire the post in per §2, run the dev server, and show the user the rendered
-article (screenshot via the Chrome command in `CLAUDE.md`, or the running URL).
+article (headless-Chrome screenshot, or the running dev URL).
 **The post is not "integrated" until the user has reviewed the rendered result.**

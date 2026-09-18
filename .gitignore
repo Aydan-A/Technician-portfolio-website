@@ -1,6 +1,7 @@
 node_modules
 dist
 attic
+CLAUDE.md
 .DS_Store
 .env
 .env.local
