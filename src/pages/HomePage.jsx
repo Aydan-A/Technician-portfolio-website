@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import contactImg from "../assets/images/home/bench.jpg";
-import heroMachineImg from "../assets/images/home/hero-machine.png";
+import heroMachineImg from "../assets/images/home/hero-machine.webp";
 import Button from "../components/ui/Button.jsx";
 import HeroVideo from "../components/home/HeroVideo.jsx";
 import BrandMarquee from "../components/ui/BrandMarquee.jsx";

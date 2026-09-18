@@ -166,8 +166,9 @@ duotone so photos read as part of the system rather than stock imagery:
 **Optimization (do this for new covers):** source images are dense
 sketches/photos — export them compressed (WebP or quality-80 JPEG) and sized to
 ~1400–1600px max edge; target <250KB. Give the featured/LCP cover `eager` /
-`fetchpriority=high` and keep the rest lazy. *Status: existing PNGs are not yet
-optimized — do not add more multi-MB PNGs.*
+`fetchpriority=high` and keep the rest lazy. *Status: done — every image over
+300KB is WebP at quality 80 with the long edge capped at 1600px. Match that for
+new covers; do not add multi-MB PNGs.*
 
 ---
 

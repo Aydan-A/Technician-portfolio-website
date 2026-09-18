@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import blackEdition from "../assets/images/skeleton/black_edition.png";
-import whiteEdition from "../assets/images/skeleton/white_edition.png";
+import blackEdition from "../assets/images/skeleton/black_edition.webp";
+import whiteEdition from "../assets/images/skeleton/white_edition.webp";
 import dispensingIcon from "../assets/images/skeleton/icons/dispensing_icon.jpg";
 import heatingIcon from "../assets/images/skeleton/icons/heating_icon.jpg";
 import pumpIcon from "../assets/images/skeleton/icons/pump_icon.jpg";
 import temperatureIcon from "../assets/images/skeleton/icons/temperature_icon.jpg";
 import waterIcon from "../assets/images/skeleton/icons/water_icon.jpg";
-import tankImg from "../assets/images/skeleton/subsections/Tank.png";
-import plumbedImg from "../assets/images/skeleton/subsections/Plumbed.png";
-import vibratoryPumpImg from "../assets/images/skeleton/subsections/vibratory_pump.png";
-import rotaryPumpImg from "../assets/images/skeleton/subsections/rotary_pump.png";
-import thermoblockImg from "../assets/images/skeleton/subsections/thermoblock.png";
-import singleBoilerImg from "../assets/images/skeleton/subsections/single_boiler.png";
-import heatExchangerImg from "../assets/images/skeleton/subsections/heat_exchanger.png";
-import dualBoilerImg from "../assets/images/skeleton/subsections/dual_boiler.png";
-import pressurestatImg from "../assets/images/skeleton/subsections/pressurestat.png";
-import pidImg from "../assets/images/skeleton/subsections/PID.png";
-import microcontrollerImg from "../assets/images/skeleton/subsections/micro_controller.jpeg";
+import tankImg from "../assets/images/skeleton/subsections/Tank.webp";
+import plumbedImg from "../assets/images/skeleton/subsections/Plumbed.webp";
+import vibratoryPumpImg from "../assets/images/skeleton/subsections/vibratory_pump.webp";
+import rotaryPumpImg from "../assets/images/skeleton/subsections/rotary_pump.webp";
+import thermoblockImg from "../assets/images/skeleton/subsections/thermoblock.webp";
+import singleBoilerImg from "../assets/images/skeleton/subsections/single_boiler.webp";
+import heatExchangerImg from "../assets/images/skeleton/subsections/heat_exchanger.webp";
+import dualBoilerImg from "../assets/images/skeleton/subsections/dual_boiler.webp";
+import pressurestatImg from "../assets/images/skeleton/subsections/pressurestat.webp";
+import pidImg from "../assets/images/skeleton/subsections/PID.webp";
+import microcontrollerImg from "../assets/images/skeleton/subsections/micro_controller.webp";
 import e61Img from "../assets/images/skeleton/subsections/E61.png";
-import saturatedImg from "../assets/images/skeleton/subsections/saturated.png";
+import saturatedImg from "../assets/images/skeleton/subsections/saturated.webp";
 
 /* Diagram table for the semi-automatic machine.
  * Row 2 icon images (hand-drawn sketches on light paper, object-fit: contain

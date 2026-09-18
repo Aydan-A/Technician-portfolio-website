@@ -1,20 +1,20 @@
 import pressurestatMd from '../content/blog/pressurestat.md?raw';
-import pressurestatCoverImg from '../assets/images/blog/pressurestat/Cover.png';
-import pressurestatHighLowImg from '../assets/images/blog/pressurestat/High_Low_pressure.png';
+import pressurestatCoverImg from '../assets/images/blog/pressurestat/Cover.webp';
+import pressurestatHighLowImg from '../assets/images/blog/pressurestat/High_Low_pressure.webp';
 import reliableMd from '../content/blog/which-machine-is-reliable.md?raw';
-import reliableCoverImg from '../assets/images/blog/reliability/Cover.png';
+import reliableCoverImg from '../assets/images/blog/reliability/Cover.webp';
 import reliableBathtubImg from '../assets/images/blog/reliability/Bathtube.png';
 import merakiMd from '../content/blog/meraki-espresso-machine.md?raw';
-import merakiCoverImg from '../assets/images/blog/meraki/Cover.png';
+import merakiCoverImg from '../assets/images/blog/meraki/Cover.webp';
 import rotaryVsVibratoryMd from '../content/blog/rotary-vs-vibratory.md?raw';
 import solenoidBlogMd from '../content/blog/solenoid-blog.md?raw';
-import pumpCoverImg from '../assets/images/blog/pump/Cover.png';
+import pumpCoverImg from '../assets/images/blog/pump/Cover.webp';
 import pumpPressureConsistencyImg from '../assets/images/blog/pump/Pressure_consistency_misconception.jpg';
-import pumpRotaryImg from '../assets/images/blog/pump/Rotary.png';
-import pumpVibratoryImg from '../assets/images/blog/pump/Vibratory.png';
-import solenoidTwoWayVsThreeWayImg from '../assets/images/blog/solenoid/2way_vs_3_way.png';
-import solenoidCoverImg from '../assets/images/blog/solenoid/Cover_picture.png';
-import solenoidEnergizedImg from '../assets/images/blog/solenoid/Energized_Deenergized.png';
+import pumpRotaryImg from '../assets/images/blog/pump/Rotary.webp';
+import pumpVibratoryImg from '../assets/images/blog/pump/Vibratory.webp';
+import solenoidTwoWayVsThreeWayImg from '../assets/images/blog/solenoid/2way_vs_3_way.webp';
+import solenoidCoverImg from '../assets/images/blog/solenoid/Cover_picture.webp';
+import solenoidEnergizedImg from '../assets/images/blog/solenoid/Energized_Deenergized.webp';
 
 /**
  * The Workshop Dispatch — Vagif's review journal.
