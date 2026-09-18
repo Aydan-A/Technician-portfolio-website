@@ -1,0 +1,387 @@
+/* ---------- Journal: The Workshop Dispatch ----------
+ * Editorial masthead + numbered, stamped Dispatch cards.
+ * Verdict stamp = the brand. Rotated, inked, hand-applied.
+ */
+
+.dispatch-masthead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dispatch-masthead-rule {
+  height: 1px;
+  background: rgb(var(--color-ink));
+  opacity: 0.85;
+}
+
+.dispatch-masthead-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 0.25rem 0;
+}
+
+.dispatch-masthead-title {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgb(var(--color-ink));
+}
+
+.dispatch-masthead-meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--color-graphite));
+}
+
+/* ---------- Verdict stamp ----------
+ * Looks ink-stamped: double border, mono uppercase, slight rotation,
+ * paper-faded edge. Color varies by tone token.
+ */
+
+.verdict-stamp {
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.9rem;
+  border: 2px solid currentColor;
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+  background: transparent;
+  white-space: nowrap;
+  position: relative;
+  user-select: none;
+}
+
+.verdict-stamp::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  mix-blend-mode: screen;
+  opacity: 0.25;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+[data-theme='light'] .verdict-stamp::before {
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+}
+
+.verdict-stamp-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* sizes */
+.verdict-stamp--md { font-size: 11px; }
+.verdict-stamp--lg { font-size: 13px; padding: 0.5rem 1.1rem; }
+.verdict-stamp--xl { font-size: 15px; padding: 0.65rem 1.4rem; letter-spacing: 0.3em; }
+
+/* tones — each verdict has its own ink color */
+.verdict-stamp--ink { color: rgb(var(--color-ink)); }
+.verdict-stamp--bronze { color: rgb(var(--color-bronze)); }
+.verdict-stamp--graphite { color: rgb(var(--color-graphite)); }
+.verdict-stamp--muted { color: rgb(var(--color-muted)); }
+
+/* ---------- Dispatch cards ----------
+ * Compact, fixed-rhythm index card: edge-to-edge cover with the verdict
+ * chipped onto it, then a tight text block. Every card in a row is the same
+ * height (the grid stretches them) and the title/hook are line-clamped, so
+ * nine dispatches read as one list instead of nine different tall boxes.
+ */
+
+.dispatch-card {
+  border-radius: var(--radius-card);
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-shell));
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.dispatch-card:hover {
+  border-color: rgb(var(--color-rule));
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dispatch-card,
+  .dispatch-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* Cover — flush to the card edges, so the card reads as one object. */
+.dispatch-card-cover {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-panel));
+}
+
+.dispatch-card-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.35) contrast(1.03) sepia(0.05);
+  transition: filter 0.3s ease, transform 0.4s ease;
+}
+
+.dispatch-card:hover .dispatch-card-cover img {
+  filter: grayscale(0.1) contrast(1.02);
+  transform: scale(1.03);
+}
+
+/* Placeholder for posts without a cover. It carries no artwork, so unlike a
+   real cover it follows the theme instead of sitting on the light plate — four
+   bright rectangles in a dark grid is what made the old index look patchy. */
+.dispatch-card-cover-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  background-color: rgb(var(--color-page));
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgb(var(--color-ink) / 0.05) 0,
+    rgb(var(--color-ink) / 0.05) 1px,
+    transparent 1px,
+    transparent 11px
+  );
+}
+
+.dispatch-card-cover-placeholder-num {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.9rem;
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-ink) / 0.28);
+}
+
+.dispatch-card-cover-placeholder-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+}
+
+/* Verdict chip, applied to the cover's bottom-left corner. Inside a card it
+ * drops the rotated-stamp theatrics and becomes a legible solid chip; the
+ * inked stamp survives at lg/xl on the article page. */
+.dispatch-card-verdict {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 1;
+}
+
+.dispatch-card-verdict .verdict-stamp {
+  transform: none;
+  outline: 0;
+  border-width: 1px;
+  padding: 0.3rem 0.7rem;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  background: rgb(var(--color-surface) / 0.92);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.dispatch-card-verdict .verdict-stamp::before {
+  display: none;
+}
+
+/* Text block */
+.dispatch-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.05rem 1.15rem 1.15rem;
+  min-width: 0;
+}
+
+.dispatch-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.dispatch-card-number {
+  color: rgb(var(--color-graphite));
+  font-variant-numeric: tabular-nums;
+}
+
+.dispatch-card-date {
+  color: rgb(var(--color-muted));
+}
+
+.dispatch-card-divider {
+  width: 0.9rem;
+  height: 1px;
+  background: rgb(var(--color-rule));
+}
+
+.dispatch-card-title {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 800;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-ink));
+  margin: 0;
+  /* Three lines is enough for every title in the archive; a fourth is what
+   * made the old cards uneven. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.dispatch-card-title a {
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.dispatch-card-title a:hover {
+  color: rgb(var(--color-bronze));
+}
+
+.dispatch-card-hook {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgb(var(--color-graphite));
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Footer is pushed to the bottom of the card, so the meta rows line up
+ * across the grid even when titles run to different lengths. */
+/* Deliberately one line, never wrapping: a footer that wrapped on some cards
+   and not others is what knocked the grid out of alignment. The meta
+   truncates; the read link never shrinks. */
+.dispatch-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgb(var(--color-line));
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.dispatch-card-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgb(var(--color-muted));
+}
+
+.dispatch-card-meta-category {
+  color: rgb(var(--color-graphite));
+}
+
+.dispatch-card-meta-divider {
+  opacity: 0.5;
+}
+
+.dispatch-card-read {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgb(var(--color-ink));
+  transition: color 0.15s ease;
+}
+
+.dispatch-card-read:hover {
+  color: rgb(var(--color-bronze));
+}
+
+.dispatch-card-read-arrow {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+.dispatch-card-read:hover .dispatch-card-read-arrow {
+  transform: translateX(3px);
+}
+
+/* Featured variant — the same card, given the cover beside the text and one
+ * size up on the title. Used for a hero slot on the journal index. */
+@media (min-width: 1024px) {
+  .dispatch-card--featured {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: stretch;
+  }
+
+  .dispatch-card--featured .dispatch-card-cover {
+    aspect-ratio: auto;
+    height: 100%;
+    border-bottom: 0;
+    border-right: 1px solid rgb(var(--color-line));
+  }
+
+  .dispatch-card--featured .dispatch-card-body {
+    padding: 1.75rem;
+    gap: 0.7rem;
+  }
+
+  .dispatch-card--featured .dispatch-card-title {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    -webkit-line-clamp: 4;
+  }
+
+  .dispatch-card--featured .dispatch-card-hook {
+    font-size: 15px;
+    -webkit-line-clamp: 3;
+  }
+}

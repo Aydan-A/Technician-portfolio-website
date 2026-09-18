@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import commercialIcon from "../assets/images/icons/commerical.png";
+import commercialIcon from "../assets/images/icons/commercial.png";
 import residentialIcon from "../assets/images/icons/residential.png";
-import BrandMarquee from "../components/BrandMarquee.jsx";
-import ContactForm from "../components/ContactForm.jsx";
-import Button from "../components/Button.jsx";
+import BrandMarquee from "../components/ui/BrandMarquee.jsx";
+import ContactForm from "../components/contact/ContactForm.jsx";
+import Button from "../components/ui/Button.jsx";
 import { commercialBrands, residentialBrands } from "../data/brands.js";
 import { normalizePlan } from "../data/servicePlans.js";
 
@@ -212,7 +212,7 @@ function RateBlock({ rates, note }) {
             <dt>
               <MicroLabel>{rate.label}</MicroLabel>
             </dt>
-            <dd className="mt-1.5 font-display text-2xl uppercase leading-none tracking-[0.01em] text-ink sm:text-[1.75rem]">
+            <dd className="figure-value mt-1.5 text-[1.5rem] text-ink sm:text-[1.65rem]">
               {rate.value}
             </dd>
             {rate.note ? (
@@ -235,7 +235,7 @@ function RateBlock({ rates, note }) {
 // Flat-rate tiers by boiler type.
 function TierBlock({ tiers }) {
   return (
-    <div className="mt-6 overflow-hidden rounded-xl border border-line bg-surface">
+    <div className="mt-6 overflow-hidden rounded-2xl border border-line bg-surface">
       {tiers.map((tier, index) => (
         <div
           className={`flex items-baseline justify-between gap-4 px-4 py-3.5 ${
@@ -251,7 +251,7 @@ function TierBlock({ tiers }) {
               </p>
             ) : null}
           </div>
-          <p className="whitespace-nowrap font-display text-2xl uppercase leading-none tracking-[0.01em] text-ink">
+          <p className="figure-value whitespace-nowrap text-[1.35rem] text-ink">
             {tier.value}
           </p>
         </div>
@@ -267,10 +267,10 @@ function StepList({ steps }) {
       {steps.map((step) => (
         <div key={step.number}>
           <div className="flex items-baseline gap-2.5">
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-bronze">
+            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
               {step.number}
             </span>
-            <h4 className="font-display text-xl uppercase leading-none tracking-[0.02em] text-ink">
+            <h4 className="headline-sm text-[1.05rem] text-ink">
               {step.title}
             </h4>
           </div>
@@ -314,14 +314,14 @@ function ServiceCard({ card, onSelectPlan }) {
       {card.travelFee ? (
         <div className="mt-4 flex items-baseline justify-between gap-4 border-b border-line pb-4">
           <MicroLabel>Travel fee</MicroLabel>
-          <p className="whitespace-nowrap font-display text-xl uppercase leading-none tracking-[0.01em] text-ink">
+          <p className="figure-value whitespace-nowrap text-[1.15rem] text-ink">
             {card.travelFee}
           </p>
         </div>
       ) : null}
 
       {card.placeholder ? (
-        <p className="mt-6 rounded-xl border border-dashed border-line bg-surface px-4 py-6 text-center font-mono text-[11px] uppercase leading-5 tracking-[0.18em] text-muted">
+        <p className="mt-6 rounded-2xl border border-dashed border-line bg-surface px-4 py-6 text-center font-mono text-[11px] uppercase leading-5 tracking-[0.18em] text-muted">
           {card.placeholder}
         </p>
       ) : null}
@@ -332,7 +332,7 @@ function ServiceCard({ card, onSelectPlan }) {
       {card.cta ? (
         <div className="mt-auto pt-7">
           <Button
-            className="w-full font-mono text-[12px] uppercase tracking-[0.18em]"
+            className="w-full"
             onClick={() => onSelectPlan(card.cta.plan)}
           >
             {card.cta.label}
@@ -346,7 +346,7 @@ function ServiceCard({ card, onSelectPlan }) {
 function TrackHeader({ headline, subhead }) {
   return (
     <header className="mx-auto max-w-4xl text-center">
-      <h2 className="font-display text-3xl uppercase leading-[0.95] tracking-[0.01em] text-ink sm:text-4xl lg:text-[3.25rem]">
+      <h2 className="headline text-[1.9rem] text-ink sm:text-[2.3rem] lg:text-[2.7rem]">
         {headline}
       </h2>
       <p className="mx-auto mt-5 max-w-2xl font-sans text-base leading-7 text-graphite sm:text-lg sm:leading-8">
@@ -374,8 +374,7 @@ function ResidentialTrack({ onSelectPlan }) {
 
       <div>
         <Button
-          className="min-h-12 px-7"
-          onClick={() => onSelectPlan({ location: "home", service: "repair" })}
+                    onClick={() => onSelectPlan({ location: "home", service: "repair" })}
         >
           Request residential repair
         </Button>
@@ -399,16 +398,16 @@ function CommercialTrack({ onSelectPlan }) {
       </div>
 
       <div>
-        <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
           Scope of work
         </p>
-        <div className="mt-5 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-5 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 xl:grid-cols-4">
           {COMMERCIAL_SCOPE.map((item) => (
             <div className="scope-cell" key={item.number}>
-              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-bronze">
+              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
                 {item.number}
               </span>
-              <h3 className="mt-3 font-display text-xl uppercase leading-[1] tracking-[0.02em] text-ink">
+              <h3 className="headline-sm mt-3 text-[1.1rem] text-ink">
                 {item.title}
               </h3>
               <p className="mt-3 font-sans text-sm leading-6 text-graphite">
@@ -423,8 +422,7 @@ function CommercialTrack({ onSelectPlan }) {
 
       <div>
         <Button
-          className="min-h-12 px-7"
-          onClick={() => onSelectPlan({ location: "cafe", service: "repair" })}
+                    onClick={() => onSelectPlan({ location: "cafe", service: "repair" })}
         >
           Book on-site commercial dispatch
         </Button>
@@ -496,11 +494,11 @@ export default function ServicesPage() {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line pb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
           <span>Technical Services &amp; Diagnostics · Toronto, ON</span>
           <span className="hidden h-px flex-1 bg-line sm:block" />
-          <span className="text-bronze">Bench &amp; Field</span>
+          <span className="text-muted">Bench &amp; Field</span>
         </div>
 
         <div className="pt-10 text-center lg:pt-14">
-          <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem]">
+          <h1 className="headline text-[2.6rem] text-ink sm:text-[3.4rem] lg:text-[4rem] xl:text-[4.5rem]">
             Equipment service &amp; diagnostics.
           </h1>
         </div>
@@ -566,10 +564,10 @@ export default function ServicesPage() {
         <div className="w-full px-5 py-16 sm:px-6 lg:px-10 lg:py-20 2xl:px-16">
           <div className="grid gap-10 xl:grid-cols-[0.85fr_1.15fr] xl:gap-16">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-bronze">
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
                 Book this plan
               </p>
-              <h2 className="mt-4 font-display text-3xl uppercase leading-[0.95] tracking-[0.01em] text-ink sm:text-4xl">
+              <h2 className="headline-sm mt-4 text-[1.6rem] text-ink sm:text-[2rem]">
                 Confirm the details and send it over.
               </h2>
               <p className="mt-5 max-w-md font-sans text-sm leading-6 text-graphite sm:text-[15px] sm:leading-7">
@@ -579,7 +577,7 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <ContactForm onPlanChange={setPlan} plan={plan} />
+            <ContactForm heading={null} onPlanChange={setPlan} plan={plan} />
           </div>
         </div>
       </section>

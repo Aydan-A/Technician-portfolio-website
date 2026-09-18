@@ -1,0 +1,651 @@
+/* ---------- Floating "See the skeleton" badge ----------
+ * Homepage-only tool marker, bottom-right. Mono/label type, bronze accent,
+ * 1px hairline base ring + a slowly rotating dashed ring. No shadow/gradient.
+ * Reads as an interactive instrument rather than decoration.
+ */
+.skeleton-badge {
+  /* Fixed to the viewport so it sits on the machine's upper-right corner and
+   * does NOT scroll away with the page. clamp() keeps it clear of the nav on
+   * shorter/narrower viewports while tracking the hero art on desktop.
+   * Solid bronze coin so it reads instantly against the light hero. */
+  position: fixed;
+  top: clamp(6rem, 33vh, 20rem);
+  right: clamp(1rem, 12vw, 15rem);
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(var(--color-ink) / 0.55);
+  background: rgb(var(--color-surface));
+  color: rgb(var(--color-ink));
+  text-align: center;
+  isolation: isolate;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+  /* pop-in on load (opacity only, so it never fights the hover transform) */
+  animation: skeleton-badge-appear 0.5s ease 0.2s both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+/* No repeating ping: an infinite attention animation on a page you are trying
+ * to read is exactly the kind of thing that tires the eye. The slowly
+ * rotating dashed ring below is enough to say "this is interactive". */
+
+.skeleton-badge:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 14px 34px rgb(0 0 0 / 0.45);
+  border-color: rgb(var(--color-ink) / 0.7);
+}
+
+.skeleton-badge:focus-visible {
+  outline: 2px solid rgb(var(--color-bronze));
+  outline-offset: 3px;
+}
+
+/* Rotating dashed ring — the idle animation (light on the bronze fill) */
+.skeleton-badge-ring {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1.5px dashed rgb(var(--color-ink) / 0.3);
+  animation: skeleton-badge-spin 16s linear infinite;
+  pointer-events: none;
+}
+
+.skeleton-badge:hover .skeleton-badge-ring {
+  border-color: rgb(var(--color-ink) / 0.5);
+}
+
+.skeleton-badge-label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  /* compensate for trailing letter-spacing so text reads optically centered */
+  text-indent: 0.16em;
+}
+
+@media (max-width: 1023px) {
+  .skeleton-badge {
+    top: auto;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 84px;
+    height: 84px;
+  }
+
+  .skeleton-badge-label {
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-indent: 0.12em;
+  }
+}
+
+@keyframes skeleton-badge-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes skeleton-badge-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-badge-ring,
+  .skeleton-badge { animation: none; }
+}
+
+/* ---------- Skeleton page headline entrance ----------
+ * Plays once when the /skeleton route mounts: a gentle float-up + zoom-in so
+ * the section feels alive on arrival. Everything else stays static. */
+.skeleton-headline {
+  animation: skeleton-headline-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes skeleton-headline-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-headline {
+    animation: none;
+  }
+}
+
+/* ---------- Skeleton intro typewriter ----------
+ * The visible typed text is overlaid on a hidden full-length copy that holds
+ * the final layout, so the paragraph reserves its space and never reflows as
+ * characters appear. */
+.typewriter {
+  position: relative;
+}
+
+.typewriter-sizer {
+  visibility: hidden;
+}
+
+.typewriter-typed {
+  position: absolute;
+  inset: 0;
+}
+
+/* Blinking caret trailing the last typed character */
+.typewriter-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: rgb(var(--color-ink) / 0.6);
+  animation: typewriter-blink 0.9s steps(1) infinite;
+}
+
+@keyframes typewriter-blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret {
+    display: none;
+  }
+}
+
+/* ---------- Skeleton diagram table ----------
+ * 5-column, 3-row diagram of a semi-automatic machine.
+ * Row 1: column headers · Row 2: icon drop-in slots · Row 3: options.
+ * All colors/type reuse existing tokens so it tracks light + dark.
+ */
+.skeleton-diagram {
+  width: 100%;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Keeps the 5 columns intact on narrow screens via horizontal scroll
+ * rather than crushing them. */
+.skeleton-diagram-scroll {
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.skeleton-grid {
+  border-radius: var(--radius-card);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(168px, 1fr));
+  min-width: 840px;
+  border-top: 1px solid rgb(var(--color-line));
+  border-left: 1px solid rgb(var(--color-line));
+  overflow: hidden;
+  background: rgb(var(--color-shell));
+}
+
+.skeleton-cell {
+  border-right: 1px solid rgb(var(--color-line));
+  border-bottom: 1px solid rgb(var(--color-line));
+  padding: 1rem 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Column highlight driven by the shared active-section state (banner hotspot
+ * or a click in the column). Active column gets the accent; others dim. */
+.skeleton-cell.is-col-dim {
+  opacity: 0.4;
+}
+
+.skeleton-cell.is-col-active {
+  background: rgb(var(--color-bronze) / 0.06);
+}
+
+.skeleton-col-header.is-col-active {
+  color: rgb(var(--color-bronze));
+  background: rgb(var(--color-bronze) / 0.14);
+}
+
+/* Row 1 — headers: site label typography (mono, tracked, uppercase) */
+.skeleton-col-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--color-ink));
+  background: rgb(var(--color-surface));
+}
+
+.skeleton-col-num {
+  margin-right: 0.35em;
+  color: rgb(var(--color-graphite));
+}
+
+.skeleton-col-header.is-col-active .skeleton-col-num {
+  color: inherit;
+}
+
+/* Row 2 — icon drop-in slots */
+.skeleton-icon-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Filled light chip — icons are ink-on-paper sketches whose background is
+ * ~var(--color-panel); keeping the chip that same constant light tone in both
+ * themes blends the icon's baked background and any contain-letterbox margins,
+ * and keeps the black linework legible on the dark page (same treatment the
+ * hero machine illustration and image panels use). */
+.skeleton-icon-slot {
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  padding: 4px;
+  border: 1px solid rgb(var(--color-rule));
+  background: rgb(var(--color-panel));
+  overflow: hidden;
+}
+
+.skeleton-icon-slot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Row 3 — options + eye buttons */
+.skeleton-options-cell {
+  vertical-align: top;
+}
+
+.skeleton-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.skeleton-option-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+
+.skeleton-option {
+  border-radius: var(--radius-pill);
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-page));
+  color: rgb(var(--color-ink));
+  padding: 0.5rem 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.skeleton-option:hover {
+  border-color: rgb(var(--color-ink) / 0.45);
+}
+
+.skeleton-option:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(var(--color-bronze) / 0.5);
+}
+
+.skeleton-option.is-selected {
+  border-color: rgb(var(--color-bronze));
+  background: rgb(var(--color-bronze) / 0.1);
+  color: rgb(var(--color-ink));
+  font-weight: 600;
+}
+
+.skeleton-option.is-incompatible {
+  opacity: 0.35;
+  text-decoration: line-through;
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+.skeleton-option.is-incompatible:hover {
+  border-color: rgb(var(--color-line));
+}
+
+.skeleton-eye {
+  border-radius: var(--radius-pill);
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-shell));
+  color: rgb(var(--color-graphite));
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.skeleton-eye:hover {
+  color: rgb(var(--color-ink));
+  border-color: rgb(var(--color-ink) / 0.45);
+}
+
+.skeleton-eye:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(var(--color-bronze) / 0.5);
+}
+
+/* ---------- Skeleton option modal ---------- */
+.skeleton-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgb(0 0 0 / 0.6);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: skeleton-modal-fade 0.18s ease;
+}
+
+.skeleton-modal {
+  border-radius: var(--radius-card);
+  position: relative;
+  width: 100%;
+  max-width: 56rem;
+  border: 1px solid rgb(var(--color-rule));
+  background: rgb(var(--color-shell));
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+}
+
+/* Two columns: text on the left, picture placeholder on the right.
+ * The vertical rule between them is the grid gap painted by the figure's
+ * left border; the left column's two blocks are split by a horizontal rule. */
+.skeleton-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+.skeleton-modal-text {
+  display: flex;
+  flex-direction: column;
+  padding: 2.25rem 2rem 2rem;
+}
+
+.skeleton-modal-head {
+  margin-bottom: 1.25rem;
+}
+
+.skeleton-modal-eyebrow {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+}
+
+.skeleton-modal-title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: rgb(var(--color-ink));
+}
+
+.skeleton-modal-block {
+  padding: 1.1rem 0;
+}
+
+.skeleton-modal-block:last-child {
+  padding-bottom: 0;
+}
+
+.skeleton-modal-block--rule {
+  border-top: 1px solid rgb(var(--color-rule));
+}
+
+.skeleton-modal-subhead {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: rgb(var(--color-ink));
+}
+
+.skeleton-modal-num {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  font-weight: 500;
+  margin-right: 0.15rem;
+  color: rgb(var(--color-graphite));
+}
+
+.skeleton-modal-body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgb(var(--color-graphite));
+}
+
+/* Right column — placeholder swatch for the component photo (added later). */
+.skeleton-modal-figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22rem;
+  padding: 1.5rem;
+  border-left: 1px solid rgb(var(--color-rule));
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgb(var(--color-ink) / 0.03) 0,
+      rgb(var(--color-ink) / 0.03) 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    rgb(var(--color-ink) / 0.02);
+}
+
+/* When a real illustration is present, drop the placeholder hatch for a clean
+ * neutral backdrop the artwork sits on. */
+.skeleton-modal-figure:has(.skeleton-modal-figure-img) {
+  background: rgb(var(--color-ink) / 0.02);
+}
+
+.skeleton-modal-figure-img {
+  display: block;
+  max-width: 100%;
+  max-height: 22rem;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.skeleton-modal-figure-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgb(var(--color-graphite) / 0.7);
+}
+
+/* Stack the columns on narrow screens; rule moves to the top of the figure. */
+@media (max-width: 640px) {
+  .skeleton-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skeleton-modal-figure {
+    order: -1;
+    min-height: 12rem;
+    border-left: none;
+    border-bottom: 1px solid rgb(var(--color-rule));
+  }
+}
+
+.skeleton-modal-close {
+  border-radius: var(--radius-pill);
+  position: absolute;
+  z-index: 1;
+  top: 0.85rem;
+  right: 0.85rem;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-shell));
+  color: rgb(var(--color-graphite));
+  font-size: 18px;
+  line-height: 1;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.skeleton-modal-close:hover {
+  color: rgb(var(--color-ink));
+  border-color: rgb(var(--color-ink) / 0.4);
+}
+
+@keyframes skeleton-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-modal-overlay { animation: none; }
+}
+
+/* ---------- Skeleton banner illustration + hotspots ----------
+ * Full-width hand-drawn schematic above the diagram table. Numbered circles
+ * carry invisible hotspots wired to the same active-section state as the
+ * table; the active one gets a soft bronze glow.
+ */
+.skeleton-figure {
+  margin: 0 0 1.75rem;
+}
+
+.skeleton-figure-inner {
+  border-radius: var(--radius-card);
+  position: relative;
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  /* Query container so the hotspot rings can size/center themselves in cqw
+   * (% of the banner width) and scale with the responsive illustration. */
+  container-type: inline-size;
+  /* Both editions share this ratio; set it on the box so the two
+   * absolutely-stacked images don't collapse its height. */
+  aspect-ratio: 2816 / 1504;
+  border: 1px solid rgb(var(--color-line));
+  /* Theme-adaptive backing so there's no cream flash behind the dark
+   * edition while it decodes. */
+  background: rgb(var(--color-surface));
+  overflow: hidden;
+}
+
+/* Light + dark editions are both mounted (so both preload); the theme
+ * state toggles which one paints. No network fetch on toggle → no flash. */
+.skeleton-figure-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.skeleton-figure-img.is-visible {
+  display: block;
+}
+
+.skeleton-figure-img.is-hidden {
+  display: none;
+}
+
+/* Invisible clickable hotspot. Centered ON the drawn number (click coordinate
+ * + the same --ring-dx/--ring-dy nudge the ring uses) and sized to the ring
+ * (plus a small margin) so the whole numbered circle is a reliable click/tap
+ * target. Sizes are in cqw so they scale with the responsive banner. */
+.skeleton-hotspot {
+  position: absolute;
+  width: calc(var(--ring-d, 6cqw) + 2cqw);
+  height: calc(var(--ring-d, 6cqw) + 2cqw);
+  margin: 0;
+  padding: 0;
+  transform: translate(
+    calc(-50% + var(--ring-dx, 0px)),
+    calc(-50% + var(--ring-dy, 0px))
+  );
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  z-index: 2;
+}
+
+.skeleton-hotspot:focus-visible {
+  outline: 2px solid rgb(var(--color-bronze));
+  outline-offset: 2px;
+}
+
+/* Stationary ring marking the active circle, centered within the hotspot
+ * (which is already positioned on the number). --ring-d sets the diameter.
+ * Vibrant red for contrast on both the paper (light) and black (dark)
+ * editions. No rotation — a spin animation would override the centering. */
+.skeleton-hotspot.is-active::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--ring-d, 78px);
+  height: var(--ring-d, 78px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 5px solid #ff2318;
+  pointer-events: none;
+}

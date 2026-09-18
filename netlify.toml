@@ -1,0 +1,14 @@
+# Netlify build settings. The SPA fallback lives in public/_redirects so that
+# Cloudflare Pages picks it up too; this file only pins the build.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Vite fingerprints every file in /assets, so they can be cached forever.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

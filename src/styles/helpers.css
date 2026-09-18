@@ -1,0 +1,32 @@
+/* ---------- Sketch / blueprint helpers ---------- */
+
+/* Image panel utility — used in cards/hero/contact to keep illustrations on paper */
+.panel {
+  border-radius: var(--radius-md);
+  background: rgb(var(--color-panel));
+  border: 1px solid rgb(var(--color-rule));
+  overflow: hidden;
+}
+
+[data-theme='dark'] .panel {
+  box-shadow:
+    0 18px 50px rgb(0 0 0 / 0.55),
+    0 0 0 1px rgb(var(--color-ink) / 0.04);
+}
+
+/* Hairline corner registration marks for that drafting-table feel */
+.registration {
+  position: relative;
+}
+
+.registration::before,
+.registration::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgb(var(--color-ink) / 0.45);
+}
+
+.registration::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.registration::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }

@@ -7,6 +7,90 @@ This website is designed to present diagnostic work, repair process, machine kno
 
 ---
 
+## Running locally
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # production build into dist/
+npm run preview  # serve dist/ locally, exactly as a host would
+```
+
+Always check `npm run preview` before deploying: it is the only local mode that
+serves the built bundle instead of the dev server.
+
+---
+
+## Deploying
+
+This is a static single-page app: `npm run build` produces `dist/`, which any
+static host can serve. The one requirement is a **SPA fallback** — routes like
+`/journal/pressurestat` exist only in the browser, so the host must answer
+unknown paths with `index.html` (otherwise clicking around works but a refresh
+or a shared link 404s). That rule is already committed:
+
+- `public/_redirects` — read by **Netlify** and **Cloudflare Pages**
+- `vercel.json` — the same rule plus asset caching for **Vercel**
+- `netlify.toml` — pins the Netlify build command, publish dir and Node version
+
+### Option A — Netlify (recommended, simplest)
+
+1. Push this repo to GitHub.
+2. netlify.com → *Add new site* → *Import an existing project* → pick the repo.
+3. Build command `npm run build`, publish directory `dist` (both are already in
+   `netlify.toml`, so the form should prefill).
+4. Deploy. Every push to `main` redeploys; pull requests get preview URLs.
+5. *Domain management* → add a custom domain and point your DNS at Netlify.
+   HTTPS is issued automatically.
+
+### Option B — Vercel
+
+1. Push to GitHub.
+2. vercel.com → *Add New…* → *Project* → import the repo. The framework preset
+   detects Vite; `vercel.json` supplies the rewrite and cache headers.
+3. Deploy, then *Settings → Domains* for a custom domain.
+
+### Option C — Cloudflare Pages
+
+1. Push to GitHub.
+2. Cloudflare dashboard → *Workers & Pages* → *Create* → *Pages* → connect the repo.
+3. Framework preset **Vite**, build command `npm run build`, output directory `dist`.
+4. Deploy. `public/_redirects` handles the SPA fallback.
+
+### Option D — any other static host (S3, nginx, Hostinger, cPanel…)
+
+Run `npm run build` and upload the **contents of `dist/`** to the web root, then
+add the fallback yourself:
+
+- **nginx**: `location / { try_files $uri $uri/ /index.html; }`
+- **Apache / cPanel** — `.htaccess` in the web root:
+  ```apache
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+  ```
+
+GitHub Pages is not recommended here: it has no rewrite support, so deep links
+need a `404.html` workaround, and a project page also needs Vite's `base` set to
+`/<repo-name>/`.
+
+### Before the first deploy
+
+- **Optimise the images.** `dist/` is currently ~94 MB: individual blog PNGs run
+  4–8 MB and `assets/images/home/hero.mp4` is 10.4 MB. Nothing will break, but
+  first paint on mobile will be slow and you will burn host bandwidth. Target
+  ≤250 KB per cover (WebP or quality-80 JPEG, ~1600px max edge) as
+  `BLOG_STYLE_GUIDE.md` §6 already specifies, and re-encode the hero clip to
+  roughly 2 MB.
+- **Check the contact email.** The form and footer use
+  `vaqif.aliyev.96@gmail.com`; the form opens the visitor's mail client rather
+  than sending server-side, so there is no backend to configure.
+- `dist/`, `node_modules/` and `attic/` are gitignored — deploy from source, and
+  let the host run the build.
+
+---
+
 ## Project Purpose
 
 The purpose of this website is to build a strong personal brand for a coffee machine technician who repairs, rebuilds, tests, and fine-tunes espresso machines and grinders.

@@ -1,0 +1,7 @@
+# SPA fallback. Every route (/journal/pressurestat, /services, …) is rendered
+# by React Router in the browser, so the server must return index.html instead
+# of a 404 for any path it cannot find on disk. Without this, links work while
+# clicking around but a direct visit or a refresh 404s.
+#
+# Read by Netlify and Cloudflare Pages. Vercel uses vercel.json instead.
+/*    /index.html   200

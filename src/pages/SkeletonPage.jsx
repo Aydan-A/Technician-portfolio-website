@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import blackEdition from "../content/Skeleton/black_edition.png";
-import whiteEdition from "../content/Skeleton/white_edition.png";
-import dispensingIcon from "../content/Skeleton/Icons/dispensing_icon.jpg";
-import heatingIcon from "../content/Skeleton/Icons/heating_icon.jpg";
-import pumpIcon from "../content/Skeleton/Icons/pump_icon.jpg";
-import temperatureIcon from "../content/Skeleton/Icons/temperature_icon.jpg";
-import waterIcon from "../content/Skeleton/Icons/water_icon.jpg";
-import tankImg from "../content/Skeleton/Subsections/Tank.png";
-import plumbedImg from "../content/Skeleton/Subsections/Plumbed.png";
-import vibratoryPumpImg from "../content/Skeleton/Subsections/vibratory_pump.png";
-import rotaryPumpImg from "../content/Skeleton/Subsections/rotary_pump.png";
-import thermoblockImg from "../content/Skeleton/Subsections/thermoblock.png";
-import singleBoilerImg from "../content/Skeleton/Subsections/single_boiler.png";
-import heatExchangerImg from "../content/Skeleton/Subsections/heat_exchanger.png";
-import dualBoilerImg from "../content/Skeleton/Subsections/dual_boiler.png";
-import pressurestatImg from "../content/Skeleton/Subsections/pressurestat.png";
-import pidImg from "../content/Skeleton/Subsections/PID.png";
-import microcontrollerImg from "../content/Skeleton/Subsections/micro_controller.jpeg";
-import e61Img from "../content/Skeleton/Subsections/E61.png";
-import saturatedImg from "../content/Skeleton/Subsections/saturated.png";
+import blackEdition from "../assets/images/skeleton/black_edition.png";
+import whiteEdition from "../assets/images/skeleton/white_edition.png";
+import dispensingIcon from "../assets/images/skeleton/icons/dispensing_icon.jpg";
+import heatingIcon from "../assets/images/skeleton/icons/heating_icon.jpg";
+import pumpIcon from "../assets/images/skeleton/icons/pump_icon.jpg";
+import temperatureIcon from "../assets/images/skeleton/icons/temperature_icon.jpg";
+import waterIcon from "../assets/images/skeleton/icons/water_icon.jpg";
+import tankImg from "../assets/images/skeleton/subsections/Tank.png";
+import plumbedImg from "../assets/images/skeleton/subsections/Plumbed.png";
+import vibratoryPumpImg from "../assets/images/skeleton/subsections/vibratory_pump.png";
+import rotaryPumpImg from "../assets/images/skeleton/subsections/rotary_pump.png";
+import thermoblockImg from "../assets/images/skeleton/subsections/thermoblock.png";
+import singleBoilerImg from "../assets/images/skeleton/subsections/single_boiler.png";
+import heatExchangerImg from "../assets/images/skeleton/subsections/heat_exchanger.png";
+import dualBoilerImg from "../assets/images/skeleton/subsections/dual_boiler.png";
+import pressurestatImg from "../assets/images/skeleton/subsections/pressurestat.png";
+import pidImg from "../assets/images/skeleton/subsections/PID.png";
+import microcontrollerImg from "../assets/images/skeleton/subsections/micro_controller.jpeg";
+import e61Img from "../assets/images/skeleton/subsections/E61.png";
+import saturatedImg from "../assets/images/skeleton/subsections/saturated.png";
 
 /* Diagram table for the semi-automatic machine.
  * Row 2 icon images (hand-drawn sketches on light paper, object-fit: contain
@@ -341,7 +341,7 @@ export default function SkeletonPage() {
   return (
     <main className="bg-page text-ink">
       <section className="mx-auto max-w-7xl px-5 pb-24 pt-16 sm:px-6 lg:px-8 lg:pt-24">
-        <h1 className="skeleton-headline text-center font-display text-5xl uppercase leading-[0.9] tracking-[0.01em] text-ink sm:text-6xl lg:text-7xl">
+        <h1 className="skeleton-headline headline text-center text-[2.6rem] text-ink sm:text-[3.2rem] lg:text-[3.8rem]">
           Skeleton of semi-automatic machine.
         </h1>
 

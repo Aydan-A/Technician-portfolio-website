@@ -11,24 +11,24 @@
 // so a long wordmark and a square emblem carry the same optical weight, then
 // clamp to the chip (max 120x48). Re-derive them if you swap a logo.
 
-import commercialLaMarzocco from "../assets/images/Logos/trimmed/commercial/la-marzocco-logo-vector.svg";
-import commercialSynesso from "../assets/images/Logos/trimmed/commercial/synesso-logo.png";
-import commercialVictoriaArduino from "../assets/images/Logos/trimmed/commercial/Victoria_Arduino_Logo_375x.png";
-import commercialSlayer from "../assets/images/Logos/trimmed/commercial/Slayer-logo.png";
-import commercialNuovaSimonelli from "../assets/images/Logos/trimmed/commercial/NS-logo.png";
-import commercialRocket from "../assets/images/Logos/trimmed/commercial/Rocket-Logo.png";
-import commercialRancilio from "../assets/images/Logos/trimmed/commercial/Rancillio-logo.png";
-import commercialLelit from "../assets/images/Logos/trimmed/commercial/lelit-logo.png";
+import commercialLaMarzocco from "../assets/images/logos/commercial/la-marzocco-logo-vector.svg";
+import commercialSynesso from "../assets/images/logos/commercial/synesso-logo.png";
+import commercialVictoriaArduino from "../assets/images/logos/commercial/Victoria_Arduino_Logo_375x.png";
+import commercialSlayer from "../assets/images/logos/commercial/Slayer-logo.png";
+import commercialNuovaSimonelli from "../assets/images/logos/commercial/NS-logo.png";
+import commercialRocket from "../assets/images/logos/commercial/Rocket-Logo.png";
+import commercialRancilio from "../assets/images/logos/commercial/Rancillio-logo.png";
+import commercialLelit from "../assets/images/logos/commercial/lelit-logo.png";
 
-import residentialRocket from "../assets/images/Logos/trimmed/residential/Rocket-Logo.png";
-import residentialProfitec from "../assets/images/Logos/trimmed/residential/Profitec-logo.png";
-import residentialEcm from "../assets/images/Logos/trimmed/residential/ECM-logo.png";
-import residentialBezzera from "../assets/images/Logos/trimmed/residential/bezzera-logo.png";
-import residentialLelit from "../assets/images/Logos/trimmed/residential/lelit-logo.png";
-import residentialLaPavoni from "../assets/images/Logos/trimmed/residential/Lapavoni-logo.png";
-import residentialQuickMill from "../assets/images/Logos/trimmed/residential/QM-logo.png";
-import residentialNuovaSimonelli from "../assets/images/Logos/trimmed/residential/NS-logo.png";
-import residentialLaMarzocco from "../assets/images/Logos/trimmed/residential/la-marzocco-logo-vector.svg";
+import residentialRocket from "../assets/images/logos/residential/Rocket-Logo.png";
+import residentialProfitec from "../assets/images/logos/residential/Profitec-logo.png";
+import residentialEcm from "../assets/images/logos/residential/ECM-logo.png";
+import residentialBezzera from "../assets/images/logos/residential/bezzera-logo.png";
+import residentialLelit from "../assets/images/logos/residential/lelit-logo.png";
+import residentialLaPavoni from "../assets/images/logos/residential/Lapavoni-logo.png";
+import residentialQuickMill from "../assets/images/logos/residential/QM-logo.png";
+import residentialNuovaSimonelli from "../assets/images/logos/residential/NS-logo.png";
+import residentialLaMarzocco from "../assets/images/logos/residential/la-marzocco-logo-vector.svg";
 
 export const residentialBrands = [
   { name: "Rocket Espresso", logo: residentialRocket, w: 104, h: 20 },

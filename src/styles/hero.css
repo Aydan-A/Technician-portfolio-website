@@ -1,0 +1,104 @@
+/* ---------- Hero ----------
+ * Three stacked, full-width matte colour blocks (field / amber / dock).
+ * The blocks themselves are token-backed Tailwind classes in HomePage.jsx;
+ * what lives here is the texture and the schematic treatment.
+ */
+
+/* Blueprint hairline grid. An 88px module reads as structure, not decoration. */
+.mech-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      rgb(var(--mech-grid-line) / var(--mech-grid-opacity)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgb(var(--mech-grid-line) / var(--mech-grid-opacity)) 1px,
+      transparent 1px
+    );
+  background-size: 88px 88px;
+}
+
+/* Tabular figures anywhere a number is being read as data. */
+.mech-data {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* The schematic is black ink on white. On the dark field it is inverted and
+ * screened so the linework reads; on the light theme it needs neither. */
+.hero-machine-img {
+  transition: filter 0.3s ease;
+}
+
+[data-theme='dark'] .hero-machine-img {
+  filter: invert(1) brightness(0.95) contrast(1.05);
+  mix-blend-mode: screen;
+}
+
+.hero-machine-figure {
+  isolation: isolate;
+}
+
+/* Concentric inspection arcs — drafting-layout circles behind the schematic.
+ * All three stroke in ink, so they track the theme automatically. */
+.hero-machine-arcs {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+}
+
+.hero-machine-arc {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--color-ink) / 0.22);
+  transform: translate(-50%, -50%);
+}
+
+.hero-machine-arc--1 {
+  width: 78%;
+  aspect-ratio: 1 / 1;
+}
+
+.hero-machine-arc--2 {
+  width: 96%;
+  aspect-ratio: 1 / 1;
+  border-style: dashed;
+  border-color: rgb(var(--color-ink) / 0.14);
+}
+
+.hero-machine-arc--3 {
+  width: 116%;
+  aspect-ratio: 1 / 1;
+  border-color: rgb(var(--color-ink) / 0.1);
+}
+
+/* Registration ticks top and bottom of the innermost arc. */
+.hero-machine-arc--1::before,
+.hero-machine-arc--1::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  height: 7px;
+  transform: translateX(-50%);
+  background: rgb(var(--color-ink) / 0.35);
+}
+
+.hero-machine-arc--1::before {
+  top: -3px;
+}
+
+.hero-machine-arc--1::after {
+  bottom: -3px;
+}
+
+/* Secondary copy on the hero bands. */
+.hero-muted {
+  color: rgb(var(--color-muted));
+}

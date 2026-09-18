@@ -1,0 +1,699 @@
+/* ---------- Contact — form shell ----------
+ * One card, one column of fields. The form used to be four numbered
+ * sub-cards with their own headings and hints, which read as four forms;
+ * now the rhythm comes from consistent spacing and paired rows.
+ */
+
+.contact-form {
+  display: block;
+}
+
+.contact-form-card {
+  border-radius: var(--radius-card);
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-surface));
+  padding: 1.5rem 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .contact-form-card {
+    padding: 2rem 1.85rem;
+  }
+}
+
+.contact-form-head {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgb(var(--color-line));
+}
+
+.contact-form-lede {
+  margin: 0.55rem 0 0;
+  max-width: 44ch;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgb(var(--color-graphite));
+}
+
+/* The single field stack. One spacing value for every gap, so the eye can
+   tell fields apart without borders or numbering. */
+.contact-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Paired fields. Even for like-sized inputs, wide for a name/short-value
+   pair such as machine model and age. */
+.field-row {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 560px) {
+  .field-row-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .field-row-wide { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
+}
+
+/* Folded-away helper content (the filming guide), kept inside the form next
+   to the field it belongs to. */
+.contact-disclosure {
+  border-top: 1px solid rgb(var(--color-line));
+  padding-top: 1.25rem;
+}
+
+.contact-disclosure-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--color-graphite));
+}
+
+.contact-disclosure-summary::-webkit-details-marker {
+  display: none;
+}
+
+.contact-disclosure-summary::before {
+  content: '+';
+  display: inline-grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgb(var(--color-rule));
+  font-size: 12px;
+  line-height: 1;
+}
+
+.contact-disclosure[open] .contact-disclosure-summary::before {
+  content: '–';
+}
+
+.contact-disclosure-summary:focus-visible {
+  outline: 2px solid rgb(var(--color-bronze));
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.contact-disclosure-body {
+  padding-top: 1.1rem;
+}
+
+/* Submit row sits inside the card, below a rule — the action belongs to the
+   form, not to the page. */
+.form-submit {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgb(var(--color-line));
+}
+
+@media (min-width: 640px) {
+  .form-submit {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+}
+
+.form-submit-note {
+  max-width: 30rem;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: rgb(var(--color-muted));
+}
+
+/* ---------- Contact — mail hand-off ----------
+ * Shown after submit. The form hands the message to the visitor's mail app via
+ * mailto:, which is silent when nothing is registered to handle it — so the
+ * address, a web-compose link and a copy button stay on screen as the
+ * fallback path rather than leaving them wondering whether it sent.
+ */
+
+.contact-email-link {
+  color: rgb(var(--color-ink));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgb(var(--color-rule));
+  transition: color 0.15s ease;
+}
+
+.contact-email-link:hover {
+  color: rgb(var(--color-bronze));
+}
+
+.contact-handoff {
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid rgb(var(--color-rule));
+  border-radius: var(--radius-card);
+  background: rgb(var(--color-ink) / 0.04);
+}
+
+.contact-handoff-title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgb(var(--color-ink));
+}
+
+.contact-handoff-text {
+  margin: 0.5rem 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgb(var(--color-graphite));
+}
+
+.contact-handoff-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.contact-handoff-action {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgb(var(--color-rule));
+  background: rgb(var(--color-shell));
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--color-ink));
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.contact-handoff-action:hover {
+  border-color: rgb(var(--color-ink) / 0.5);
+  background: rgb(var(--color-ink) / 0.07);
+}
+
+.contact-handoff-action:focus-visible {
+  outline: 2px solid rgb(var(--color-bronze));
+  outline-offset: 2px;
+}
+
+/* ---------- Contact — fields ---------- */
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.contact-field-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgb(var(--color-graphite));
+}
+
+/* "optional" marker — marking the few optional fields reads faster than
+   starring the many required ones. Sans and italic so it cannot be mistaken
+   for part of the mono label. */
+.contact-field-optional {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgb(var(--color-muted));
+}
+
+.contact-field-optional::before {
+  content: '· ';
+}
+
+.contact-input {
+  border-radius: var(--radius-pill);
+  width: 100%;
+  appearance: none;
+  background: rgb(var(--color-shell));
+  border: 1px solid rgb(var(--color-line));
+  padding: 0.85rem 1.15rem;
+  color: rgb(var(--color-ink));
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-input::placeholder { color: rgb(var(--color-graphite)); }
+
+.contact-input:hover {
+  border-color: rgb(var(--color-ink) / 0.4);
+}
+
+.contact-input:focus {
+  outline: none;
+  border-color: rgb(var(--color-ink));
+  box-shadow: 0 0 0 3px rgb(var(--color-ink) / 0.12);
+}
+
+.contact-textarea {
+  border-radius: var(--radius-card);
+  min-height: 9rem;
+  padding: 1rem 1.15rem;
+  resize: vertical;
+}
+
+/* Small helper line under an input. */
+.contact-field-hint {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgb(var(--color-graphite));
+}
+
+/* ---------- Contact — plan selector pills ---------- */
+
+.plan-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.plan-option {
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-shell));
+  padding: 0.6rem 1.05rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--color-graphite));
+  transition: color 0.2s ease, background-color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Fills in when the pill is chosen — a small tactile confirmation that reads
+   faster than the colour swap alone. */
+.plan-option-dot {
+  border-radius: var(--radius-pill);
+  width: 0.4rem;
+  height: 0.4rem;
+  border: 1px solid rgb(var(--color-rule));
+  background: transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.plan-option:hover {
+  border-color: rgb(var(--color-ink) / 0.4);
+  background: rgb(var(--color-ink) / 0.04);
+  color: rgb(var(--color-ink));
+  transform: translateY(-1px);
+}
+
+.plan-option:hover .plan-option-dot {
+  border-color: rgb(var(--color-ink) / 0.5);
+}
+
+.plan-option:focus-within {
+  border-color: rgb(var(--color-ink));
+  box-shadow: 0 0 0 3px rgb(var(--color-ink) / 0.12);
+}
+
+.plan-option:active {
+  transform: translateY(0);
+}
+
+.plan-option.is-active {
+  border-color: rgb(var(--button-bg));
+  background: rgb(var(--button-bg));
+  color: rgb(var(--button-fg));
+  box-shadow: 0 8px 20px rgb(var(--button-bg) / 0.16);
+}
+
+.plan-option.is-active .plan-option-dot {
+  border-color: rgb(var(--button-fg) / 0.55);
+  background: rgb(var(--button-fg));
+  box-shadow: 0 0 0 3px rgb(var(--button-fg) / 0.16);
+}
+
+/* Conditional service pills replay this when the location toggles. */
+.plan-choice-swap {
+  animation: plan-choice-enter 0.28s ease-out both;
+}
+
+@keyframes plan-choice-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-choice-swap {
+    animation: none;
+  }
+  .plan-option {
+    transition: none;
+  }
+  .plan-option:hover {
+    transform: none;
+  }
+}
+
+/* ---------- Contact — media upload ---------- */
+
+.media-drop {
+  border-radius: var(--radius-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 2.25rem 1.25rem;
+  text-align: center;
+  cursor: pointer;
+  border: 1px dashed rgb(var(--color-rule));
+  background: rgb(var(--color-shell));
+  transition: border-color 0.2s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.media-drop:hover {
+  border-color: rgb(var(--color-ink) / 0.4);
+  background: rgb(var(--color-ink) / 0.03);
+}
+
+.media-drop:focus-visible {
+  outline: none;
+  border-color: rgb(var(--color-ink));
+  box-shadow: 0 0 0 3px rgb(var(--color-ink) / 0.12);
+}
+
+.media-drop.is-dragging {
+  border-style: solid;
+  border-color: rgb(var(--color-bronze));
+  background: rgb(var(--color-bronze) / 0.09);
+  box-shadow: inset 0 0 0 1px rgb(var(--color-bronze) / 0.35);
+}
+
+/* Icon tile rather than a bare glyph, so the zone has a clear focal point. */
+.media-drop-mark {
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 0.45rem;
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-ink) / 0.05);
+  color: rgb(var(--color-graphite));
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.media-drop:hover .media-drop-mark {
+  transform: translateY(-2px);
+  background: rgb(var(--color-ink) / 0.08);
+}
+
+.media-drop.is-dragging .media-drop-mark {
+  transform: translateY(-2px);
+}
+
+.media-drop-title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(var(--color-ink));
+}
+
+.media-drop-action {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: rgb(var(--color-graphite));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.media-drop-rules {
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+}
+
+.media-alert {
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(var(--color-bronze) / 0.55);
+  border-left-width: 3px;
+  background: rgb(var(--color-bronze) / 0.08);
+  padding: 0.875rem 1rem;
+}
+
+.media-alert-title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: rgb(var(--color-ink));
+}
+
+.media-alert-list {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgb(var(--color-graphite));
+}
+
+.media-alert-name {
+  color: rgb(var(--color-ink));
+  overflow-wrap: anywhere;
+}
+
+.media-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+}
+
+.media-tile {
+  border-radius: var(--radius-md);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-shell));
+}
+
+.media-thumb {
+  border-radius: var(--radius-sm);
+  display: block;
+  width: 100%;
+  height: 6rem;
+  object-fit: cover;
+  background: rgb(var(--color-ink) / 0.06);
+}
+
+.media-remove {
+  border-radius: var(--radius-pill);
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid rgb(var(--color-page) / 0.35);
+  background: rgb(0 0 0 / 0.62);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+
+.media-remove:hover {
+  background: rgb(0 0 0 / 0.85);
+}
+
+.media-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.5rem 0.6rem 0.6rem;
+}
+
+.media-name {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.35;
+  color: rgb(var(--color-ink));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.media-size {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+}
+
+.media-link-toggle {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--color-ink));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s ease;
+}
+
+.media-link-toggle:hover {
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-drop,
+  .media-drop-mark,
+  .media-remove,
+  .media-link-toggle {
+    transition: none;
+  }
+  .media-drop:hover .media-drop-mark,
+  .media-drop.is-dragging .media-drop-mark {
+    transform: none;
+  }
+}
+
+/* ---------- Contact — diagnostic filming guide ----------
+ * Rendered inside the form's disclosure, so these rules style the checklist
+ * itself; the card shell it used to sit in is gone.
+ */
+
+.filming-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.filming-step {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.9rem;
+  align-items: start;
+}
+
+/* Numbered chip keeps the checklist scannable without a bullet glyph. */
+.filming-step-index {
+  border-radius: var(--radius-pill);
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid rgb(var(--color-line));
+  background: rgb(var(--color-ink) / 0.05);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: rgb(var(--color-graphite));
+}
+
+.filming-step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-top: 0.2rem;
+}
+
+.filming-step-title {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgb(var(--color-ink));
+}
+
+.filming-step-text {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgb(var(--color-graphite));
+}
+
+.filming-tip {
+  display: block;
+  margin-top: 1.25rem;
+  border-top: 1px solid rgb(var(--color-line));
+  padding-top: 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgb(var(--color-graphite));
+}
+
+.filming-tip-label {
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  margin-right: 0.5rem;
+  vertical-align: 1px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+  border: 1px solid rgb(var(--color-rule));
+  padding: 0.15rem 0.55rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-node {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .timeline-spine-fill { transition: none; }
+}

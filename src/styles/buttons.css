@@ -1,0 +1,67 @@
+/* ---------- Buttons ----------
+ * The homepage hero's CTA pair, promoted to the site-wide control:
+ * square, mono, tracked caps. Amber block = the action you want taken,
+ * ink outline = everything else. No pills, no glass, no hover lift.
+ * Geometry and type live in Button.jsx; this file is only the skin.
+ */
+
+.button-primary {
+  border-color: rgb(var(--button-bg));
+  background: rgb(var(--button-bg));
+  color: rgb(var(--button-fg));
+}
+
+.button-primary:hover {
+  border-color: rgb(var(--button-bg-hover));
+  background: rgb(var(--button-bg-hover));
+}
+
+.button-secondary {
+  border-color: rgb(var(--color-ink));
+  background: transparent;
+  color: rgb(var(--color-ink));
+}
+
+.button-secondary:hover {
+  background: rgb(var(--color-ink));
+  color: rgb(var(--color-page));
+}
+
+/* Quiet third tier — a bordered control that should not compete with the
+ * primary action (inline "visit journal" style links). */
+.button-quiet {
+  border-color: rgb(var(--color-rule));
+  background: transparent;
+  color: rgb(var(--color-ink));
+}
+
+.button-quiet:hover {
+  border-color: rgb(var(--color-ink));
+  background: rgb(var(--color-ink) / 0.07);
+}
+
+/* For buttons sitting on the amber band, where amber-on-amber would vanish. */
+.button-on-amber {
+  border-color: rgb(var(--on-amber));
+  background: rgb(var(--on-amber));
+  color: rgb(var(--color-bronze));
+}
+
+.button-on-amber:hover {
+  background: transparent;
+  color: rgb(var(--on-amber));
+}
+
+.button-primary:focus-visible,
+.button-secondary:focus-visible,
+.button-quiet:focus-visible,
+.button-on-amber:focus-visible {
+  outline: 2px solid rgb(var(--color-bronze));
+  outline-offset: 2px;
+}
+
+/* Same hard amber focus ring for any non-button control that opts in. */
+.mech-focus:focus-visible {
+  outline: 2px solid rgb(var(--color-bronze));
+  outline-offset: 2px;
+}

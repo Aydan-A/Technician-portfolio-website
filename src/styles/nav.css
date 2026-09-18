@@ -1,0 +1,99 @@
+/* ---------- Site nav ----------
+ * A flat instrument bar, not a floating glass pill: the dock tone from the
+ * hero, one hairline under it, and an amber key on the active route. It sits
+ * flush at the top so the hero's first colour block starts right beneath it.
+ */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgb(var(--color-surface));
+  border-bottom: 1px solid rgb(var(--color-line));
+}
+
+/* Monochrome mark. Amber is reserved for actions and selections, and a logo
+ * is neither — it was one more saturated dot on every screen. */
+.site-nav-mark {
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  /* Outlined rather than filled: a solid mark in either amber or ink pulls
+   * the eye to the corner on every page. */
+  background: transparent;
+  border: 1px solid rgb(var(--color-rule));
+  color: rgb(var(--color-ink));
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+/* Idle links sit at 80% ink rather than graphite: mono caps at 11px need the
+ * contrast, and a bar of mid-grey labels is hard to read at a glance. */
+.site-nav-link {
+  border-radius: var(--radius-pill);
+  padding: 0.45rem 0.8rem;
+  color: rgb(var(--color-ink) / 0.8);
+  /* Tracked caps leave a trailing letter-space inside the pill, which makes
+   * the label sit left of centre; indent by the same amount to correct it. */
+  text-indent: 0.18em;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.site-nav-link:hover {
+  color: rgb(var(--color-ink));
+  background: rgb(var(--color-ink) / 0.08);
+}
+
+/* The active route is a solid ink pill — white pill with dark type in the dark
+ * theme, near-black pill with light type in the light one. Unmistakable in
+ * both, and still not amber, which is reserved for actions. */
+.site-nav-link.is-active,
+.site-nav-link.is-active:hover {
+  background: rgb(var(--color-ink));
+  color: rgb(var(--color-page));
+}
+
+/* Theme switch — two square keys in a hairline frame, no pill, no shadow. */
+.theme-switch {
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  /* The stacked mobile nav is a column, so without this the switch stretches
+   * to the full row width instead of hugging its two keys. */
+  align-self: flex-start;
+  border: 1px solid rgb(var(--color-rule));
+}
+
+.theme-switch-option {
+  border-radius: var(--radius-pill);
+  min-height: 2rem;
+  padding: 0.35rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--color-ink) / 0.6);
+  background: transparent;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.theme-switch-option:hover {
+  color: rgb(var(--color-ink));
+}
+
+/* Which theme you are on has to be obvious, so the selected key matches the
+ * active nav route: a solid ink pill. */
+.theme-switch-option.is-active {
+  background: rgb(var(--color-ink));
+  color: rgb(var(--color-page));
+}
+
+.theme-switch-option:focus-visible {
+  outline: 2px solid rgb(var(--color-bronze));
+  outline-offset: 2px;
+}

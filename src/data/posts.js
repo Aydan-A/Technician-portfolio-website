@@ -1,20 +1,20 @@
-import pressurestatMd from '../content/Blogs/pressurestat.md?raw';
-import pressurestatCoverImg from '../assets/images/Blogs/EMP/Pressurestat/Cover.png';
-import pressurestatHighLowImg from '../assets/images/Blogs/EMP/Pressurestat/High_Low_pressure.png';
-import reliableMd from '../content/Blogs/which-machine-is-reliable.md?raw';
-import reliableCoverImg from '../assets/images/Blogs/Reliability/Cover.png';
-import reliableBathtubImg from '../assets/images/Blogs/Reliability/Bathtube.png';
-import merakiMd from '../content/Blogs/meraki-espresso-machine.md?raw';
-import merakiCoverImg from '../assets/images/Blogs/OEM/Meraki/Cover.png';
-import rotaryVsVibratoryMd from '../content/Blogs/rotary-vs-vibratory.md?raw';
-import solenoidBlogMd from '../content/Blogs/solenoid-blog.md?raw';
-import pumpCoverImg from '../assets/images/Blogs/EMP/Pump/Cover.png';
-import pumpPressureConsistencyImg from '../assets/images/Blogs/EMP/Pump/Pressure_consistency_misconception.jpg';
-import pumpRotaryImg from '../assets/images/Blogs/EMP/Pump/Rotary.png';
-import pumpVibratoryImg from '../assets/images/Blogs/EMP/Pump/Vibratory.png';
-import solenoidTwoWayVsThreeWayImg from '../assets/images/Blogs/EMP/Solenoid/2way_vs_3_way.png';
-import solenoidCoverImg from '../assets/images/Blogs/EMP/Solenoid/Cover_picture.png';
-import solenoidEnergizedImg from '../assets/images/Blogs/EMP/Solenoid/Energized_Deenergized.png';
+import pressurestatMd from '../content/blog/pressurestat.md?raw';
+import pressurestatCoverImg from '../assets/images/blog/pressurestat/Cover.png';
+import pressurestatHighLowImg from '../assets/images/blog/pressurestat/High_Low_pressure.png';
+import reliableMd from '../content/blog/which-machine-is-reliable.md?raw';
+import reliableCoverImg from '../assets/images/blog/reliability/Cover.png';
+import reliableBathtubImg from '../assets/images/blog/reliability/Bathtube.png';
+import merakiMd from '../content/blog/meraki-espresso-machine.md?raw';
+import merakiCoverImg from '../assets/images/blog/meraki/Cover.png';
+import rotaryVsVibratoryMd from '../content/blog/rotary-vs-vibratory.md?raw';
+import solenoidBlogMd from '../content/blog/solenoid-blog.md?raw';
+import pumpCoverImg from '../assets/images/blog/pump/Cover.png';
+import pumpPressureConsistencyImg from '../assets/images/blog/pump/Pressure_consistency_misconception.jpg';
+import pumpRotaryImg from '../assets/images/blog/pump/Rotary.png';
+import pumpVibratoryImg from '../assets/images/blog/pump/Vibratory.png';
+import solenoidTwoWayVsThreeWayImg from '../assets/images/blog/solenoid/2way_vs_3_way.png';
+import solenoidCoverImg from '../assets/images/blog/solenoid/Cover_picture.png';
+import solenoidEnergizedImg from '../assets/images/blog/solenoid/Energized_Deenergized.png';
 
 /**
  * The Workshop Dispatch — Vagif's review journal.

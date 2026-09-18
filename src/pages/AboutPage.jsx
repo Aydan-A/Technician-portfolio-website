@@ -14,7 +14,7 @@ const SHOW_CAREER_ARCHIVE = false;
 function ImageSlot({ image }) {
   if (image.src) {
     return (
-      <figure className="image-slot image-slot--filled aspect-[16/10] overflow-hidden rounded-lg">
+      <figure className="image-slot image-slot--filled aspect-[16/10] overflow-hidden ">
         <img
           alt={image.alt}
           className="h-full w-full object-cover"
@@ -28,9 +28,9 @@ function ImageSlot({ image }) {
   return (
     <div
       aria-hidden="true"
-      className="image-slot image-slot--empty flex aspect-[16/10] items-center justify-center rounded-lg"
+      className="image-slot image-slot--empty flex aspect-[16/10] items-center justify-center "
     >
-      <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-graphite">
+      <span className="font-mono text-[11px] uppercase tracking-[0.22em]">
         Image · to come
       </span>
     </div>
@@ -52,10 +52,10 @@ function TimelineNode({ milestone, index, isVisible }) {
 
       <div className="timeline-node-content flex flex-col gap-4">
         <header>
-          <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-bronze">
+          <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-muted">
             {milestone.year}
           </span>
-          <h3 className="mt-2 font-display text-3xl uppercase leading-[0.95] tracking-[0.02em] text-ink sm:text-4xl lg:text-[2.4rem]">
+          <h3 className="headline-sm mt-2 text-[1.5rem] text-ink sm:text-[1.75rem]">
             {milestone.title}
           </h3>
           <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.2em] text-graphite">
@@ -153,14 +153,14 @@ export default function AboutPage() {
   return (
     <main className="bg-page text-ink">
       <section className="about-inner px-5 pb-24 pt-14 sm:px-6 lg:pt-20">
-        <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5rem] xl:text-[5.75rem]">
+        <h1 className="headline text-[2.6rem] text-ink sm:text-[3.4rem] lg:text-[4rem]">
           Work
           <br />
           experiences.
         </h1>
 
         <div className="mt-9">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
             At a glance
           </p>
           <ul className="about-stats about-stats--kpi mt-3">
@@ -174,7 +174,7 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-10">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
             Background
           </p>
           <p className="about-bio mt-3 font-sans text-base leading-7 text-ink/80 sm:text-[17px] sm:leading-8">
@@ -207,7 +207,7 @@ export default function AboutPage() {
           <div className="about-archive-grid-layout">
             <aside className="about-rail">
               <div className="about-rail-inner">
-                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
                   Career path
                 </p>
                 <ol className="about-rail-list mt-4">
@@ -232,7 +232,7 @@ export default function AboutPage() {
                   })}
                 </ol>
 
-                <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+                <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
                   {aboutHeadline.stat}
                 </p>
                 <p className="mt-1 font-sans text-sm leading-6 text-ink/75">

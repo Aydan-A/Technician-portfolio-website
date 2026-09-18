@@ -1,13 +1,12 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import contactImg from "../assets/images/Contactme.jpg";
-import heroMachineImg from "../assets/images/heropageimg.png";
-import Button from "../components/Button.jsx";
-import HeroVideo from "../components/HeroVideo.jsx";
-import BrandMarquee from "../components/BrandMarquee.jsx";
-import JournalDispatchCard from "../components/JournalDispatchCard.jsx";
-import SectionLabel from "../components/SectionLabel.jsx";
-import SkeletonBadge from "../components/SkeletonBadge.jsx";
+import contactImg from "../assets/images/home/bench.jpg";
+import heroMachineImg from "../assets/images/home/hero-machine.png";
+import Button from "../components/ui/Button.jsx";
+import HeroVideo from "../components/home/HeroVideo.jsx";
+import BrandMarquee from "../components/ui/BrandMarquee.jsx";
+import JournalDispatchCard from "../components/journal/JournalDispatchCard.jsx";
+import SectionLabel from "../components/ui/SectionLabel.jsx";
+import SkeletonBadge from "../components/ui/SkeletonBadge.jsx";
 import { allBrands } from "../data/brands.js";
 import { posts } from "../data/posts.js";
 
@@ -51,10 +50,19 @@ export default function HomePage() {
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(node);
-    // Webfont metrics change the track width, so re-measure once they land.
-    document.fonts?.ready.then(measure).catch(() => {});
+    // Webfont metrics change the track width, so re-measure once they land —
+    // but fonts.ready can resolve after the page is gone, so it checks first.
+    let live = true;
+    document.fonts?.ready
+      .then(() => {
+        if (live) measure();
+      })
+      .catch(() => {});
 
-    return () => observer.disconnect();
+    return () => {
+      live = false;
+      observer.disconnect();
+    };
   }, []);
   // Three newest dispatches, same ordering the Journal index uses.
   const latestPosts = [...posts].sort((a, b) => b.number - a.number).slice(0, 3);
@@ -63,7 +71,7 @@ export default function HomePage() {
     <>
       <div
         aria-label="Coffee equipment facts"
-        className="marquee-strip relative mt-10 overflow-hidden border-y sm:mt-12"
+        className="marquee-strip relative overflow-hidden border-b"
       >
         <div className="marquee-fade-left pointer-events-none absolute inset-y-0 left-0 z-10 w-24" />
         <div className="marquee-fade-right pointer-events-none absolute inset-y-0 right-0 z-10 w-24" />
@@ -77,10 +85,10 @@ export default function HomePage() {
           {tickerLoop.map((fact, index) => (
             <div
               aria-hidden={index >= TICKER_FACTS.length}
-              className="hero-muted flex shrink-0 items-center gap-6 px-6 font-mono text-[12px] font-semibold uppercase tracking-[0.18em]"
+              className="hero-muted flex shrink-0 items-center gap-6 px-6 font-mono text-[12px] font-medium uppercase tracking-[0.18em]"
               key={`${fact}-${index}`}
             >
-              <span className="h-1.5 w-1.5 shrink-0 rotate-45 bg-ink/60" />
+              <span className="h-1.5 w-1.5 shrink-0 bg-rule" />
               <span className="whitespace-nowrap">{fact}</span>
             </div>
           ))}
@@ -92,18 +100,24 @@ export default function HomePage() {
           * HERO — BACKGROUND ARCHITECTURE
           * Three stacked, full-width matte colour blocks. Sharp edges only:
           * no gradients, no fades, no rounding anywhere in this section.
-          *   1. Main field       ~70%  #20242B  deep matte graphite
-          *   2. Amber detail     ~18%  #E09B2D  matte industrial amber
-          *   3. Telemetry dock   ~12%  #181A1F  darker matte charcoal
+          *   1. Main field         bg-page     the site's base surface
+          *   2. Amber stat strip   bg-amber    the accent, rationed
+          *   3. Telemetry dock     bg-surface  the alternating band tone
+          * The amber strip is deliberately the thinnest band: it hugs its
+          * own content instead of taking a share of the viewport, because a
+          * full-height saturated block is tiring to sit under.
+          * These are the same three tokens every other page is built from —
+          * the hero is the palette stated plainly, not a one-off block.
           * Proportions are flex-grow ratios over a 100svh column, with
           * min-heights so the lower bands survive short viewports.
           * ============================================================ */}
-        <section className="relative isolate flex min-h-[calc(100svh-9.5rem)] flex-col overflow-hidden rounded-none">
+        <section className="relative isolate flex min-h-[calc(100svh-7.5rem)] flex-col overflow-hidden">
           {/* ---- 1. PRIMARY BACKGROUND SECTION (Main Field) ---- */}
-          <div className="flex flex-[70] flex-col justify-center rounded-none bg-[#20242B] px-5 pb-14 pt-14 sm:px-6 sm:pt-16 lg:px-10 lg:pt-20">
-            <div className="mx-auto grid w-full max-w-[88rem] gap-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-14">
+          <div className="relative flex flex-[70] flex-col justify-center bg-page px-5 pb-14 pt-14 sm:px-6 sm:pt-16 lg:px-10 lg:pt-20">
+            <div aria-hidden className="mech-grid pointer-events-none absolute inset-0" />
+            <div className="relative mx-auto grid w-full max-w-[88rem] gap-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-14">
               <div className="relative flex flex-col justify-center">
-                <h1 className="font-display text-[3.4rem] uppercase leading-[0.92] tracking-tight text-slate-100 sm:text-[4.4rem] md:text-[5rem] lg:text-[4.6rem] xl:text-[5.4rem]">
+                <h1 className="headline text-[2.6rem] text-ink sm:text-[3.3rem] md:text-[3.6rem] lg:text-[3.5rem] xl:text-[4.1rem]">
                   Coffee Machine
                   <br />
                   Diagnostics with an
@@ -111,31 +125,20 @@ export default function HomePage() {
                   Engineer&rsquo;s Mindset.
                 </h1>
 
-                <p className="mt-6 font-mono text-[12px] font-semibold uppercase tracking-[0.32em] text-slate-300">
+                <p className="mt-6 font-mono text-[12px] font-medium uppercase tracking-[0.32em] text-graphite">
                   Vagif Aliyev — Espresso Repair &amp; Field Notes
                 </p>
 
-                <p className="mt-6 max-w-xl font-sans text-[15px] leading-7 text-slate-300">
+                <p className="mt-6 max-w-xl font-sans text-[15px] leading-7 text-graphite">
                   I repair, rebuild, and fine-tune espresso machines and grinders
                   for cafés, roasters, and home coffee lovers.
                 </p>
 
-                {/* Sharp rectangular CTAs. Built inline rather than with
-                  * <Button>, whose base class is `rounded-full` — a
-                  * `rounded-none` override loses on Tailwind's emit order. */}
                 <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                  <Link
-                    className="inline-flex min-h-12 items-center justify-center rounded-none border border-[#E09B2D] bg-[#E09B2D] px-7 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.22em] text-zinc-950 transition-colors duration-150 hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E09B2D]"
-                    to="/services"
-                  >
-                    View Services
-                  </Link>
-                  <Link
-                    className="inline-flex min-h-12 items-center justify-center rounded-none border border-slate-100 bg-transparent px-7 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.22em] text-slate-100 transition-colors duration-150 hover:bg-slate-100 hover:text-zinc-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-100"
-                    to="/contact"
-                  >
+                  <Button to="/services">View Services</Button>
+                  <Button to="/contact" variant="secondary">
                     Request a Consultation
-                  </Link>
+                  </Button>
                 </div>
               </div>
 
@@ -148,7 +151,7 @@ export default function HomePage() {
                   </span>
                   <img
                     alt="Espresso machine schematic"
-                    className="hero-machine-img hero-machine-img--on-dark relative z-10 mx-auto block w-full max-w-none object-contain"
+                    className="hero-machine-img relative z-10 mx-auto block w-full max-w-none object-contain"
                     src={heroMachineImg}
                   />
                 </figure>
@@ -159,17 +162,17 @@ export default function HomePage() {
           {/* ---- 2. SECONDARY SHARP HORIZONTAL BLOCK (Matte Amber Detail) ----
             * Full-width band cutting across the field. Razor-sharp top and
             * bottom edges — no border-radius, no border, no shadow. */}
-          <div className="flex min-h-[7rem] flex-[18] items-center rounded-none bg-[#E09B2D] px-5 py-6 sm:px-6 lg:px-10">
+          <div className="flex flex-none items-center bg-amber px-5 py-4 sm:px-6 lg:px-10">
             <dl className="mx-auto flex w-full max-w-[88rem] flex-wrap items-baseline gap-x-10 gap-y-3">
               {[
                 { label: "field hours", value: "9,200+" },
                 { label: "machines serviced", value: "640" },
               ].map((stat) => (
                 <div className="flex items-baseline gap-3" key={stat.label}>
-                  <dd className="font-display text-[2.25rem] uppercase leading-none tracking-normal text-zinc-950 tabular-nums lg:text-[2.75rem]">
+                  <dd className="figure-value text-[1.6rem] text-on-amber lg:text-[1.8rem]">
                     {stat.value}
                   </dd>
-                  <dt className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-zinc-950">
+                  <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.24em] text-on-amber">
                     {stat.label}
                   </dt>
                 </div>
@@ -179,7 +182,7 @@ export default function HomePage() {
 
           {/* ---- 3. TERTIARY TELEMETRY DOCK / FOOTER BLOCK ----
             * Bottom full-width spec bar. Hairline dividers, zero rounding. */}
-          <div className="flex min-h-[6.5rem] flex-[12] items-center rounded-none bg-[#181A1F] px-5 py-5 sm:px-6 lg:px-10">
+          <div className="flex min-h-[6.5rem] flex-[12] items-center bg-surface px-5 py-5 sm:px-6 lg:px-10">
             <dl className="mx-auto grid w-full max-w-[88rem] grid-cols-2 gap-y-5 lg:grid-cols-4">
               {[
                 { label: "brew pressure", value: "9.0", unit: "bar" },
@@ -189,17 +192,17 @@ export default function HomePage() {
               ].map((spec, index) => (
                 <div
                   className={`px-0 lg:px-7 ${
-                    index > 0 ? "lg:border-l lg:border-slate-100/20" : ""
+                    index > 0 ? "lg:border-l lg:border-rule" : ""
                   }`}
                   key={spec.label}
                 >
-                  <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400">
+                  <dt className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-muted">
                     {spec.label}
                   </dt>
-                  <dd className="mt-2 flex items-baseline gap-1.5 font-display text-[1.6rem] uppercase leading-none text-slate-100 tabular-nums">
+                  <dd className="figure-value mt-2 flex items-baseline gap-1.5 text-[1.35rem] text-ink">
                     {spec.value}
                     {spec.unit && (
-                      <span className="font-mono text-[12px] font-bold lowercase tracking-[0.08em] text-[#E09B2D]">
+                      <span className="font-mono text-[12px] font-medium lowercase tracking-[0.08em] text-muted">
                         {spec.unit}
                       </span>
                     )}
@@ -212,7 +215,7 @@ export default function HomePage() {
 
         <section className="bg-surface px-5 sm:px-6 lg:px-10">
           <div className="mx-auto max-w-[88rem]">
-            <div className="aspect-video w-full overflow-hidden bg-black/5">
+            <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black/5">
               <HeroVideo />
             </div>
           </div>
@@ -229,7 +232,7 @@ export default function HomePage() {
           *   <div className="mx-auto max-w-[88rem]">
           *     <div className="mb-10 max-w-2xl">
           *       <SectionLabel>02 — Selected Projects</SectionLabel>
-          *       <h2 className="mt-3 font-serif text-3xl text-ink sm:text-4xl">
+          *       <h2 className="headline mt-3 text-[1.9rem] text-ink sm:text-[2.4rem]">
           *         Case studies from the bench.
           *       </h2>
           *     </div>
@@ -250,15 +253,15 @@ export default function HomePage() {
             <div className="mb-6 flex flex-wrap items-end justify-between gap-4 max-w-full">
               <div className="max-w-2xl">
                 <SectionLabel>03 — Journal</SectionLabel>
-                <h2 className="mt-3 font-serif text-3xl text-ink sm:text-4xl">
+                <h2 className="headline mt-3 text-[1.9rem] text-ink sm:text-[2.4rem]">
                   Reading from the workshop.
                 </h2>
               </div>
-              <Button to="/journal" variant="secondary">
+              <Button to="/journal" variant="quiet">
                 Visit Journal
               </Button>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {latestPosts.map((post) => (
                 <JournalDispatchCard key={post.id} post={post} variant="grid" />
               ))}
@@ -271,18 +274,18 @@ export default function HomePage() {
             <figure className="panel registration relative p-3 sm:p-4">
               <img
                 alt="Vagif at the workbench servicing an espresso machine"
-                className="aspect-[4/5] w-full rounded-md object-cover"
+                className="aspect-[4/5] w-full rounded-xl object-cover"
                 loading="lazy"
                 src={contactImg}
               />
-              <figcaption className="mt-3 flex items-center justify-between px-1 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#1f1f1f]/70">
+              <figcaption className="mt-3 flex items-center justify-between px-1 font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-on-amber/70">
                 <span>Plate 04 — Bench</span>
                 <span>Workshop · YYZ</span>
               </figcaption>
             </figure>
             <div>
               <SectionLabel>04 — Get in Touch</SectionLabel>
-              <h2 className="mt-5 max-w-3xl font-serif text-4xl leading-[1.05] text-ink sm:text-5xl md:text-[3.4rem]">
+              <h2 className="headline mt-5 max-w-3xl text-[2rem] text-ink sm:text-[2.5rem] md:text-[2.9rem]">
                 Need help understanding what your machine is doing?
               </h2>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-ink/85">
@@ -292,17 +295,8 @@ export default function HomePage() {
                 hours.
               </p>
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <Button
-                  className="min-h-12 px-7"
-                  href="mailto:vaqif.aliyev.96@gmail.com"
-                >
-                  Contact Me
-                </Button>
-                <Button
-                  className="min-h-12 px-7"
-                  to="/journal"
-                  variant="secondary"
-                >
+                <Button to="/contact">Contact Me</Button>
+                <Button to="/journal" variant="secondary">
                   Read the Journal
                 </Button>
               </div>

@@ -1,0 +1,27 @@
+/* ---------- Marquee ---------- */
+
+.marquee-strip {
+  background: rgb(var(--color-surface));
+  border-color: rgb(var(--color-line));
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 38s linear infinite;
+}
+
+.marquee-track:hover { animation-play-state: paused; }
+
+.marquee-fade-left {
+  background: linear-gradient(to right, rgb(var(--color-surface)) 10%, transparent);
+}
+
+.marquee-fade-right {
+  background: linear-gradient(to left, rgb(var(--color-surface)) 10%, transparent);
+}
+
+@keyframes marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}

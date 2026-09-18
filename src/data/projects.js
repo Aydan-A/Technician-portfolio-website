@@ -1,6 +1,6 @@
-import p1Img from "../assets/images/ProjetcsImages/P1.jpg";
-import p2Img from "../assets/images/ProjetcsImages/P2.jpg";
-import p3Img from "../assets/images/ProjetcsImages/P3.jpg";
+import p1Img from "../assets/images/projects/P1.jpg";
+import p2Img from "../assets/images/projects/P2.jpg";
+import p3Img from "../assets/images/projects/P3.jpg";
 
 export const projects = [
   {

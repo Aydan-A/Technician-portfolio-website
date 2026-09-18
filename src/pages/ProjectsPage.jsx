@@ -1,8 +1,7 @@
 import { useMemo, useState } from "react";
-import CaseStudyCard from "../components/CaseStudyCard.jsx";
-import SectionLabel from "../components/SectionLabel.jsx";
+import CaseStudyCard from "../components/projects/CaseStudyCard.jsx";
+import SectionLabel from "../components/ui/SectionLabel.jsx";
 import { projects } from "../data/projects.js";
-// import EspressoDiagram from "../components/EspressoDiagram.jsx";
 
 const ALL = "All";
 
@@ -24,7 +23,7 @@ export default function ProjectsPage() {
 
         <div className="mt-5 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-16">
           <div>
-            <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem]">
+            <h1 className="headline text-[2.6rem] text-ink sm:text-[3.4rem] lg:text-[4rem] xl:text-[4.5rem]">
               Case files from
               <br />
               the workshop.
@@ -35,9 +34,8 @@ export default function ProjectsPage() {
               that isolated the cause, the fix, and how it held up.
             </p>
           </div>
-          {/* <EspressoDiagram /> */}
           <div className="lg:pb-2">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
               Filter by discipline
             </p>
             <div

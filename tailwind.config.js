@@ -15,11 +15,14 @@ export default {
         line: 'rgb(var(--color-line) / <alpha-value>)',
         rule: 'rgb(var(--color-rule) / <alpha-value>)',
         bronze: 'rgb(var(--color-bronze) / <alpha-value>)',
+        'bronze-hot': 'rgb(var(--color-bronze-hot) / <alpha-value>)',
+        // Solid amber fill — constant across themes (see styles/tokens.css).
+        amber: 'rgb(var(--color-amber) / <alpha-value>)',
+        // Type that sits on an amber block — always near-black, never white.
+        'on-amber': 'rgb(var(--on-amber) / <alpha-value>)',
       },
       fontFamily: {
-        display: ['Bebas Neue', 'sans-serif'],
-        serif: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
-        sans: ['DM Sans', 'sans-serif'],
+        sans: ['DM Sans', 'system-ui', 'sans-serif'],
         mono: ['DM Mono', 'ui-monospace', 'monospace'],
       },
       boxShadow: {

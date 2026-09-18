@@ -1,0 +1,158 @@
+/* ---------- Design tokens ----------
+ * One source of truth for the whole site. The palette is the homepage hero,
+ * generalised: matte graphite field, charcoal dock, amber action block.
+ *   page    #20242B  the hero's main field — default background
+ *   surface #181A1F  the hero's telemetry dock — alternating bands, nav, forms
+ *   shell   #272C34  one step up from the page — cards, inputs, chips
+ *   bronze  #E09B2D  the single accent, used sparingly and always load-bearing
+ * Light theme is the same system in blueprint steel, not paper/cream.
+ * Never hard-code a hex in a component — add or use a token here.
+ */
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-page: 32 36 43; /* #20242B */
+  --color-surface: 24 26 31; /* #181A1F */
+  --color-shell: 39 44 52; /* #272C34 */
+  --color-panel: 232 236 242; /* #E8ECF2 — image plate, light in both themes */
+  --color-ink: 241 245 249; /* #F1F5F9 */
+  --color-graphite: 203 213 225; /* #CBD5E1 body copy */
+  --color-muted: 148 163 184; /* #94A3B8 micro labels */
+  --color-line: 47 53 64; /* #2F3540 hairline */
+  --color-rule: 61 69 82; /* #3D4552 structural rule */
+  --color-bronze: 224 155 45; /* #E09B2D — accent for type and hairlines */
+  --color-bronze-hot: 240 176 70; /* hover / active amber */
+  /* Solid amber fills (hero strip, buttons, selected chips) do not darken on
+   * the light theme: they carry near-black type, so they stay hero-amber and
+   * read identically in both themes. --color-bronze is the *type* accent and
+   * does darken, because it has to clear AA on a light page.
+   *
+   * WHERE AMBER IS ALLOWED — the list is short on purpose. Saturated accent
+   * spread across logos, toggles, every micro-label and a pulsing badge is
+   * what makes a page tiring to look at:
+   *   1. the primary button;
+   *   2. the selected option in a control group (filter, plan pill, segment);
+   *   3. the hero's stat strip;
+   *   4. focus rings and hover states, which are transient and never
+   *      more than one at a time;
+   *   5. the article's numbered section headings and quote rules, plus the
+   *      OVERRATED verdict tone — semantic, documented in BLOG_STYLE_GUIDE.
+   * Everything else — logos, nav, labels, eyebrows, bullets, icon tiles,
+   * card numbers, photo washes — is ink, graphite or muted. */
+  --color-amber: 224 155 45;
+
+  /* Type sitting on an amber block or a light image plate is always
+   * near-black, never white — both surfaces are constant across themes. */
+  --on-amber: 24 26 31;
+  --on-panel: 24 26 31;
+
+  --button-bg: 224 155 45;
+  --button-bg-hover: 240 176 70;
+  --button-fg: 24 26 31;
+
+
+  --mech-grid-line: 255 255 255;
+  --mech-grid-opacity: 0.035;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --color-page: 241 244 248; /* #F1F4F8 cold paper */
+  --color-surface: 225 230 237; /* #E1E6ED steel sheet */
+  --color-shell: 248 250 252; /* #F8FAFC */
+  --color-panel: 232 236 242;
+  --color-ink: 24 26 31; /* #181A1F */
+  --color-graphite: 51 65 85; /* #334155 */
+  --color-muted: 100 116 139; /* #64748B */
+  --color-line: 199 207 217; /* #C7CFD9 */
+  --color-rule: 148 163 184; /* #94A3B8 */
+  --color-bronze: 176 114 14; /* #B0720E — darker amber, AA on light type */
+  --color-bronze-hot: 150 96 10;
+  --color-amber: 224 155 45; /* constant — see the dark block above */
+
+  --on-amber: 24 26 31;
+  --on-panel: 24 26 31;
+
+  /* The button block stays hero-amber in both themes: it is the one element
+   * that must read identically wherever it lands. */
+  --button-bg: 224 155 45;
+  --button-bg-hover: 240 176 70;
+  --button-fg: 24 26 31;
+
+
+  --mech-grid-line: 24 26 31;
+  --mech-grid-opacity: 0.05;
+}
+
+/* ---------- Type system ----------
+ * TWO families, and only two:
+ *   sans — DM Sans. Everything you read: headlines (800, tight, sentence
+ *          case), titles, body copy. Hierarchy comes from size and weight.
+ *   mono — DM Mono. Everything you scan: labels, specs, figures, buttons,
+ *          nav. Uppercase and tracked, never in a paragraph.
+ * DM Mono ships 300/400/500 only and `font-synthesis: none` is set on body,
+ * so mono never asks for a weight above 500 — it would silently not apply.
+ */
+:root {
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
+
+  /* ---------- Geometry ----------
+   * Soft, pill-first. Anything you press or type into is a pill; anything
+   * that holds content is a rounded card. Four steps, no improvising:
+   *   pill — buttons, chips, inputs, toggles, tags
+   *   card — cards, form shell, modals, panels
+   *   md   — image covers and plates, inner blocks, media tiles
+   *   sm   — the smallest chips (stamps, step markers)
+   * They line up with Tailwind's rounded-full / 2xl / xl / lg so markup and
+   * stylesheets stay in step.
+   */
+  --radius-pill: 9999px;
+  --radius-card: 1rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+}
+
+/* ---------- Headline voice ----------
+ * The one display treatment, now that there is no display face: DM Sans at
+ * 800 with negative tracking. Size is set at the call site with text-*.
+ */
+.headline {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+/* Slightly looser tracking for the smaller section headings, where -0.03em
+ * starts to close up the counters. */
+.headline-sm {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Figures read as instrument numerals: heavy, tabular, tight. */
+.figure-value {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* The wordmark is the one place caps survive, because it is a logo. */
+.wordmark {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}

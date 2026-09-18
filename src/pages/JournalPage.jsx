@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import JournalDispatchCard from "../components/JournalDispatchCard.jsx";
+import JournalDispatchCard from "../components/journal/JournalDispatchCard.jsx";
 import { posts, VERDICTS } from "../data/posts.js";
 
 const ALL = "All";
@@ -63,7 +63,7 @@ export default function JournalPage() {
       <section className="w-full px-5 pt-10 sm:px-6 lg:px-10 2xl:px-16">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-16">
           <div>
-            <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.01em] text-ink sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem]">
+            <h1 className="headline text-[2.6rem] text-ink sm:text-[3.4rem] lg:text-[4rem] xl:text-[4.5rem]">
               Verdicts from
               <br />
               the bench.
@@ -77,7 +77,7 @@ export default function JournalPage() {
 
           {/* Filters */}
           <div className="lg:pb-2">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-bronze">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
               Filter
             </p>
 
@@ -118,7 +118,7 @@ export default function JournalPage() {
       {/* Grid — 3 per row */}
       {visible.length > 0 && (
         <section className="w-full px-5 pb-24 pt-12 sm:px-6 lg:px-10 2xl:px-16">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {visible.map((post) => (
               <JournalDispatchCard key={post.id} post={post} variant="grid" />
             ))}

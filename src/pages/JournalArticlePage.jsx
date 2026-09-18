@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import VerdictStamp from "../components/VerdictStamp.jsx";
+import VerdictStamp from "../components/ui/VerdictStamp.jsx";
 import { posts, TYPES } from "../data/posts.js";
 
 function formatDate(iso) {
@@ -15,10 +15,10 @@ function NotFound() {
   return (
     <main className="bg-page text-ink">
       <section className="mx-auto max-w-3xl px-5 py-24 sm:px-6">
-        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-bronze">
+        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
           404 · Filed nowhere
         </p>
-        <h1 className="mt-4 font-display text-5xl uppercase leading-[0.95] text-ink">
+        <h1 className="headline mt-4 text-[2.6rem] text-ink sm:text-[3.2rem]">
           That dispatch
           <br />
           does not exist.

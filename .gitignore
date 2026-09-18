@@ -1,8 +1,7 @@
 node_modules
 dist
+attic
 .DS_Store
-*.md
-!src/content/**/*.md
 .env
 .env.local
 npm-debug.log*
