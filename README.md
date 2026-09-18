@@ -33,7 +33,7 @@ or a shared link 404s). That rule is already committed:
 - `vercel.json` — the same rule plus asset caching for **Vercel**
 - `netlify.toml` — pins the Netlify build command, publish dir and Node version
 
-### Option A — Netlify (recommended, simplest)
+### Option A — Netlify (what this site deploys to)
 
 1. Push this repo to GitHub.
 2. netlify.com → *Add new site* → *Import an existing project* → pick the repo.
@@ -71,33 +71,15 @@ add the fallback yourself:
   RewriteRule . /index.html [L]
   ```
 
-### Option E — GitHub Pages (configured in this repo)
+### Assets & deploy notes
 
-`.github/workflows/deploy.yml` builds and publishes to Pages on every push to
-`main`. Two details make a router-driven SPA work on Pages, and both are
-handled by the workflow:
-
-- **Base path.** A project repo is served from `https://<user>.github.io/<repo>/`,
-  so the build runs with `BASE_PATH=/<repo>/`. `vite.config.js` reads it for
-  asset URLs and `App.jsx` passes `import.meta.env.BASE_URL` to the router as
-  its `basename`, so the same source also builds for a domain root.
-- **Deep links.** Pages has no rewrite rules, so the workflow copies
-  `index.html` to `404.html`. A direct hit on `/journal/<slug>` then loads the
-  app with the URL intact and React Router renders the right page. The HTTP
-  status is still 404, which is invisible to visitors but not ideal for search
-  crawlers — Netlify or Vercel (options A/B) return a proper 200.
-
-One-time setup: repo **Settings → Pages → Build and deployment → Source:
-GitHub Actions**. After that every push to `main` redeploys.
-
-### Before the first deploy
-
-- **Optimise the images.** `dist/` is currently ~94 MB: individual blog PNGs run
-  4–8 MB and `assets/images/home/hero.mp4` is 10.4 MB. Nothing will break, but
-  first paint on mobile will be slow and you will burn host bandwidth. Target
-  ≤250 KB per cover (WebP or quality-80 JPEG, ~1600px max edge) as
-  `BLOG_STYLE_GUIDE.md` §6 already specifies, and re-encode the hero clip to
-  roughly 2 MB.
+- **Images are optimised.** Every source image over 300 KB is WebP, long edge
+  capped at 1600px, quality 80 (`BLOG_STYLE_GUIDE.md` §6). `dist/` went from
+  ~94 MB to ~14 MB. Keep new covers to that spec — don't add multi-MB PNGs.
+- **The hero clip is still 10.4 MB.** It is the one large asset left, but
+  `HeroVideo.jsx` only fetches it once the hero is near the viewport *and* the
+  page is idle, so it never blocks first paint and a visitor who doesn't scroll
+  never downloads it. Re-encoding it to ~2 MB is still worth doing eventually.
 - **Check the contact email.** The form and footer use
   `vaqif.aliyev.96@gmail.com`; the form opens the visitor's mail client rather
   than sending server-side, so there is no backend to configure.
