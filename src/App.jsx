@@ -63,7 +63,10 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
+    /* BASE_URL is '/' everywhere except GitHub Pages, where the site lives
+     * under /<repo-name>/ — passing it through keeps every <Link> correct on
+     * both without a second build of the routes. */
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route
           element={<Layout onThemeChange={handleThemeChange} theme={theme} />}

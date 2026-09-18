@@ -71,9 +71,24 @@ add the fallback yourself:
   RewriteRule . /index.html [L]
   ```
 
-GitHub Pages is not recommended here: it has no rewrite support, so deep links
-need a `404.html` workaround, and a project page also needs Vite's `base` set to
-`/<repo-name>/`.
+### Option E — GitHub Pages (configured in this repo)
+
+`.github/workflows/deploy.yml` builds and publishes to Pages on every push to
+`main`. Two details make a router-driven SPA work on Pages, and both are
+handled by the workflow:
+
+- **Base path.** A project repo is served from `https://<user>.github.io/<repo>/`,
+  so the build runs with `BASE_PATH=/<repo>/`. `vite.config.js` reads it for
+  asset URLs and `App.jsx` passes `import.meta.env.BASE_URL` to the router as
+  its `basename`, so the same source also builds for a domain root.
+- **Deep links.** Pages has no rewrite rules, so the workflow copies
+  `index.html` to `404.html`. A direct hit on `/journal/<slug>` then loads the
+  app with the URL intact and React Router renders the right page. The HTTP
+  status is still 404, which is invisible to visitors but not ideal for search
+  crawlers — Netlify or Vercel (options A/B) return a proper 200.
+
+One-time setup: repo **Settings → Pages → Build and deployment → Source:
+GitHub Actions**. After that every push to `main` redeploys.
 
 ### Before the first deploy
 
